@@ -27,6 +27,12 @@
     <Compile Include="c284130812.lua" />
     <Compile Include="class and funtions.lua" />
     <Compile Include="constant.lua" />
+    <Compile Include="utility.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MCQ.txt" />
+    <Content Include="_functions.md" />
+    <Content Include="_script.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>

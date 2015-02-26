@@ -1,4 +1,4 @@
---MC群的群主 纸睡
+-- MC群的群主 纸睡
 function c284130812.initial_effect(c)
     --通常召唤
 	local e1 = Effect.CreateEffect(c)
@@ -16,6 +16,13 @@ function c284130812.initial_effect(c)
 
     --特殊召唤
     local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_SPSUMMON_PROC)
+    e3:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    e3:SetRange(LOCATION_HAND)
+    e3:SetCondition(c284130812.spSummonCondition)
+    e3:SetOperation(c284130812.spSummonOperation)
+    c:RegisterEffect(e3)
     
 end
 
@@ -43,4 +50,10 @@ function c284130812.summonOperation(e,tp,eg,ep,ev,re,r,rp,c)
 	    c:SetMaterial(g)
 	    Duel.Release(g, REASON_SUMMON+REASON_MATERIAL)
     end
+end
+
+function c284130812.spSummonCondition(e,c)
+end
+
+function c284130812.spSummonOperation(e,tp,eg,ep,ev,re,r,rp,c)
 end
