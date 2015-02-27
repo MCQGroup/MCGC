@@ -56,33 +56,25 @@ function c284130812.filter(c)
     return c:IsSetCard(0x2222)
 end
 
+function c284130812.getTributeCount(c)
+    local g = Duel.GetMatchingGroup(c284130812.filter, c:GetControler(), LOCATION_GRAVE, 0, nil)
+    local tributeCount = 3 - g:GetClassCount(Card.GetCode)
+    if tributeCount < 0 then
+        tributeCount = 0
+    end
+    return tributeCount
+end
+
 function c284130812.summonCondition(e, c)
     if c == nil then
         return true
     end
-    local g = Duel.GetMatchingGroup(c284130812.filter, c:GetControler(), LOCATION_GRAVE, 0, nil)
-    local tributeCount = 3
-    if g:FilterCount(Card.IsType(TYPE_MONSTER)) > 0 then
-        tributeCount = tributeCount - 1
-    end
-    if g:FilterCount(Card.IsType(TYPE_SPELL)) > 0 then
-        tributeCount = tributeCount - 1
-    end
-    if g:FilterCount(Card.IsType(TYPE_TRAP)) > 0 then
-        tributeCount = tributeCount - 1
-    end
-    if tributeCount < 0 then
-        tributeCount = 0
-    end
-    e:SetLabel(tributeCount)
-    return Duel.GetTributeCount(c) >= tributeCount and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+    return Duel.GetTributeCount(c) >= c284130812.getTributeCount(c) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
 end
 
 function c284130812.summonOperation(e, tp, eg, ep, ev, re, r, rp, c)
-    local tributeCount = e:GetLabel()
-    if tributeCount < 0 then
-        tributeCount = 0
-    else
+    local tributeCount = c284130812.getTributeCount(c)
+    if tributeCount > 0 then
         local g = Duel.SelectTribute(tp, c, tributeCount, tributeCount)
         c:SetMaterial(g)
         Duel.Release(g, REASON_SUMMON + REASON_MATERIAL)
@@ -118,7 +110,7 @@ end
 function c284130812.deckSearchOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectMatchingCard(tp, c284130812.filter, tp, LOCATION_DECK, 0, 1, 1, nil)
-    if g:getCount() > 0 then
+    if g:GetCount() > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end
