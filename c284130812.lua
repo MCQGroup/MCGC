@@ -49,7 +49,6 @@ function c284130812.initial_effect(c)
     e6:SetCode(EVENT_SPSUMMON_SUCCESS)
     e6:SetTarget(c284130812.spSummonFromHandTarget)
     e6:SetOperation(c284130812.spSummonFromHandOperation)
-    e6:SetCost(c284130812.spSummonFromHandCost)
     c:RegisterEffect(e6)
 end
 
@@ -125,16 +124,9 @@ end
 function c284130812.spSummonFromHandOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, c284130812.spSummonFromHandFilter, tp, LOCATION_HAND, 0, 0, Duel.GetLocationCount(tp, LOCATION_MZONE), nil, e, tp)
     Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    Duel.PayLPCost(tp, g:GetSum(Card.GetAttack))
 end
 
 function c284130812.spSummonFromHandFilter(c, e, tp)
     return c284130812.filter(c) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
-
-function c284130812.spSummonFromHandCost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.CheckLPCost(tp, 0)
-    else
-        Duel.PayLPCost(tp, 0)
-    end
 end
