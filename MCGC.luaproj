@@ -24,6 +24,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="c284130811.lua" />
     <Compile Include="c284130812.lua" />
     <Compile Include="class and funtions.lua" />
     <Compile Include="constant.lua" />
