@@ -1,6 +1,6 @@
--- MC»∫µƒ»∫÷˜ ÷ΩÀØ
+-- MCÁæ§ÁöÑÁæ§‰∏ª Á∫∏Áù°
 function c284130812.initial_effect(c)
-    -- Õ®≥£’ŸªΩ
+    -- ÈÄöÂ∏∏Âè¨Âî§
     local e1 = Effect.CreateEffect(c)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetType(EFFECT_TYPE_SINGLE)
@@ -14,7 +14,7 @@ function c284130812.initial_effect(c)
     e2:SetCode(EFFECT_LIMIT_SET_PROC)
     c:RegisterEffect(e2)
 
-    -- Ãÿ ‚’ŸªΩ
+    -- ÁâπÊÆäÂè¨Âî§
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
     e3:SetCode(EFFECT_SPSUMMON_PROC)
@@ -32,7 +32,7 @@ function c284130812.initial_effect(c)
     e4:SetValue(c284130812.spSummonLimit)
     c:RegisterEffect(e4)
 
-    -- ø®◊ÈºÏÀ˜
+    -- Âç°ÁªÑÊ£ÄÁ¥¢
     local e5 = Effect.CreateEffect(c)
     e5:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
     e5:SetType(EFFECT_TYPE_TRIGGER_F + EFFECT_TYPE_SINGLE)
@@ -41,7 +41,7 @@ function c284130812.initial_effect(c)
     e5:SetOperation(c284130812.deckSearchOperation)
     c:RegisterEffect(e5)
 
-    --  ÷ø®’ŸªΩ
+    -- ÊâãÂç°Âè¨Âî§
     local e6 = Effect.CreateEffect(c)
     e6:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DAMAGE)
     e6:SetType(EFFECT_TYPE_TRIGGER_F + EFFECT_TYPE_SINGLE)
@@ -53,22 +53,22 @@ function c284130812.initial_effect(c)
 end
 
 function c284130812.filter(c)
-    return c.IsSetCard(0x2222)
+    return c:IsSetCard(0x2222)
 end
 
 function c284130812.summonCondition(e, c)
     if c == nil then
         return true
     end
-    local tributeCount = 3 - Duel.GetMatchingGroupCount(c284130812.filter, c.GetController(), LOCATION_GRAVE, 0, nil)
+    local tributeCount = 3 - Duel.GetMatchingGroupCount(c284130812.filter, c:GetControler(), LOCATION_GRAVE, 0, nil)
     if tributeCount < 0 then
         tributeCount = 0
     end
-    return Duel.GetTributeCount(c) >= tributeCount and Duel.GetLocationCount(tp, LOCATION_MZONE)
+    return Duel.GetTributeCount(c) >= tributeCount and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
 end
 
 function c284130812.summonOperation(e, tp, eg, ep, ev, re, r, rp, c)
-    local tributeCount = 3 - Duel.GetMatchingGroupCount(c284130812.filter, c.GetController(), LOCATION_GRAVE, 0, nil)
+    local tributeCount = 3 - Duel.GetMatchingGroupCount(c284130812.filter, c:GetControler(), LOCATION_GRAVE, 0, nil)
     if tributeCount < 0 then
         tributeCount = 0
     else
