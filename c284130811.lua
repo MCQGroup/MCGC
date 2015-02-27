@@ -12,7 +12,7 @@ function c284130811.initial_effect(c)
     e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_REMOVE)
     e2:SetType(EFFECT_TYPE_TRIGGER_F + EFFECT_TYPE_SINGLE)
     e2:SetCode(EVENT_SUMMON_SUCCESS)
-    e2:SetTarget(c284130811.target)
+    e2:SetCost(c284130811.cost)
     e2:SetOperation(c284130811.operation)
     c:RegisterEffect(e2)
 
@@ -28,11 +28,9 @@ function c284130811.filter(c)
     return c:IsAbleToRemove()
 end
 
-function c284130811.target(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chkc then
-        return c284130811.filter(chkc)
-    elseif chk == 0 then
-        return Duel.GetFieldGroupCount(tp, LOCATION_GRAVE, 0) > 0 and Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) > 0 and Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0
+function c284130811.cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_GRAVE, 0) > 0 and Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_HAND, 0) > 0 and Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_DECK, 0) > 0
     end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
     local g1 = Duel.SelectMatchingCard(tp, c284130811.filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
