@@ -8,6 +8,8 @@ function c284130811.initial_effect(c)
     c:RegisterEffect(e1)
 
     -- 攻击守备上升
+    self.atk = 0
+    self.def = 0
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_REMOVE)
     e2:SetType(EFFECT_TYPE_TRIGGER_F + EFFECT_TYPE_SINGLE)
@@ -28,6 +30,10 @@ function c284130811.filter(c)
     return c:IsAbleToRemove()
 end
 
+function c284130811.zhishui(c)
+    return c:IsCode(284130812) and c:IsFaceup()
+end
+
 function c284130811.cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_GRAVE, 0) > 0 and Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_HAND, 0) > 0 and Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_DECK, 0) > 0
@@ -42,26 +48,33 @@ function c284130811.cost(e, tp, eg, ep, ev, re, r, rp, chk)
     g:Merge(g3)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, g:GetCount(), 0, 0)
     Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
-    local up = g:GetSum(Card.GetAttack) + g:GetSum(Card.GetDefence)
-    e:SetLabel(up)
+    self.atk = g:GetSum(Card.GetAttack)
+    self.def = g:GetSum(Card.GetDefence)
 end
 
 function c284130811.operation(e, tp, eg, ep, ev, re, r, rp)
-    local up = e:GetLabel()
+    local atkUp = self.atk
+    local defUp = self.def
     local c = e:GetHandler()
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_UPDATE_ATTACK)
     e1:SetReset(RESET_EVENT + 0x1ff0000)
     e1:SetProperty(EFFECT_FLAG_COPY_INHERIT)
-    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_MZONE, 0, 1, nil, 284130812) then
-        e1:SetValue(up)
+    local isZhishui = Duel.IsExistingMatchingCard(c284130811.zhishui, tp, LOCATION_MZONE, 0, 1, nil)
+    if isZhishui then
+        e1:SetValue(atkUp)
     else
-        e1:SetValue(up / 2)
+        e1:SetValue(atkUp / 2)
     end
     c:RegisterEffect(e1)
 
     local e2 = e1:Clone()
     e2:SetCode(EFFECT_UPDATE_DEFENCE)
+    if isZhishui then
+        e2:SetValue(defUp)
+    else
+        e2:SetValue(defUp / 2)
+    end
     c:RegisterEffect(e2)
 end
