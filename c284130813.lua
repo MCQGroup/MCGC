@@ -2,7 +2,6 @@
 function c284130813.initial_effect(c)
     -- 反转召唤
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(3510565, 1))
     e1:SetCategory(CATEGORY_DAMAGE)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -11,6 +10,11 @@ function c284130813.initial_effect(c)
     c:RegisterEffect(e2)
 
     -- 不会被战斗破坏
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e2:SetValue(1)
+    c:RegisterEffect(e2)
     -- 卡组检索、特招、送墓
 end
 
