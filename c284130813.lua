@@ -16,9 +16,32 @@ function c284130813.initial_effect(c)
     e2:SetValue(1)
     c:RegisterEffect(e2)
     -- 卡组检索、特招、送墓
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(74131780, 0))
+    e3:SetCategory(CATEGORY_DESTROY)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCost(c284130813.cost)
+    e3:SetOperation(c284130813.operation)
+    c:RegisterEffect(e3)
+end
+
+function c284130813.filter(c)
+    return c:IsSetCard(0x2222)
 end
 
 function c284130813.destroyOperation(e, tp, eg, ep, ev, re, r, rp)
     c = e:GetController()
     Duel.Destroy(c, REASON_EFFECT)
+end
+
+function c284130813.cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return e:GetHandler():IsReleasable()
+    end
+    Duel.Release(e:GetHandler(), REASON_COST)
+end
+
+function c284130813.operation(e, tp, eg, ep, ev, re, r, rp)
 end

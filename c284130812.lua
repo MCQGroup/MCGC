@@ -37,14 +37,13 @@ function c284130812.initial_effect(c)
     e5:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
     e5:SetType(EFFECT_TYPE_TRIGGER_F + EFFECT_TYPE_SINGLE)
     e5:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e5:SetTarget(c284130812.deckSearchTarget)
     e5:SetOperation(c284130812.deckSearchOperation)
     c:RegisterEffect(e5)
 
     -- 手卡召唤
     local e6 = Effect.CreateEffect(c)
     e6:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DAMAGE)
-    e6:SetType(EFFECT_TYPE_TRIGGER_F + EFFECT_TYPE_SINGLE)
+    e6:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_SINGLE)
     e6:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     e6:SetCode(EVENT_SPSUMMON_SUCCESS)
     e6:SetTarget(c284130812.spSummonFromHandTarget)
@@ -98,13 +97,6 @@ end
 
 function c284130812.spSummonLimit(e, se, sp, st)
     return bit.band(st, SUMMON_TYPE_SPECIAL + 0x2222222) == SUMMON_TYPE_SPECIAL + 0x2222222
-end
-
-function c284130812.deckSearchTarget(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(c284130812.filter, tp, LOCATION_DECK, 0, 1, nil)
-    end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
 end
 
 function c284130812.deckSearchOperation(e, tp, eg, ep, ev, re, r, rp)
