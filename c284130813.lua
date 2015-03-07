@@ -15,6 +15,7 @@ function c284130813.initial_effect(c)
     e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e2:SetValue(1)
     c:RegisterEffect(e2)
+
     -- 卡组检索、特招、送墓
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(74131780, 0))
@@ -44,4 +45,13 @@ function c284130813.cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function c284130813.operation(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
+    local g1 = Duel.SelectMatchingCard(tp, c284130813.filter, tp, LOCATION_DECK, 0, 2, 2, nil)
+    local g2 = g1:Select(1 - tp, 1, 1, nil)
+    if g2:GetCount() > 0 then
+        Duel.SpecialSummon(g2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos_faceup)
+        local gtemp = g1:Clone()
+        gtemp:RemoveCard(g2:GetFirst())
+        Duel.SendtoGrave(gtemp, REASON_EFFECT)
+    end
 end
