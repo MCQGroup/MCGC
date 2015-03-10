@@ -6,7 +6,10 @@ function c284130814.initial_effect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetOperation(c284130814.toDeckOperation)
+
     -- 抽卡
+
+
     -- 防止破坏
     -- 维持代价
 end
