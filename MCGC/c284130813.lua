@@ -7,7 +7,7 @@ function c284130813.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e1:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
     e1:SetOperation(c284130813.destroyOperation)
-    c:RegisterEffect(e2)
+    c:RegisterEffect(e1)
 
     -- 不会被战斗破坏
     local e2 = Effect.CreateEffect(c)
@@ -49,7 +49,7 @@ function c284130813.operation(e, tp, eg, ep, ev, re, r, rp)
     local g1 = Duel.SelectMatchingCard(tp, c284130813.filter, tp, LOCATION_DECK, 0, 2, 2, nil)
     local g2 = g1:Select(1 - tp, 1, 1, nil)
     if g2:GetCount() > 0 then
-        Duel.SpecialSummon(g2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos_faceup)
+        Duel.SpecialSummon(g2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
         local gtemp = g1:Clone()
         gtemp:RemoveCard(g2:GetFirst())
         Duel.SendtoGrave(gtemp, REASON_EFFECT)

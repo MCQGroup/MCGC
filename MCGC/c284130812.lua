@@ -32,22 +32,22 @@ function c284130812.initial_effect(c)
     e4:SetValue(c284130812.spSummonLimit)
     c:RegisterEffect(e4)
 
-    -- 卡组检索
+    -- 手卡召唤
     local e5 = Effect.CreateEffect(c)
-    e5:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
-    e5:SetType(EFFECT_TYPE_TRIGGER_F + EFFECT_TYPE_SINGLE)
+    e5:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DAMAGE)
+    e5:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_SINGLE)
+    e5:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_DELAY)
     e5:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e5:SetOperation(c284130812.deckSearchOperation)
+    e5:SetTarget(c284130812.spSummonFromHandTarget)
+    e5:SetOperation(c284130812.spSummonFromHandOperation)
     c:RegisterEffect(e5)
 
-    -- 手卡召唤
+    -- 卡组检索
     local e6 = Effect.CreateEffect(c)
-    e6:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DAMAGE)
-    e6:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_SINGLE)
-    e6:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    e6:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
+    e6:SetType(EFFECT_TYPE_TRIGGER_F + EFFECT_TYPE_SINGLE)
     e6:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e6:SetTarget(c284130812.spSummonFromHandTarget)
-    e6:SetOperation(c284130812.spSummonFromHandOperation)
+    e6:SetOperation(c284130812.deckSearchOperation)
     c:RegisterEffect(e6)
 end
 
