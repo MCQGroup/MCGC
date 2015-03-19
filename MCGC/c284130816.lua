@@ -41,3 +41,9 @@ end
 function c284130816.specialSummonLimit(e, c)
     return not c284130816.filter(c)
 end
+
+function c284130816.drawCost(e, tp, eg, ep, ev, re, r, rp, chk)
+end
+
+function c284130816.drawOperation(e, tp, eg, ep, ev, re, r, rp)
+end
