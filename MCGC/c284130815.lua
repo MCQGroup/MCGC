@@ -66,9 +66,9 @@ function c284130815.recoverTarget(e, tp, eg, ep, ev, re, r, rp, chk)
     local lp = Duel.GetMatchingGroupCount(c284130815.filter, tp, LOCATION_MZONE, 0, nil) * 700
     Duel.SetTargetParam(lp)
     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, lp)
+    e:SetLabel(lp)
 end
 
 function c284130815.recoverOperation(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
-    Duel.Recover(p, d, REASON_EFFECT)
+    Duel.Recover(tp, e:GetLabel(), REASON_EFFECT)
 end
