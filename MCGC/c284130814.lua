@@ -38,6 +38,9 @@ function c284130814.filter(c)
 end
 
 function c284130814.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chkc then
+        return true
+    end
     if chk == 0 then
         return Duel.IsPlayerCanDraw(tp) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_GRAVE, 0, 1, nil) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_REMOVED, 0, 1, nil) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_HAND, 0, 1, e:GetHandler())
     end
