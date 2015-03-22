@@ -1,5 +1,6 @@
 -- MC群的大土豪 憨憨
 function c284130815.initial_effect(c)
+    self.recover = 0
     -- 抽卡和返回卡组
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_DRAW + CATEGORY_TODECK)
@@ -66,9 +67,9 @@ function c284130815.recoverTarget(e, tp, eg, ep, ev, re, r, rp, chk)
     local lp = Duel.GetMatchingGroupCount(c284130815.filter, tp, LOCATION_MZONE, 0, nil) * 700
     Duel.SetTargetParam(lp)
     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, lp)
-    e:SetLabel(lp)
+    self.recover = lp
 end
 
 function c284130815.recoverOperation(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Recover(tp, e:GetLabel(), REASON_EFFECT)
+    Duel.Recover(tp, self.recover, REASON_EFFECT)
 end
