@@ -39,7 +39,7 @@ end
 
 function c284130814.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return tp:IsPlayerCanDraw(tp) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_GRAVE, 0, 1, nil) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_REMOVED, 0, 1, nil) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_HAND, 0, 1, e:GetHandler())
+        return Duel.IsPlayerCanDraw(tp) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_GRAVE, 0, 1, nil) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_REMOVED, 0, 1, nil) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_HAND, 0, 1, e:GetHandler())
     end
     local g1 = Duel.GetMatchingGroup(c284130814.filter, tp, LOCATION_HAND, 0, e:GetHandler())
     local g2 = Duel.GetMatchingGroup(c284130814.filter, tp, LOCATION_REMOVED, 0, nil)

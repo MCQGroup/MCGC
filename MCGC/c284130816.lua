@@ -32,12 +32,33 @@ function c284130816.initial_effect(c)
 
     -- 无祭品普招
     local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e4:SetCode(EFFECT_SUMMON_PROC)
+    e4:SetCondition(c284130816.summonCondition)
     c:RegisterEffect(e4)
 
-    -- 加入手卡
     local e5 = Effect.CreateEffect(c)
-    e5:SetCategory(CATEGORY_TOHAND)
+    e5:SetType(EFFECT_TYPE_SINGLE)
+    e5:SetCode(EFFECT_SUMMON_COST)
+    e5:SetOperation(c284130816.summonOperation)
     c:RegisterEffect(e5)
+
+    local e6 = e4:Clone(c)
+    e6:SetCode(EFFECT_SET_PROC)
+    c:RegisterEffect(e6)
+
+    local e7 = e5:Clone(c)
+    e7:SetCode(EFFECT_MSET_COST)
+    c:RegisterEffect(e7)
+
+    -- 加入手卡
+    local e8 = Effect.CreateEffect(c)
+    e8:SetCategory(CATEGORY_TOHAND)
+    e8:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e8:SetCode(EVENT_SUMMON_SUCCESS + EVENT_SPSUMMON_SUCCESS + EVENT_FLIP_SUMMON_SUCCESS)
+
+    c:RegisterEffect(e8)
 end
 
 function c284130816.filter(c)
@@ -77,4 +98,27 @@ function c284130816.drawOperation(e, tp, eg, ep, ev, re, r, rp)
     end
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
     Duel.draw(p, d, REASON_EFFECT)
+end
+
+function c284130816.summonCondition(e, c, minc)
+    if c == nil then
+        return true
+    end
+    return minc == 0 and c:GetLevel() > 4 and Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE) > 0
+end
+
+function c284130816.summonOperation(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local e = Effect.CreateEffect(c)
+    e:SetType(EFFECT_TYPE_SINGLE)
+    e:SetCode(EFFECT_CHANGE_LEVEL)
+    e:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e:SetRange(LOCATION_MZONE)
+    e:SetCondition(c284130816.summonOperationCondition)
+    e:SetValue(4)
+    e:SetReset(RESET_EVENT + 0xff0000)
+end
+
+function c284130816.summonOperationCondition(e)
+    return e:GetHandler():GetMaterialCount() == 0 and bit.band(e:GetHandler():GetSummonType(), SUMMON_TYPE_NORMAL) == SUMMON_TYPE_NORMAL
 end
