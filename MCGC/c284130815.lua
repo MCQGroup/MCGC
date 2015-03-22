@@ -1,6 +1,5 @@
 -- MC群的大土豪 憨憨
 function c284130815.initial_effect(c)
-    self.recover = 0
     -- 抽卡和返回卡组
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_DRAW + CATEGORY_TODECK)
@@ -16,6 +15,7 @@ function c284130815.initial_effect(c)
     c:RegisterEffect(e1)
 
     -- 回复
+    self.recover = 0
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_RECOVER)
     e2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_PLAYER_TARGET)
