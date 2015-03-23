@@ -126,6 +126,7 @@ function c284130816.summonOperationCondition(e)
 end
 
 function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+    -- TODO: 等待卡名检索效果的描述更改
 end
 
 function c284130816.toHandOperation(e, tp, eg, ep, ev, re, r, rp, chk)

@@ -36,6 +36,7 @@
     <Compile Include="c284130814.lua" />
     <Compile Include="c284130815.lua" />
     <Compile Include="c284130816.lua" />
+    <Compile Include="c284130818.lua" />
     <Compile Include="class and funtions.lua" />
     <Compile Include="constant.lua" />
     <Compile Include="utility.lua" />
