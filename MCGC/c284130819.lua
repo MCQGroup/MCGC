@@ -6,6 +6,7 @@ function c284130819.initial_effect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_SUMMON_SUCCESS)
     e1:SetOperation(c284130819.operation)
+    c:RegisterEffect(e1)
 end
 
 function c284130819.filter(c)
