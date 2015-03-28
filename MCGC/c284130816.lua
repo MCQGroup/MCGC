@@ -58,8 +58,8 @@ function c284130816.initial_effect(c)
     e8:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e8:SetCode(EVENT_SUMMON_SUCCESS + EVENT_SPSUMMON_SUCCESS + EVENT_FLIP_SUMMON_SUCCESS)
     e8:SetCategory(CATEGORY_TOHAND)
-    e8:SetTarget()
-    e8:SetOperation()
+    e8:SetTarget(toHandTarget)
+    e8:SetOperation(toHandOperation)
     c:RegisterEffect(e8)
 end
 
@@ -127,6 +127,7 @@ end
 
 function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
     -- TODO: 等待卡名检索效果的描述更改
+    -- TODO: 只检索284130826
 end
 
 function c284130816.toHandOperation(e, tp, eg, ep, ev, re, r, rp, chk)
