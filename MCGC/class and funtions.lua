@@ -1,6 +1,3 @@
---region *.lua
---Date
---此文件由[BabeLua]插件自动生成
 
 -- =====bit类=====
 bit = {}
@@ -1408,8 +1405,8 @@ function Duel.RemoveOverlayCard(player, s, o, min, max, reason)
     --以reason原因移除指定位置的min-max张叠放卡
 end
 
-function Duel.Hint(player, desc)
-    --给玩家发送内置消息提示
+function Duel.Hint(hint_type, player, desc)
+    --给玩家player发送hint_type类型的消息提示，内容为desc
 end
 
 function Duel.SelectEffectYesNo(player, code)
@@ -1559,7 +1556,3 @@ end
 function Duel.CheckAttackActivity(player)
     --检查玩家player本回合有没有进行过攻击。
 end
-
-
-
---endregion

@@ -54,12 +54,13 @@ function c284130816.initial_effect(c)
 
     -- 加入手卡
     local e8 = Effect.CreateEffect(c)
-    e8:SetCategory(CATEGORY_TOHAND)
+    e8:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e8:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e8:SetCode(EVENT_SUMMON_SUCCESS + EVENT_SPSUMMON_SUCCESS + EVENT_FLIP_SUMMON_SUCCESS)
     e8:SetCategory(CATEGORY_TOHAND)
-    e8:SetTarget(toHandTarget)
-    e8:SetOperation(toHandOperation)
+    e8:SetCountLimit(1)
+    e8:SetTarget(c284130816.toHandTarget)
+    e8:SetOperation(c284130816.toHandOperation)
     c:RegisterEffect(e8)
 end
 
@@ -126,9 +127,18 @@ function c284130816.summonOperationCondition(e)
 end
 
 function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
-    -- TODO: 等待卡名检索效果的描述更改
-    -- TODO: 只检索284130826
+    if chk == 0 then
+        return Duel.IsExistingTarget(Card.IsCode, tp, LOCATION_DECK, 0, 1, nil, 284130826)
+    end
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectTarget(tp, Card.IsCode, tp, LOCATION_DECK, 0, 1, 1, nil, 284130826)
+    Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, 0, 0)
 end
 
 function c284130816.toHandOperation(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    local tc = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
+    if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) then
+        Duel.SendtoHand(tc, tp, REASON_EFFECT)
+    end
 end
