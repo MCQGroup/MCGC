@@ -86,7 +86,7 @@ function c284130816.drawCost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.PayLPCost(tp, 1000)
 end
 
-function c284130816.drawTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130816.drawTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsPlayerCanDraw(tp)
     end
@@ -135,7 +135,7 @@ function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, 0, 0)
 end
 
-function c284130816.toHandOperation(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130816.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
     if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) then
