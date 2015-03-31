@@ -16,9 +16,9 @@ function c284130820.initial_effect(c)
     e2:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetRange(LOCATION_HAND)
-    e2:SetCost()
-    e2:SetTarget()
-    e2:SetOperation()
+    e2:SetCost(c284130820.toHandCost)
+    e2:SetTarget(c284130820.toHandTarget)
+    e2:SetOperation(c284130820.toHandOperation)
 
 end
 
