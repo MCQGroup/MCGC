@@ -38,14 +38,28 @@ function c284130820.toDeckOperation(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function c284130820.toHandCost(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130820.toHandFilter(c)
+    return c:IsSetCard(0x2222) and not c:IsCode(284130820)
+end
 
+function c284130820.toHandCost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    Duel.SendtoGrave(c, REASON_COST)
 end
 
 function c284130820.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(c284130820.toHandFilter, tp, LOCATION_DECK, 0, nil)
+    end
+    local g = Duel.SelectTarget(tp, c284130820.toHandFilter, tp, LOCATION_DECK, 0, 1, 1, nil)
+    if g:GetCount() > 0 then
+        Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, nil, 0)
+    end
 end
 
 function c284130820.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
-
+    local g = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
+    if g:GetFirst():IsRelateToEffect(e) then
+        Duel.SendtoHand(c, nil, REASON_EFFECT)
+    end
 end
