@@ -10,6 +10,7 @@ function c284130820.initial_effect(c)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetTarget(c284130820.toDeckTarget)
     e1:SetOperation(c284130820.toDeckOperation)
+    c:RegisterEffect(e1)
 
     -- 丢弃效果
     e2 = Effect.CreateEffect(c)
@@ -19,6 +20,7 @@ function c284130820.initial_effect(c)
     e2:SetCost(c284130820.toHandCost)
     e2:SetTarget(c284130820.toHandTarget)
     e2:SetOperation(c284130820.toHandOperation)
+    c:RegisterEffect(e2)
 
 end
 
