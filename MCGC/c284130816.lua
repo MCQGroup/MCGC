@@ -142,7 +142,9 @@ function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
     end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectTarget(tp, Card.IsCode, tp, LOCATION_DECK, 0, 1, 1, nil, 284130826)
-    Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, 0, 0)
+    if g:GetCount() > 0 then
+        Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, nil, 0)
+    end
 end
 
 function c284130816.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
