@@ -25,6 +25,9 @@ function c284130820.initial_effect(c)
 end
 
 function c284130820.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetMatchingGroupCount(Card.IsAbleToDeck, tp, 0, LOCATION_HAND, nil) > 0
+    end
     Duel.Hint(HINT_MESSAGE, tp, HINT_SELECTMSG)
     local g = Duel.SelectTarget(tp, Card.IsAbleToDeck, tp, 0, LOCATION_HAND, 1, 1, nil)
     if g:GetCount() > 0 then
