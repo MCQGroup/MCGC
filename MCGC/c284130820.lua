@@ -5,7 +5,7 @@ function c284130820.initial_effect(c)
 
     -- 特招效果
     e1 = Effect.CreateEffect(c)
-    e1:SetCateGory(CATEGORY_TODECK)
+    e1:SetCategory(CATEGORY_TODECK)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetTarget(c284130820.toDeckTarget)
