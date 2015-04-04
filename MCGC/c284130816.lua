@@ -142,6 +142,11 @@ function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
     end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectTarget(tp, Card.IsCode, tp, LOCATION_DECK, 0, 1, 1, nil, 284130826)
+    -- Debug --
+    Debug.Message("####以下是调试信息####")
+    Debug.Message(g:GetCount())
+    Debug.Message("####调试信息结束####")
+    -- Debug --
     if g:GetCount() > 0 then
         Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, nil, 0)
     end

@@ -113,7 +113,7 @@ function c284130812.spSummonFromHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
         return Duel.IsExistingMatchingCard(c284130812.filter, tp, LOCATION_HAND, 0, 1, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
     end
     local g = Duel.GetMatchingGroup(c284130812.filter, tp, LOCATION_HAND, 0, nil)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, 0)
 end
 
 function c284130812.spSummonFromHandOperation(e, tp, eg, ep, ev, re, r, rp)

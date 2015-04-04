@@ -1,3 +1,9 @@
+-- =====debug类=====
+function Debug.Message(any)
+end
+
+function Debug.ShowHint(str)
+end
 
 -- =====bit类=====
 bit = {}
