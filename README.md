@@ -6,3 +6,5 @@ MC Group YGO Card Set
 基于YgoCore/YgoPro开发
 
 PS：API真难用
+
+CardSet: 0x2222
