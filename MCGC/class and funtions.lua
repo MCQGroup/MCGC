@@ -1,6 +1,3 @@
---region *.lua
---Date
---此文件由[BabeLua]插件自动生成
 
 -- =====bit类=====
 bit = {}
@@ -1377,7 +1374,14 @@ function Duel.SetTargetParam(param)
 end
 
 function Duel.SetOperationInfo(chainc, category, targets, count, target_player, target_param)
-    --设置当前处理的连锁的操作信息。此操作信息包含了效果处理中确定要处理的效果分类。比如潜行狙击手需要设置CATEGORY_DICE，但是不能设置CATEGORY_DESTROY，因为不确定。对于破坏效果，targets需要设置成发动时可能成为连锁的影响对象的卡，并设置count为发动时确定的要处理的卡的数量。比如黑洞发动时，targets需要设定为场上的所有怪物，count设置成场上的怪的数量。对于CATEGORY_SPECIAL_SUMMON,CATEGORY_TOHAND,CATEGORY_TODECK等分类，如果取对象则设置targets为对象，count为对象的数量；如果不取对象则设置targets为nil,count为预计要处理的卡的数量，并设置target_param为预计要处理的卡的位置。例如增援：SetOperationInfo(0,CATEGORY_TOHAND,nil,1,0,LOCATION_DECK)。操作信息用于很多效果的发动的检测，例如星尘龙，王家沉眠之谷等。
+    --设置当前处理的连锁的操作信息。此操作信息包含了效果处理中确定要处理的效果分类。
+    -- 比如潜行狙击手需要设置CATEGORY_DICE，但是不能设置CATEGORY_DESTROY，因为不确定。
+    -- 对于破坏效果，targets需要设置成发动时可能成为连锁的影响对象的卡，并设置count为发动时确定的要处理的卡的数量。
+    -- 比如黑洞发动时，targets需要设定为场上的所有怪物，count设置成场上的怪的数量。
+    -- 对于CATEGORY_SPECIAL_SUMMON,CATEGORY_TOHAND,CATEGORY_TODECK等分类，如果取对象则设置targets为对象，count为对象的数量；
+    -- 如果不取对象则设置targets为nil,count为预计要处理的卡的数量，并设置target_param为预计要处理的卡的位置。
+    -- 例如增援：SetOperationInfo(0,CATEGORY_TOHAND,nil,1,0,LOCATION_DECK)。
+    -- 操作信息用于很多效果的发动的检测，例如星尘龙，王家沉眠之谷等。
 end
 
 function Duel.GetOperationInfo(chainc, category)
@@ -1408,8 +1412,8 @@ function Duel.RemoveOverlayCard(player, s, o, min, max, reason)
     --以reason原因移除指定位置的min-max张叠放卡
 end
 
-function Duel.Hint(player, desc)
-    --给玩家发送内置消息提示
+function Duel.Hint(hint_type, player, desc)
+    --给玩家player发送hint_type类型的消息提示，内容为desc
 end
 
 function Duel.SelectEffectYesNo(player, code)
@@ -1559,7 +1563,3 @@ end
 function Duel.CheckAttackActivity(player)
     --检查玩家player本回合有没有进行过攻击。
 end
-
-
-
---endregion
