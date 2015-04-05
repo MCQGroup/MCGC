@@ -137,7 +137,7 @@ function c284130816.summonOperationCondition(e)
     return e:GetHandler():GetMaterialCount() == 0 and bit.band(e:GetHandler():GetSummonType(), SUMMON_TYPE_NORMAL) == SUMMON_TYPE_NORMAL
 end
 
-function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingTarget(Card.IsCode, tp, LOCATION_DECK, 0, 1, nil, 284130826)
     end

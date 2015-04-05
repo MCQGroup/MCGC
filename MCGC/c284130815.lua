@@ -38,7 +38,7 @@ function c284130815.drawCost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SendtoDeck(g, nil, 2, REASON_COST)
 end
 
-function c284130815.drawTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130815.drawTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsPlayerCanDraw(tp)
     end
@@ -59,7 +59,7 @@ function c284130815.filter(c)
     return c:IsSetCard(0x2222)
 end
 
-function c284130815.recoverTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130815.recoverTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return true
     end

@@ -24,7 +24,7 @@ function c284130820.initial_effect(c)
 
 end
 
-function c284130820.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130820.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetMatchingGroupCount(Card.IsAbleToDeck, tp, 0, LOCATION_HAND, nil) > 0
     end
