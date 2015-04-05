@@ -1,6 +1,7 @@
 -- MC群的软妹 玲音
 
 function c284130816.initial_effect(c)
+    self.toHand = nil
     -- 灵摆召唤
     aux.AddPendulumProcedure(c)
     -- 发动
@@ -54,7 +55,6 @@ function c284130816.initial_effect(c)
     c:RegisterEffect(e7)
 
     -- 加入手卡
-    self.toHand = nil
     local e8 = Effect.CreateEffect(c)
     e8:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e8:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
