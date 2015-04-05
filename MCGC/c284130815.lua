@@ -18,7 +18,7 @@ function c284130815.initial_effect(c)
     self.recover = 0
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_RECOVER)
-    e2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e2:SetCode(EVENT_TO_GRAVE)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetTarget(c284130815.recoverTarget)
