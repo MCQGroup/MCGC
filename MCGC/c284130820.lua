@@ -5,7 +5,7 @@ function c284130820.initial_effect(c)
 
     -- 特招效果
     e1 = Effect.CreateEffect(c)
-    e1:SetCateGory(CATEGORY_TODECK)
+    e1:SetCategory(CATEGORY_TODECK)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetTarget(c284130820.toDeckTarget)
@@ -25,6 +25,9 @@ function c284130820.initial_effect(c)
 end
 
 function c284130820.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetMatchingGroupCount(Card.IsAbleToDeck, tp, 0, LOCATION_HAND, nil) > 0
+    end
     Duel.Hint(HINT_MESSAGE, tp, HINT_SELECTMSG)
     local g = Duel.SelectTarget(tp, Card.IsAbleToDeck, tp, 0, LOCATION_HAND, 1, 1, nil)
     if g:GetCount() > 0 then

@@ -21,6 +21,7 @@ function c284130816.initial_effect(c)
 
     -- 除外抽卡
     local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
     e3:SetCategory(CATEGORY_REMOVE + CATEGORY_DRAW)
     e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e3:SetRange(LOCATION_PZONE)
@@ -56,12 +57,20 @@ function c284130816.initial_effect(c)
     local e8 = Effect.CreateEffect(c)
     e8:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e8:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e8:SetCode(EVENT_SUMMON_SUCCESS + EVENT_SPSUMMON_SUCCESS + EVENT_FLIP_SUMMON_SUCCESS)
+    e8:SetCode(EVENT_SUMMON_SUCCESS)
     e8:SetCategory(CATEGORY_TOHAND)
     e8:SetCountLimit(1)
     e8:SetTarget(c284130816.toHandTarget)
     e8:SetOperation(c284130816.toHandOperation)
     c:RegisterEffect(e8)
+
+    local e9 = e8:Clone()
+    e9:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e9)
+
+    local e10 = e8:Clone()
+    e10:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e10)
 end
 
 function c284130816.filter(c)
@@ -112,14 +121,15 @@ end
 
 function c284130816.summonOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local e = Effect.CreateEffect(c)
-    e:SetType(EFFECT_TYPE_SINGLE)
-    e:SetCode(EFFECT_CHANGE_LEVEL)
-    e:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e:SetRange(LOCATION_MZONE)
-    e:SetCondition(c284130816.summonOperationCondition)
-    e:SetValue(4)
-    e:SetReset(RESET_EVENT + 0xff0000)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_CHANGE_LEVEL)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCondition(c284130816.summonOperationCondition)
+    e1:SetValue(4)
+    e1:SetReset(RESET_EVENT + 0xff0000)
+    c:RegisterEffect(e1)
 end
 
 function c284130816.summonOperationCondition(e)
@@ -132,7 +142,14 @@ function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
     end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectTarget(tp, Card.IsCode, tp, LOCATION_DECK, 0, 1, 1, nil, 284130826)
-    Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, 0, 0)
+    -- Debug --
+    Debug.Message("####以下是调试信息####")
+    Debug.Message(g:GetCount())
+    Debug.Message("####调试信息结束####")
+    -- Debug --
+    if g:GetCount() > 0 then
+        Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, nil, 0)
+    end
 end
 
 function c284130816.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
