@@ -1,7 +1,6 @@
 -- MC群的软妹 玲音
 
 function c284130816.initial_effect(c)
-    self.toHand = nil
     -- 灵摆召唤
     aux.AddPendulumProcedure(c)
     -- 发动
@@ -143,16 +142,16 @@ function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectTarget(tp, Card.IsCode, tp, LOCATION_DECK, 0, 1, 1, nil, 284130826)
-    self.toHand = g
     if g:GetCount() > 0 then
+        Duel.SetTargetCard(g)
         Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, nil, 0)
     end
 end
 
 function c284130816.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = self.toHand
+    local g = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
     if c:IsRelateToEffect(e) and g:GetFirst():IsRelateToEffect(e) then
-        Duel.SendtoHand(tc, tp, REASON_EFFECT)
+        Duel.SendtoHand(g:GetFirst(), tp, REASON_EFFECT)
     end
 end
