@@ -48,13 +48,13 @@ function c284130814.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local g2 = Duel.GetMatchingGroup(c284130814.filter, tp, LOCATION_REMOVED, 0, nil)
     local g3 = Duel.GetMatchingGroup(c284130814.filter, tp, LOCATION_GRAVE, 0, nil)
     local g = Group.CreateGroup()
-    if g1 then
+    if not g1 == nil then
         g:Merge(g1)
     end
-    if g2 then
+    if not g2 == nil then
         g:Merge(g2)
     end
-    if g3 then
+    if not g3 == nil then
         g:Merge(g3)
     end
     Duel.SetOperationInfo(0, CATEGORY_TODECK, g, g:GetCount(), 0, 0)
