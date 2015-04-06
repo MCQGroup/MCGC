@@ -22,6 +22,7 @@ function c284130815.initial_effect(c)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetTarget(c284130815.recoverTarget)
     e2:SetOperation(c284130815.recoverOperation)
+    c:RegisterEffect(e2)
 end
 
 function c284130815.drawCondition(e, tp, eg, ep, ev, re, r, rp)
@@ -66,9 +67,9 @@ function c284130815.recoverTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local lp = Duel.GetMatchingGroupCount(c284130815.filter, tp, LOCATION_MZONE, 0, nil) * 700
     Duel.SetTargetParam(lp)
     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, lp)
-    e:SetLabel(lp)
 end
 
 function c284130815.recoverOperation(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Recover(tp, e:GetLabel(), REASON_EFFECT)
+    local p, lp = Duel.GetOperationInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
+    Duel.Recover(p, lp, REASON_EFFECT)
 end
