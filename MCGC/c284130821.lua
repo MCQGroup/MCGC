@@ -7,6 +7,7 @@ function c284130821.initial_effect(c)
     -- 除外
     e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_REMOVE)
+    e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetCost(c284130821.removeCost)
     e1:SetTarget(c284130821.removeTarget)
     e1:SetOperation(c284130821.removeOperation)
@@ -23,9 +24,19 @@ function c284130821.initial_effect(c)
 end
 
 function c284130821.removeCost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return e:GetHandler():CheckRemoveOverlayCard(tp, 1, REASON_COST)
+    end
+    e:GetHandler():RemoveOverlayCard(tp, 1, 1, REASON_COST)
 end
 
 function c284130821.removeTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, LOCATION_MZONE, LOCATION_MZONE, 1, e:GetHandler())
+    end
+    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToRemove, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, e:GetHandler())
+    Duel.SetTargetCard(g)
+    Duel.SetOperationInfo(0, category_remove, g, 1, nil, 0)
 end
 
 function c284130821.removeOperation(e, tp, eg, ep, ev, re, r, rp)
