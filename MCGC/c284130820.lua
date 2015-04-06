@@ -31,6 +31,7 @@ function c284130820.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.Hint(HINT_MESSAGE, tp, HINT_SELECTMSG)
     local g = Duel.SelectTarget(tp, Card.IsAbleToDeck, tp, 0, LOCATION_HAND, 1, 1, nil)
     if g:GetCount() > 0 then
+        Duel.SetTargetCard(g)
         Duel.SetOperationInfo(0, CATEGORY_TODECK, g, 1, 0, 0)
     end
 end
@@ -58,6 +59,7 @@ function c284130820.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     end
     local g = Duel.SelectTarget(tp, c284130820.toHandFilter, tp, LOCATION_DECK, 0, 1, 1, nil)
     if g:GetCount() > 0 then
+        Duel.SetTargetCard(g)
         Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, nil, 0)
     end
 end
