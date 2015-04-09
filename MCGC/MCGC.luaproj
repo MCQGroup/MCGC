@@ -24,7 +24,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="MCQ.txt" />
+    <Content Include="MCQ1.05.txt" />
     <Content Include="_functions.md" />
     <Content Include="_script.md" />
   </ItemGroup>
