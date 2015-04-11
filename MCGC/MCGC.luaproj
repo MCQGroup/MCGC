@@ -24,8 +24,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="MCQ.txt" />
-    <Content Include="README.md" />
+    <Content Include="MCQ1.05.txt" />
     <Content Include="_functions.md" />
     <Content Include="_script.md" />
   </ItemGroup>
@@ -40,6 +39,8 @@
     <Compile Include="c284130819.lua" />
     <Compile Include="c284130820.lua" />
     <Compile Include="c284130821.lua" />
+    <Compile Include="c284130822.lua" />
+    <Compile Include="c284130870.lua" />
     <Compile Include="class and funtions.lua" />
     <Compile Include="constant.lua" />
     <Compile Include="utility.lua" />

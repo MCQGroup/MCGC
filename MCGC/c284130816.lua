@@ -136,26 +136,22 @@ function c284130816.summonOperationCondition(e)
     return e:GetHandler():GetMaterialCount() == 0 and bit.band(e:GetHandler():GetSummonType(), SUMMON_TYPE_NORMAL) == SUMMON_TYPE_NORMAL
 end
 
-function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130816.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingTarget(Card.IsCode, tp, LOCATION_DECK, 0, 1, nil, 284130826)
     end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectTarget(tp, Card.IsCode, tp, LOCATION_DECK, 0, 1, 1, nil, 284130826)
-    -- Debug --
-    Debug.Message("####以下是调试信息####")
-    Debug.Message(g:GetCount())
-    Debug.Message("####调试信息结束####")
-    -- Debug --
     if g:GetCount() > 0 then
+        Duel.SetTargetCard(g)
         Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, nil, 0)
     end
 end
 
 function c284130816.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
+    local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if c:IsRelateToEffect(e) and g:GetFirst():IsRelateToEffect(e) then
-        Duel.SendtoHand(tc, tp, REASON_EFFECT)
+        Duel.SendtoHand(g:GetFirst(), tp, REASON_EFFECT)
     end
 end

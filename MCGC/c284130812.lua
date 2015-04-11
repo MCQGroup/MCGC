@@ -37,7 +37,7 @@ function c284130812.initial_effect(c)
     e5:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DAMAGE)
     e5:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_SINGLE)
     e5:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-    e5:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e5:SetCode(EVENT_SUMMON_SUCCESS)
     e5:SetTarget(c284130812.spSummonFromHandTarget)
     e5:SetOperation(c284130812.spSummonFromHandOperation)
     c:RegisterEffect(e5)
@@ -113,6 +113,7 @@ function c284130812.spSummonFromHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
         return Duel.IsExistingMatchingCard(c284130812.filter, tp, LOCATION_HAND, 0, 1, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
     end
     local g = Duel.GetMatchingGroup(c284130812.filter, tp, LOCATION_HAND, 0, nil)
+    Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, 0)
 end
 

@@ -24,19 +24,20 @@ function c284130820.initial_effect(c)
 
 end
 
-function c284130820.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130820.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetMatchingGroupCount(Card.IsAbleToDeck, tp, 0, LOCATION_HAND, nil) > 0
     end
     Duel.Hint(HINT_MESSAGE, tp, HINT_SELECTMSG)
     local g = Duel.SelectTarget(tp, Card.IsAbleToDeck, tp, 0, LOCATION_HAND, 1, 1, nil)
     if g:GetCount() > 0 then
+        Duel.SetTargetCard(g)
         Duel.SetOperationInfo(0, CATEGORY_TODECK, g, 1, 0, 0)
     end
 end
 
 function c284130820.toDeckOperation(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
+    local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if g:GetFirst():IsRelatedToEffect(e) then
         Duel.ConfirmCards(1 - tp, g)
         Duel.SendtoDeck(g, nil, 2, REASON_EFFECT)
@@ -58,12 +59,13 @@ function c284130820.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     end
     local g = Duel.SelectTarget(tp, c284130820.toHandFilter, tp, LOCATION_DECK, 0, 1, 1, nil)
     if g:GetCount() > 0 then
+        Duel.SetTargetCard(g)
         Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, nil, 0)
     end
 end
 
 function c284130820.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
+    local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if g:GetFirst():IsRelateToEffect(e) then
         Duel.SendtoHand(c, nil, REASON_EFFECT)
     end

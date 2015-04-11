@@ -50,14 +50,21 @@ function c284130814.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local g = Group.CreateGroup()
     if g1 then
         g:Merge(g1)
+    else
+        Debug.Message("警告：手卡符合要求的卡片组为nil")
     end
     if g2 then
         g:Merge(g2)
+    else
+        Debug.Message("警告：除外区符合要求的卡片组为nil")
     end
     if g3 then
         g:Merge(g3)
+    else
+        Debug.Message("警告：墓地符合要求的卡片组为nil")
     end
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, g:GetCount(), 0, 0)
+    Duel.SetTargetCard(g)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, g:GetCount(), nil, 0)
 end
 
 function c284130814.toDeckOperation(e, tp, eg, ep, ev, re, r, rp)

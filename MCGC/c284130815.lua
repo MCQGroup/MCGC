@@ -15,14 +15,14 @@ function c284130815.initial_effect(c)
     c:RegisterEffect(e1)
 
     -- 回复
-    self.recover = 0
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_RECOVER)
-    e2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e2:SetCode(EVENT_TO_GRAVE)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetTarget(c284130815.recoverTarget)
     e2:SetOperation(c284130815.recoverOperation)
+    c:RegisterEffect(e2)
 end
 
 function c284130815.drawCondition(e, tp, eg, ep, ev, re, r, rp)
@@ -38,7 +38,7 @@ function c284130815.drawCost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SendtoDeck(g, nil, 2, REASON_COST)
 end
 
-function c284130815.drawTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130815.drawTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsPlayerCanDraw(tp)
     end
@@ -59,7 +59,7 @@ function c284130815.filter(c)
     return c:IsSetCard(0x2222)
 end
 
-function c284130815.recoverTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130815.recoverTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return true
     end
@@ -67,9 +67,9 @@ function c284130815.recoverTarget(e, tp, eg, ep, ev, re, r, rp, chk)
     local lp = Duel.GetMatchingGroupCount(c284130815.filter, tp, LOCATION_MZONE, 0, nil) * 700
     Duel.SetTargetParam(lp)
     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, lp)
-    self.recover = lp
 end
 
 function c284130815.recoverOperation(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Recover(tp, self.recover, REASON_EFFECT)
+    local p, lp = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
+    Duel.Recover(p, lp, REASON_EFFECT)
 end
