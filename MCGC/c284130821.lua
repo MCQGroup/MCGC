@@ -54,7 +54,15 @@ function c284130821.removeOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if g:GetCount() > 0 then
         Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
-        -- TODO: 怎么使卡片效果不能发动？
+
+        local c = g:GetFirst()
+        local e = Effect.CreateEffect(c)
+        e:SetCategory(CATEGORY_DISABLE)
+        e:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE)
+        e:SetType(EFFECT_TYPE_SINGLE)
+        e:SetCode(EFFECT_CANNOT_TRIGGER)
+        e:SetReset(RESET_REMOVE)
+        c:RegisterEffect(e)
     end
 end
 
