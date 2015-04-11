@@ -18,11 +18,10 @@ function c284130811.initial_effect(c)
     e2:SetOperation(c284130811.operation)
     c:RegisterEffect(e2)
 
-    -- 不能直接攻击
+    -- 战斗伤害为0
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
-    e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e3:SetCode(EFFECT_NO_BATTLE_DAMAGE)
     c:RegisterEffect(e3)
 end
 
