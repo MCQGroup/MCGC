@@ -8,8 +8,6 @@ function c284130811.initial_effect(c)
     c:RegisterEffect(e1)
 
     -- 攻击守备上升
-    self.atk = 0
-    self.def = 0
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_REMOVE)
     e2:SetType(EFFECT_TYPE_TRIGGER_F + EFFECT_TYPE_SINGLE)
