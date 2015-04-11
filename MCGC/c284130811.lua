@@ -33,7 +33,7 @@ end
 
 function c284130811.cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_GRAVE, 0) > 0 and Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_HAND, 0) > 0 and Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_DECK, 0) > 0
+        return Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_GRAVE, 0, nil) > 0 and Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_HAND, 0, nil) > 0 and Duel.GetMatchingGroupCount(c284130811.filter, tp, LOCATION_DECK, 0, nil) > 0
     end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
     local g1 = Duel.SelectMatchingCard(tp, c284130811.filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
