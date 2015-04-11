@@ -150,7 +150,7 @@ end
 
 function c284130816.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
+    local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if c:IsRelateToEffect(e) and g:GetFirst():IsRelateToEffect(e) then
         Duel.SendtoHand(g:GetFirst(), tp, REASON_EFFECT)
     end

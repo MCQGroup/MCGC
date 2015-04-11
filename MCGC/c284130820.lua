@@ -37,7 +37,7 @@ function c284130820.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function c284130820.toDeckOperation(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
+    local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if g:GetFirst():IsRelatedToEffect(e) then
         Duel.ConfirmCards(1 - tp, g)
         Duel.SendtoDeck(g, nil, 2, REASON_EFFECT)
@@ -65,7 +65,7 @@ function c284130820.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function c284130820.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
+    local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if g:GetFirst():IsRelateToEffect(e) then
         Duel.SendtoHand(c, nil, REASON_EFFECT)
     end

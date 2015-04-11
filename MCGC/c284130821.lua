@@ -51,7 +51,7 @@ function c284130821.removeTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function c284130821.removeOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetOperationInfo(0, CHAININFO_TARGET_CARDS)
+    local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if g:GetCount() > 0 then
         Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
         -- TODO: 怎么使卡片效果不能发动？

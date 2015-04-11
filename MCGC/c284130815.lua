@@ -70,6 +70,6 @@ function c284130815.recoverTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function c284130815.recoverOperation(e, tp, eg, ep, ev, re, r, rp)
-    local p, lp = Duel.GetOperationInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
+    local p, lp = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
     Duel.Recover(p, lp, REASON_EFFECT)
 end
