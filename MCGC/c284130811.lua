@@ -9,7 +9,7 @@ function c284130811.initial_effect(c)
 
     -- 攻击守备上升
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_REMOVE)
+    e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e2:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_SINGLE)
     e2:SetCode(EVENT_SUMMON_SUCCESS)
     e2:SetCost(c284130811.cost)
@@ -39,8 +39,23 @@ function c284130811.cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local g1 = Duel.SelectMatchingCard(tp, c284130811.filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
     local g2 = Duel.SelectMatchingCard(tp, c284130811.filter, tp, LOCATION_HAND, 0, 1, 1, nil)
     local g3 = Duel.SelectMatchingCard(tp, c284130811.filter, tp, LOCATION_DECK, 0, 1, 1, nil)
-    local g = Group.CreateGroup():Merge(g1):Merge(g2):Merge(g3)
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, g:GetCount(), 0, 0)
+    local g = Group.CreateGroup()
+    if g1 then
+        g:Merge(g1)
+    else
+        Debug.ShowHint("警告：从墓地中选出的卡片组为nil")
+    end
+    if g2 then
+        g:Merge(g2)
+    else
+        Debug.ShowHint("警告：从手卡中选出的卡片组为nil")
+    end
+    if g3 then
+        g:Merge(g3)
+    else
+        Debug.ShowHint("警告：从卡组中选出的卡片组为nil")
+    end
+
     Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
     self.atk = g:GetSum(Card.GetAttack)
     self.def = g:GetSum(Card.GetDefence)

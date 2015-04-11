@@ -1325,7 +1325,8 @@ function Duel.IsExistingTarget(f, player, s, o, count, ex, ...)
 end
 
 function Duel.SelectTarget(sel_player, f, player, s, o, min, max, ex, ...)
-    --过滤函数，让玩家sel_player选择指定位置满足过滤条件f并且不等于ex并且可以成为当前正在处理的效果的对象的min-max张卡。第9个参数开始为额外参数。此函数会同时酱当前正在处理的连锁的对象设置成选择的卡
+    --过滤函数，让玩家sel_player选择指定位置满足过滤条件f并且不等于ex并且可以成为当前正在处理的效果的对象的min-max张卡。第9个参数开始为额外参数。
+    --此函数会同时将当前正在处理的连锁的对象设置成选择的卡
 end
 
 function Duel.SelectFusionMaterial(player, c, g)
