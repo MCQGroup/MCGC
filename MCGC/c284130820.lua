@@ -48,6 +48,9 @@ function c284130820.toHandFilter(c)
 end
 
 function c284130820.toHandCost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
     local c = e:GetHandler()
     Duel.SendtoGrave(c, REASON_COST)
 end
