@@ -38,7 +38,7 @@ end
 
 function c284130820.toDeckOperation(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-    if g:GetFirst():IsRelatedToEffect(e) then
+    if g:GetFirst():IsRelateToEffect(e) then
         Duel.ConfirmCards(1 - tp, g)
         Duel.SendtoDeck(g, nil, 2, REASON_EFFECT)
     end

@@ -24,7 +24,7 @@ function c284130813.initial_effect(c)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCost(c284130813.cost)
-    e3:SetTarget()
+    e3:SetTarget(c284130813.target)
     e3:SetOperation(c284130813.operation)
     c:RegisterEffect(e3)
 end
@@ -60,8 +60,8 @@ function c284130813.operation(e, tp, eg, ep, ev, re, r, rp)
         local g2 = g1:Select(1 - tp, 1, 1, nil)
         if g2:GetCount() > 0 then
             g1:RemoveCard(g2:GetFirst())
+            Duel.SpecialSummon(g2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
         end
-        Duel.SpecialSummon(g2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
         Duel.SendtoGrave(g1, REASON_EFFECT)
     end
 end
