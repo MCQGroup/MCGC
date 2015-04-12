@@ -60,9 +60,9 @@ function c284130813.operation(e, tp, eg, ep, ev, re, r, rp)
         Duel.Hint(HINT_SELECTMSG, 1 - tp, HINTMSG_SPSUMMON)
         local g2 = g1:Select(1 - tp, 1, 1, nil)
         if g2:GetCount() > 0 then
-            Group.RemoveCard(g1, g2:GetFirst())
             Duel.SpecialSummon(g2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
+            g1:Sub(g2)
+            Duel.SendtoGrave(g1, REASON_EFFECT)
         end
-        Duel.SendtoGrave(g1, REASON_EFFECT)
     end
 end
