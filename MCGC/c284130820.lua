@@ -57,7 +57,7 @@ end
 
 function c284130820.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(c284130820.toHandFilter, tp, LOCATION_DECK, 0, nil)
+        return Duel.IsExistingMatchingCard(c284130820.toHandFilter, tp, LOCATION_DECK, 0, 1, nil)
     end
     local g = Duel.SelectTarget(tp, c284130820.toHandFilter, tp, LOCATION_DECK, 0, 1, 1, nil)
     if g:GetCount() > 0 then
