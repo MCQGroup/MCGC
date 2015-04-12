@@ -49,7 +49,8 @@ function c284130813.target(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetMatchingGroupCount(c284130813.filter, tp, LOCATION_DECK, 0, nil) >= 2
     end
-    local g = Duel.SelectTarget(tp, c284130813.filter, tp, LOCATION_DECK, 0, 2, 2, nil)
+    local g = Duel.SelectMatchingCard(tp, c284130813.filter, tp, LOCATION_DECK, 0, 2, 2, nil)
+    Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, 0)
 end
 
