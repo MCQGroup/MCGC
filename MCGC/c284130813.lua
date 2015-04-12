@@ -56,10 +56,10 @@ end
 function c284130813.operation(e, tp, eg, ep, ev, re, r, rp)
     local g1 = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if g1:GetCount() > 0 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+        Duel.Hint(HINT_SELECTMSG, 1 - tp, HINTMSG_SPSUMMON)
         local g2 = g1:Select(1 - tp, 1, 1, nil)
         if g2:GetCount() > 0 then
-            g1:RemoveCard(g2:GetFirst())
+            Group.RemoveCard(g1, g2:GetFirst())
             Duel.SpecialSummon(g2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
         end
         Duel.SendtoGrave(g1, REASON_EFFECT)
