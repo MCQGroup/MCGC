@@ -34,7 +34,7 @@ function c284130813.filter(c)
 end
 
 function c284130813.destroyOperation(e, tp, eg, ep, ev, re, r, rp)
-    c = e:GetController()
+    c = e:GetHandler()
     Duel.Destroy(c, REASON_EFFECT)
 end
 
