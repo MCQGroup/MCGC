@@ -18,8 +18,9 @@ function c284130815.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_RECOVER)
     e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e2:SetCode(EVENT_TO_GRAVE)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCondition(c284130815.recoverCondition)
     e2:SetTarget(c284130815.recoverTarget)
     e2:SetOperation(c284130815.recoverOperation)
     c:RegisterEffect(e2)
@@ -56,7 +57,11 @@ function c284130815.drawOperation(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130815.filter(c)
-    return c:IsSetCard(0x2222)
+    return c:IsSetCard(0x2222) and c:IsType(TYPE_MONSTER)
+end
+
+function c284130815.recoverCondition(e, tp, eg, ep, ev, re, r, rp)
+    return not e:GetHandler():IsReason(REASON_RETURN)
 end
 
 function c284130815.recoverTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
