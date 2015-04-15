@@ -108,7 +108,7 @@ function c284130812.deckSearchOperation(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function c284130812.spSummonFromHandTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130812.spSummonFromHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(c284130812.filter, tp, LOCATION_HAND, 0, 1, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
     end
