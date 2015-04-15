@@ -27,9 +27,12 @@ function c284130870.removeCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return e:GetHandler():IsAbleToRemoveAsCost()
     end
+    Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_COST)
 end
 
 function c284130870.removeTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+    end
 end
 
 function c284130870.removeOperation(e, tp, eg, ep, ev, re, r, rp)
@@ -39,9 +42,12 @@ function c284130870.toGraveCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return e:GetHandler():IsAbleToGraveAsCost()
     end
+    Duel.SendtoGrave(e:GetHandler(), REASON_COST)
 end
 
 function c284130870.toGraveTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+    end
 end
 
 function c284130870.toGraveOperation(e, tp, eg, ep, ev, re, r, rp)
