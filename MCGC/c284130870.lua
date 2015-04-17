@@ -23,6 +23,10 @@ function c284130870.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
+function c284130870.removeFilter(c)
+    return c:GetCode() > 284130816 and c:GetCode() < 284130823
+end
+
 function c284130870.removeCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return e:GetHandler():IsAbleToRemoveAsCost()
@@ -32,7 +36,9 @@ end
 
 function c284130870.removeTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
+        return Duel.IsExistingMatchingCard(c284130870.removeFilter, tp, LOCATION_GRAVE, 0, 1, nil) and Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_GRAVE + LOCATION_HAND, 0, 1, nil, 284130826)
     end
+    
 end
 
 function c284130870.removeOperation(e, tp, eg, ep, ev, re, r, rp)
