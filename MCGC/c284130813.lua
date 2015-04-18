@@ -24,7 +24,7 @@ function c284130813.initial_effect(c)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCost(c284130813.cost)
-    e3:SetTarget()
+    e3:SetTarget(c284130813.target)
     e3:SetOperation(c284130813.operation)
     c:RegisterEffect(e3)
 end
@@ -34,7 +34,7 @@ function c284130813.filter(c)
 end
 
 function c284130813.destroyOperation(e, tp, eg, ep, ev, re, r, rp)
-    c = e:GetController()
+    c = e:GetHandler()
     Duel.Destroy(c, REASON_EFFECT)
 end
 
@@ -49,19 +49,20 @@ function c284130813.target(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetMatchingGroupCount(c284130813.filter, tp, LOCATION_DECK, 0, nil) >= 2
     end
-    local g = Duel.SelectTarget(tp, c284130813.filter, tp, LOCATION_DECK, 0, 2, 2, nil)
+    local g = Duel.SelectMatchingCard(tp, c284130813.filter, tp, LOCATION_DECK, 0, 2, 2, nil)
+    Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, 0)
 end
 
 function c284130813.operation(e, tp, eg, ep, ev, re, r, rp)
     local g1 = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if g1:GetCount() > 0 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+        Duel.Hint(HINT_SELECTMSG, 1 - tp, HINTMSG_SPSUMMON)
         local g2 = g1:Select(1 - tp, 1, 1, nil)
         if g2:GetCount() > 0 then
-            g1:RemoveCard(g2:GetFirst())
+            Duel.SpecialSummon(g2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
+            g1:Sub(g2)
+            Duel.SendtoGrave(g1, REASON_EFFECT)
         end
-        Duel.SpecialSummon(g2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
-        Duel.SendtoGrave(g1, REASON_EFFECT)
     end
 end

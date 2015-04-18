@@ -8,6 +8,7 @@ function c284130821.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_REMOVE)
     e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetRange(LOCATION_MZONE)
     e1:SetCost(c284130821.removeCost)
     e1:SetTarget(c284130821.removeTarget)
     e1:SetOperation(c284130821.removeOperation)
@@ -53,8 +54,6 @@ end
 function c284130821.removeOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if g:GetCount() > 0 then
-        Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
-
         local c = g:GetFirst()
         local e = Effect.CreateEffect(c)
         e:SetCategory(CATEGORY_DISABLE)
@@ -63,6 +62,8 @@ function c284130821.removeOperation(e, tp, eg, ep, ev, re, r, rp)
         e:SetCode(EFFECT_CANNOT_TRIGGER)
         e:SetReset(RESET_REMOVE)
         c:RegisterEffect(e)
+
+        Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
     end
 end
 
@@ -72,5 +73,5 @@ function c284130821.setCondition(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130821.specialSummonLimit(e, c, sump, sumtype, sumpos, targetp)
-    return bit.band(sumpos, POS_FACEDOWN) > 0
+    return bit.band(sumpos, POS_FACEDOWN) == POS_FACEDOWN
 end

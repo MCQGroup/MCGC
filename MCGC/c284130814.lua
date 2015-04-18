@@ -15,7 +15,7 @@ function c284130814.initial_effect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetRange(LOCATION_SZONE)
     e2:SetTargetRange(LOCATION_MZONE, 0)
-    e2:SetTarget(aux.TargetBoolFunction(Card.IsSetCard, 0x2222))
+    e2:SetTarget(aux.TargetBoolFunction(c284130814.filter))
     e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
     e2:SetCountLimit(1)
     e2:SetValue(1)
@@ -25,7 +25,7 @@ function c284130814.initial_effect(c)
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e3:SetRange(LOCATION_MZONE)
+    e3:SetRange(LOCATION_SZONE)
     e3:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e3:SetCountLimit(1)
     e3:SetOperation(c284130814.costOperation)
@@ -34,7 +34,7 @@ function c284130814.initial_effect(c)
 end
 
 function c284130814.filter(c)
-    return c:IsSetCard(0x2222)
+    return c:IsSetCard(0x2222) and c:IsType(TYPE_MONSTER)
 end
 
 function c284130814.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -44,25 +44,7 @@ function c284130814.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsPlayerCanDraw(tp) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_GRAVE, 0, 1, nil) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_REMOVED, 0, 1, nil) and Duel.IsExistingTarget(c284130814.filter, tp, LOCATION_HAND, 0, 1, e:GetHandler())
     end
-    local g1 = Duel.GetMatchingGroup(c284130814.filter, tp, LOCATION_HAND, 0, e:GetHandler())
-    local g2 = Duel.GetMatchingGroup(c284130814.filter, tp, LOCATION_REMOVED, 0, nil)
-    local g3 = Duel.GetMatchingGroup(c284130814.filter, tp, LOCATION_GRAVE, 0, nil)
-    local g = Group.CreateGroup()
-    if g1 then
-        g:Merge(g1)
-    else
-        Debug.Message("警告：手卡符合要求的卡片组为nil")
-    end
-    if g2 then
-        g:Merge(g2)
-    else
-        Debug.Message("警告：除外区符合要求的卡片组为nil")
-    end
-    if g3 then
-        g:Merge(g3)
-    else
-        Debug.Message("警告：墓地符合要求的卡片组为nil")
-    end
+    local g = Duel.GetMatchingGroup(c284130814.filter, tp, LOCATION_HAND + LOCATION_REMOVED + LOCATION_GRAVE, 0, nil)
     Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_TODECK, g, g:GetCount(), nil, 0)
 end
