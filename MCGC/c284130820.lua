@@ -15,7 +15,7 @@ function c284130820.initial_effect(c)
     -- 丢弃效果
     e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
-    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_HAND)
     e2:SetCost(c284130820.toHandCost)
     e2:SetTarget(c284130820.toHandTarget)
@@ -28,7 +28,6 @@ function c284130820.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetMatchingGroupCount(Card.IsAbleToDeck, tp, 0, LOCATION_HAND, nil) > 0
     end
-    Duel.Hint(HINT_MESSAGE, tp, HINT_SELECTMSG)
     local g = Duel.SelectTarget(tp, Card.IsAbleToDeck, tp, 0, LOCATION_HAND, 1, 1, nil)
     if g:GetCount() > 0 then
         Duel.SetTargetCard(g)
@@ -38,7 +37,7 @@ end
 
 function c284130820.toDeckOperation(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-    if g:GetFirst():IsRelatedToEffect(e) then
+    if g:GetFirst():IsRelateToEffect(e) then
         Duel.ConfirmCards(1 - tp, g)
         Duel.SendtoDeck(g, nil, 2, REASON_EFFECT)
     end
@@ -49,13 +48,16 @@ function c284130820.toHandFilter(c)
 end
 
 function c284130820.toHandCost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
     local c = e:GetHandler()
     Duel.SendtoGrave(c, REASON_COST)
 end
 
 function c284130820.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(c284130820.toHandFilter, tp, LOCATION_DECK, 0, nil)
+        return Duel.IsExistingMatchingCard(c284130820.toHandFilter, tp, LOCATION_DECK, 0, 1, nil)
     end
     local g = Duel.SelectTarget(tp, c284130820.toHandFilter, tp, LOCATION_DECK, 0, 1, 1, nil)
     if g:GetCount() > 0 then
@@ -66,7 +68,8 @@ end
 
 function c284130820.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-    if g:GetFirst():IsRelateToEffect(e) then
+    local c = g:GetFirst()
+    if c:IsRelateToEffect(e) then
         Duel.SendtoHand(c, nil, REASON_EFFECT)
     end
 end
