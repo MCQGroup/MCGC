@@ -60,11 +60,14 @@ function c284130813.operation(e, tp, eg, ep, ev, re, r, rp)
         Duel.Hint(HINT_SELECTMSG, 1 - tp, HINTMSG_SPSUMMON)
         local g2 = g1:Select(1 - tp, 1, 1, nil)
         if g2:GetCount() > 0 then
-            Debug.Message("===DEBUG Info===\ng2中的卡片数量为："..tostring(g2:GetCount()).."\n")
-            Group.Sub(g1, g2)
-            Debug.Message("g1中的卡片数量为："..tostring(g1:GetCount()).."\n===DEBUG End===")
+            Debug.Message("===DEBUG Info===")
+            Debug.Message("g2中的卡片数量为：" .. tostring(g2:GetCount()))
+            local g = Group.Sub(g1, g2)
+            Debug.Message("g1中的卡片数量为：" .. tostring(g1:GetCount()))
+            Debug.Message("g中的卡片数量为：" .. tostring(g:GetCount()))
+            Debug.Message("===DEBUG End===")
             Duel.SpecialSummon(g2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
-            Duel.SendtoGrave(g1, REASON_EFFECT)
+            Duel.SendtoGrave(g, REASON_EFFECT)
         end
     end
 end
