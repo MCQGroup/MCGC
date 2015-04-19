@@ -21,7 +21,7 @@ function c284130816.initial_effect(c)
 
     -- 除外抽卡
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetCategory(CATEGORY_REMOVE + CATEGORY_DRAW)
     e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e3:SetRange(LOCATION_PZONE)
@@ -101,7 +101,7 @@ function c284130816.drawTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     end
     Duel.SetTargetPlayer(tp)
     Duel.SetTargetParam(2)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 2)
 end
 
 function c284130816.drawOperation(e, tp, eg, ep, ev, re, r, rp)
@@ -109,7 +109,7 @@ function c284130816.drawOperation(e, tp, eg, ep, ev, re, r, rp)
         return
     end
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
-    Duel.draw(p, d, REASON_EFFECT)
+    Duel.Draw(p, d, REASON_EFFECT)
 end
 
 function c284130816.summonCondition(e, c, minc)

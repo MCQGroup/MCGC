@@ -40,6 +40,8 @@
     <Compile Include="c284130820.lua" />
     <Compile Include="c284130821.lua" />
     <Compile Include="c284130822.lua" />
+    <Compile Include="c284130823.lua" />
+    <Compile Include="c284130824.lua" />
     <Compile Include="c284130854.lua" />
     <Compile Include="c284130856.lua" />
     <Compile Include="c284130857.lua" />

@@ -50,7 +50,7 @@ end
 
 function c284130814.toDeckOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(c284130814.filter, tp, LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED, 0, nil)
-    Duel.SendtoDeck(g, tp, nil, REASON_EFFECT)
+    Duel.SendtoDeck(g, tp, 2, REASON_EFFECT)
     Duel.Draw(tp, 5 - Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0), REASON_EFFECT)
 end
 
