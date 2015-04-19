@@ -48,6 +48,12 @@ function c284130870.removeOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
 
     local equipCard = Duel.SelectMatchingCard(tp, Card.IsCode, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, 284130826)
+
+    Debug.Message("===Debug info===")
+    Debug.Message("c: " .. tostring(c))
+    Debug.Message("ec: " .. tostring(equipCard))
+    Debug.Message("===Debug End===")
+
     Duel.Equip(tp, equipCard, c)
 
     if c:IsRelateToEffect(e) then
@@ -58,7 +64,6 @@ function c284130870.removeOperation(e, tp, eg, ep, ev, re, r, rp)
         e1:SetCategory(CATEGORY_DISABLE)
         c:RegisterEffect(e1)
     end
-
 end
 
 function c284130870.toGraveFilter(c)
