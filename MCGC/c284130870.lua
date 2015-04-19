@@ -45,7 +45,7 @@ end
 
 function c284130870.removeOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS):GetFirst()
-    Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp)
+    Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
 
     local equipCard = Duel.SelectMatchingCard(tp, Card.IsCode, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, 284130826)
     Duel.Equip(tp, equipCard, c)
