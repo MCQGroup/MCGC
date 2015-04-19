@@ -31,7 +31,7 @@ function c284130870.initial_effect(c)
 end
 
 function c284130870.removeFilter(c, e, tp)
-    return c:GetCode() > 284130816 and c:GetCode() < 284130823 and c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SPECIAL, tp, false, false)
+    return c:GetCode() >= 284130816 and c:GetCode() <= 284130823 and c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SPECIAL, tp, false, false)
 end
 
 function c284130870.removeCost(e, tp, eg, ep, ev, re, r, rp, chk)
