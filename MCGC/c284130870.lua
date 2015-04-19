@@ -1,13 +1,13 @@
 -- 与镰刀尺的契约
 function c284130870.initial_effect(c)
     -- 仪式召唤（从aux.AddRitualProcGreater(c, aux.FilterBoolFunction(Card.IsCode, 284130820))修改而来）
-	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(Auxiliary.RPGTarget(aux.FilterBoolFunction(Card.IsCode, 284130820)))
-	e1:SetOperation(Auxiliary.RPGOperation(aux.FilterBoolFunction(Card.IsCode, 284130820)))
-	c:RegisterEffect(e1)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetTarget(Auxiliary.RPGTarget(aux.FilterBoolFunction(Card.IsCode, 284130820)))
+    e1:SetOperation(Auxiliary.RPGOperation(aux.FilterBoolFunction(Card.IsCode, 284130820)))
+    c:RegisterEffect(e1)
 
     -- 墓地除外触发特招和装备
     local e2 = Effect.CreateEffect(c)
@@ -31,7 +31,7 @@ function c284130870.initial_effect(c)
 end
 
 function c284130870.removeFilter(c)
-    return c:GetCode() > 284130816 and c:GetCode() < 284130823
+    return c:GetCode() > 284130816 and c:GetCode() < 284130823 and c:IsSpecialSummonable()
 end
 
 function c284130870.removeCost(e, tp, eg, ep, ev, re, r, rp, chk)
