@@ -30,8 +30,8 @@ function c284130870.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function c284130870.removeFilter(c)
-    return c:GetCode() > 284130816 and c:GetCode() < 284130823 and c:IsSpecialSummonable()
+function c284130870.removeFilter(c, e, tp)
+    return c:GetCode() > 284130816 and c:GetCode() < 284130823 and c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SPECIAL, tp, false, false)
 end
 
 function c284130870.removeCost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -43,9 +43,9 @@ end
 
 function c284130870.removeTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(c284130870.removeFilter, tp, LOCATION_GRAVE, 0, 1, nil) and Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_GRAVE + LOCATION_HAND, 0, 1, nil, 284130826)
+        return Duel.IsExistingMatchingCard(c284130870.removeFilter, tp, LOCATION_GRAVE, 0, 1, nil, e, tp) and Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_GRAVE + LOCATION_HAND, 0, 1, nil, 284130826)
     end
-    local g = Duel.SelectMatchingCard(tp, c284130870.removeFilter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
+    local g = Duel.SelectMatchingCard(tp, c284130870.removeFilter, tp, LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON + CATEGORY_EQUIP, g, g:GetCount(), nil, 0)
 end
