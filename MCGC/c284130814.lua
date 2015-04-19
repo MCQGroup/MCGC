@@ -61,7 +61,7 @@ function c284130814.costOperation(e, tp, eg, ep, ev, re, r, rp)
     if Duel.CheckLPCost(tp, 1000) and Duel.SelectYesNo(tp, aux.Stringid(284130814, 0)) then
         Duel.PayLPCost(tp, 1000)
     else
-        Duel.Remove(e:GetHandler(), REASON_RULE)
+        Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_RULE)
         local g = Duel.GetFieldGroup(tp, LOCATION_HAND, 0)
         if g:GetCount() > 0 then
             Duel.SendtoGrave(g:RandomSelect(tp, 1), REASON_EFFECT + REASON_DISCARD)
