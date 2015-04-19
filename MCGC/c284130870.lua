@@ -1,26 +1,33 @@
 -- 与镰刀尺的契约
 function c284130870.initial_effect(c)
-    aux.AddRitualProcGreater(c, aux.FilterBoolFunction(Card.IsCode, 284130820))
+    -- 仪式召唤（从aux.AddRitualProcGreater(c, aux.FilterBoolFunction(Card.IsCode, 284130820))修改而来）
+	local e1=Effect.CreateEffect(c)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetTarget(Auxiliary.RPGTarget(aux.FilterBoolFunction(Card.IsCode, 284130820)))
+	e1:SetOperation(Auxiliary.RPGOperation(aux.FilterBoolFunction(Card.IsCode, 284130820)))
+	c:RegisterEffect(e1)
 
     -- 墓地除外触发特招和装备
-    local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_EQUIP)
-    e1:SetRange(LOCATION_GRAVE)
-    e1:SetType(EFFECT_TYPE_IGNITION)
-    e1:SetCost(c284130870.removeCost)
-    e1:SetTarget(c284130870.removeTarget)
-    e1:SetOperation(c284130870.removeOperation)
-    c:RegisterEffect(e1)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_EQUIP)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetCost(c284130870.removeCost)
+    e2:SetTarget(c284130870.removeTarget)
+    e2:SetOperation(c284130870.removeOperation)
+    c:RegisterEffect(e2)
 
     -- 手卡丢弃触发卡组检索
-    local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
-    e2:SetRange(LOCATION_HAND)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetCost(c284130870.toGraveCost)
-    e2:SetTarget(c284130870.toGraveTarget)
-    e2:SetOperation(c284130870.toGraveOperation)
-    c:RegisterEffect(e2)
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
+    e3:SetRange(LOCATION_HAND)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetCost(c284130870.toGraveCost)
+    e3:SetTarget(c284130870.toGraveTarget)
+    e3:SetOperation(c284130870.toGraveOperation)
+    c:RegisterEffect(e3)
 end
 
 function c284130870.removeFilter(c)
@@ -47,13 +54,7 @@ function c284130870.removeOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS):GetFirst()
     Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
 
-    local equipCard = Duel.SelectMatchingCard(tp, Card.IsCode, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, 284130826)
-
-    Debug.Message("===Debug info===")
-    Debug.Message("c: " .. tostring(c))
-    Debug.Message("ec: " .. tostring(equipCard))
-    Debug.Message("===Debug End===")
-
+    local equipCard = Duel.SelectMatchingCard(tp, Card.IsCode, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, 284130826):GetFirst()
     Duel.Equip(tp, equipCard, c)
 
     if c:IsRelateToEffect(e) then
