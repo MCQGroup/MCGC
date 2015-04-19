@@ -1,33 +1,26 @@
 -- 与镰刀尺的契约
 function c284130870.initial_effect(c)
-    -- 仪式召唤（从aux.AddRitualProcGreater(c, aux.FilterBoolFunction(Card.IsCode, 284130820))修改而来）
-    local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e1:SetType(EFFECT_TYPE_ACTIVATE)
-    e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetTarget(Auxiliary.RPGTarget(aux.FilterBoolFunction(Card.IsCode, 284130820)))
-    e1:SetOperation(Auxiliary.RPGOperation(aux.FilterBoolFunction(Card.IsCode, 284130820)))
-    c:RegisterEffect(e1)
+    -- 仪式召唤
+    aux.AddRitualProcGreater(c, aux.FilterBoolFunction(Card.IsCode, 284130820))
 
     -- 墓地除外触发特招和装备
-    local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_EQUIP)
-    e2:SetRange(LOCATION_GRAVE)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetCost(c284130870.removeCost)
-    e2:SetTarget(c284130870.removeTarget)
-    e2:SetOperation(c284130870.removeOperation)
-    c:RegisterEffect(e2)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_EQUIP)
+    e1:SetRange(LOCATION_GRAVE)
+    e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetCost(c284130870.removeCost)
+    e1:SetTarget(c284130870.removeTarget)
+    e1:SetOperation(c284130870.removeOperation)
+    c:RegisterEffect(e1)
 
-    -- 手卡丢弃触发卡组检索
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
-    e3:SetRange(LOCATION_HAND)
-    e3:SetType(EFFECT_TYPE_ACTIVATE)
-    e3:SetCost(c284130870.toGraveCost)
-    e3:SetTarget(c284130870.toGraveTarget)
-    e3:SetOperation(c284130870.toGraveOperation)
-    c:RegisterEffect(e3)
+    -- 送墓触发卡组检索
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e2:SetCode(EVENT_TO_GRAVE)
+    e2:SetTarget(c284130870.toGraveTarget)
+    e2:SetOperation(c284130870.toGraveOperation)
+    c:RegisterEffect(e2)
 end
 
 function c284130870.removeFilter(c, e, tp)
@@ -69,13 +62,6 @@ end
 
 function c284130870.toGraveFilter(c)
     return c:IsCode(284130870) or c:IsCode(284130826)
-end
-
-function c284130870.toGraveCost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return e:GetHandler():IsAbleToGraveAsCost()
-    end
-    Duel.SendtoGrave(e:GetHandler(), REASON_COST)
 end
 
 function c284130870.toGraveTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
