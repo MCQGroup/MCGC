@@ -38,10 +38,27 @@ function c284130870.removeTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(c284130870.removeFilter, tp, LOCATION_GRAVE, 0, 1, nil) and Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_GRAVE + LOCATION_HAND, 0, 1, nil, 284130826)
     end
-    
+    local g = Duel.SelectMatchingCard(tp, c284130870.removeFilter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
+    Duel.SetTargetCard(g)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON + CATEGORY_EQUIP, g, g:GetCount(), nil, 0)
 end
 
 function c284130870.removeOperation(e, tp, eg, ep, ev, re, r, rp)
+    local c = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS):GetFirst()
+    Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp)
+
+    local equipCard = Duel.SelectMatchingCard(tp, Card.IsCode, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, 284130826)
+    Duel.Equip(tp, equipCard, c)
+
+    if c:IsRelateToEffect(e) then
+        local e1 = Effect.CreateEffect(c)
+        e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+        e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+        e1:SetCode(EFFECT_DISABLE)
+        e1:SetCategory(CATEGORY_DISABLE)
+        c:RegisterEffect(e1)
+    end
+
 end
 
 function c284130870.toGraveFilter(c)
