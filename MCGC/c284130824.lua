@@ -11,8 +11,14 @@ function c284130824.initial_effect(c)
     c:RegisterEffect(e1)
 
     -- 特招触发（无法连锁）
+    local e2 = Effect.CreateEffect(c)
+
+    c:RegisterEffect(e2)
 
     -- 对方额外抽卡触发
+    local e3 = Effect.CreateEffect(c)
+
+    c:RegisterEffect(e3)
 end
 
 function c284130824.summonFilter(c)
