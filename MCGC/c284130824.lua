@@ -12,6 +12,8 @@ function c284130824.initial_effect(c)
 
     -- 特招触发（无法连锁）
     local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 
     c:RegisterEffect(e2)
 
