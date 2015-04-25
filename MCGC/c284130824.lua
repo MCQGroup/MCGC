@@ -58,8 +58,9 @@ function c284130824.summonLimit(e, se, sp, st)
     Debug.Message("summonLimit")
     Debug.Message(e:GetHandler():IsLocation(LOCATION_EXTRA))
     Debug.Message("################")
-    return not e:GetHandler():IsLocation(LOCATION_EXTRA)
+    -- return not e:GetHandler():IsLocation(LOCATION_EXTRA)
     -- 限制“从额外卡组以外的地方”召唤
+    return true
 end
 
 function c284130824.summonCondition(e, c)
@@ -73,10 +74,11 @@ function c284130824.summonCondition(e, c)
     Debug.Message("IsExistingMatchingCard")
     Debug.Message(Duel.IsExistingMatchingCard(c284130824.summonFilter, tp, LOCATION_ONFIELD, 0, 2, nil))
     Debug.Message("################")
-    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2
+    --[[ return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2
     -- 我能说这个场地剩余空格大于一个负数是什么意思我没看懂吗
 
-    and Duel.IsExistingMatchingCard(c284130824.summonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)
+    and Duel.IsExistingMatchingCard(c284130824.summonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)]]
+    return true
 end
 
 function c284130824.summonOperation(e, tp, eg, ep, ev, re, r, rp, c)
