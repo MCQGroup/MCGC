@@ -54,6 +54,10 @@ function c284130824.summonFilter(c)
 end
 
 function c284130824.summonLimit(e, se, sp, st)
+    Debug.Message("####调试信息####")
+    Debug.Message("summonLimit")
+    Debug.Message(e:GetHandler():IsLocation(LOCATION_EXTRA))
+    Debug.Message("################")
     return not e:GetHandler():IsLocation(LOCATION_EXTRA)
     -- 限制“从额外卡组以外的地方”召唤
 end
@@ -63,6 +67,12 @@ function c284130824.summonCondition(e, c)
         return ture
     end
     local tp = c:GetController()
+    Debug.Message("####调试信息####")
+    Debug.Message("GetLocationCount")
+    Debug.Message(Duel.GetLocationCount(tp, LOCATION_MZONE))
+    Debug.Message("IsExistingMatchingCard")
+    Debug.Message(Duel.IsExistingMatchingCard(c284130824.summonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)
+    Debug.Message("################")
     return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2
     -- 我能说这个场地剩余空格大于一个负数是什么意思我没看懂吗
 
