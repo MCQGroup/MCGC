@@ -1,8 +1,10 @@
 -- =====debug类=====
 function Debug.Message(any)
+    -- 输出调试信息
 end
 
 function Debug.ShowHint(str)
+    -- 显示提示窗口
 end
 
 -- =====bit类=====
