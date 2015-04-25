@@ -71,7 +71,7 @@ function c284130824.summonCondition(e, c)
     Debug.Message("GetLocationCount")
     Debug.Message(Duel.GetLocationCount(tp, LOCATION_MZONE))
     Debug.Message("IsExistingMatchingCard")
-    Debug.Message(Duel.IsExistingMatchingCard(c284130824.summonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)
+    Debug.Message(Duel.IsExistingMatchingCard(c284130824.summonFilter, tp, LOCATION_ONFIELD, 0, 2, nil))
     Debug.Message("################")
     return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2
     -- 我能说这个场地剩余空格大于一个负数是什么意思我没看懂吗
