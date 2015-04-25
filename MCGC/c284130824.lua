@@ -72,6 +72,7 @@ function c284130824.summonOperation(e, tp, eg, ep, ev, re, r, rp, c)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
     local g = Duel.SelectMatchingCard(tp, c284130824.summonFilter, tp, LOCATION_MZONE, 0, 2, 2, nil)
     Duel.SendtoDeck(g, nil, 2, REASON_COST)
+    Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, true, true, POS_FACEUP_ATTACK)
 end
 
 function c284130824.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -102,7 +103,7 @@ function c284130824.overDrawCondition(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130824.overDrawFilter(c, tp)
-    return c:IsController(tp)
+    return c:IsControler(tp)
     -- 该条件意义不明
 
     and c:IsPreviousLocation(LOCATION_DECK)

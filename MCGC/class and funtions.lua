@@ -1295,7 +1295,7 @@ function Duel.CreateToken(player, code, setcode, attack, defence, level, race, a
     -- 以传入的参数数值新建一个Token并返回
 end
 
-function Duel.SpecialSummon(targets, sumtype, sumplayer, target_player, nocheck, nolimit, pos)
+function Duel.SpecialSummon(targets, sumtype, player, target_player, nocheck, nolimit, pos)
     -- 让玩家player以sumtype方式，pos表示形式把targets特殊召唤到target_player场上。
     -- 如果nocheck为true则无视卡的召唤条件。如果nolimit为true则无视卡的苏生限制。
     -- 返回值是特殊召唤成功的卡的数量。
