@@ -60,7 +60,7 @@ function c284130824.summonLimit(e, se, sp, st)
     Debug.Message("################")
     -- return not e:GetHandler():IsLocation(LOCATION_EXTRA)
     -- 限制“从额外卡组以外的地方”召唤
-    return true
+    return false
 end
 
 function c284130824.summonCondition(e, c)
