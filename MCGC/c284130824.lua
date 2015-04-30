@@ -67,7 +67,7 @@ function c284130824.summonCondition(e, c)
     if c == nil then
         return ture
     end
-    local tp = c:GetController()
+    local tp = c:GetControler()
     Debug.Message("####调试信息####")
     Debug.Message("GetLocationCount")
     Debug.Message(Duel.GetLocationCount(tp, LOCATION_MZONE))

@@ -42,18 +42,12 @@ function c284130811.cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Group.CreateGroup()
     if g1 then
         g:Merge(g1)
-    else
-        Debug.Message("警告：从墓地中选出的卡片组为nil")
     end
     if g2 then
         g:Merge(g2)
-    else
-        Debug.Message("警告：从手卡中选出的卡片组为nil")
     end
     if g3 then
         g:Merge(g3)
-    else
-        Debug.Message("警告：从卡组中选出的卡片组为nil")
     end
 
     Duel.SetOperationInfo(0, CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE, g, g:GetCount(), nil, 0)

@@ -21,7 +21,7 @@ function c284130821.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(1, 1)
-    e2:SetCondition(c284130821.setCondition)
+    e2:SetCondition(c284130821.cannotSetCondition)
     e2:SetTarget(aux.TRUE)
     c:RegisterEffect(e2)
 
@@ -67,7 +67,7 @@ function c284130821.removeOperation(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function c284130821.setCondition(e, tp, eg, ep, ev, re, r, rp)
+function c284130821.cannotSetCondition(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsFaceup() and c:GetOverlayCount() > 0
 end

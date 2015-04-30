@@ -1291,7 +1291,7 @@ function Duel.SSet(player, c, target_player)
     -- 若targets为Group，则返回成功操作的数量
 end
 
-function Duel.CreateToken(player, code, setcode, attack, defence, level, race, attribute)
+function Duel.CreateToken(player, code, cardsetCode, attack, defence, level, race, attribute)
     -- 以传入的参数数值新建一个Token并返回
 end
 
@@ -1971,7 +1971,7 @@ function Duel.IsPlayerCanFlipSummon(player, c)
     -- 检查玩家player是否可以反转召唤c。
 end
 
-function Duel.IsPlayerCanSpecialSummonMonster(player, code, setcode, type, atk, def, level, race, attribute, pos, target_player)
+function Duel.IsPlayerCanSpecialSummonMonster(player, code, cardsetCode, type, atk, def, level, race, attribute, pos, target_player)
     -- 检查玩家player是否可以以pos的表示形式特殊召唤特定属性值的怪物到target_player场上。此函数通常用于判定是否可以特招token和陷阱怪物。
 end
 
