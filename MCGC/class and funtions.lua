@@ -1928,7 +1928,7 @@ function Duel.GetCoinResult()
 end
 
 function Duel.GetDiceResult()
-    --返回当前掷骰子的结果
+    -- 返回当前掷骰子的结果
 end
 
 function Duel.SetCoinResult(...)
