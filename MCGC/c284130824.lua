@@ -1,4 +1,5 @@
 -- MC群的先驱 TF
+-- e1, e2参考[11502550]元素英雄 天空新宇侠
 -- e4参考[58481572]假面英雄 暗爪
 
 function c284130824.initial_effect(c)
@@ -53,25 +54,38 @@ function c284130824.summonFilter(c)
 end
 
 function c284130824.summonLimit(e, se, sp, st)
-    return e:GetHandler():GetLocation() ~= LOCATION_EXTRA
+    Debug.Message("####调试信息####")
+    Debug.Message("summonLimit")
+    Debug.Message(e:GetHandler():IsLocation(LOCATION_EXTRA))
+    Debug.Message("################")
+    -- return not e:GetHandler():IsLocation(LOCATION_EXTRA)
     -- 限制“从额外卡组以外的地方”召唤
+    return false
 end
 
 function c284130824.summonCondition(e, c)
     if c == nil then
         return ture
     end
-    local tp = c:GetController()
-    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2
+    local tp = c:GetControler()
+    Debug.Message("####调试信息####")
+    Debug.Message("GetLocationCount")
+    Debug.Message(Duel.GetLocationCount(tp, LOCATION_MZONE))
+    Debug.Message("IsExistingMatchingCard")
+    Debug.Message(Duel.IsExistingMatchingCard(c284130824.summonFilter, tp, LOCATION_ONFIELD, 0, 2, nil))
+    Debug.Message("################")
+    --[[ return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2
     -- 我能说这个场地剩余空格大于一个负数是什么意思我没看懂吗
 
-    and Duel.IsExistingMatchingCard(c284130824.summonFilter, tp, LOCATION_MZONE, 0, 2, nil)
+    and Duel.IsExistingMatchingCard(c284130824.summonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)]]
+    return true
 end
 
 function c284130824.summonOperation(e, tp, eg, ep, ev, re, r, rp, c)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
     local g = Duel.SelectMatchingCard(tp, c284130824.summonFilter, tp, LOCATION_MZONE, 0, 2, 2, nil)
     Duel.SendtoDeck(g, nil, 2, REASON_COST)
+    Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, true, true, POS_FACEUP_ATTACK)
 end
 
 function c284130824.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -102,7 +116,7 @@ function c284130824.overDrawCondition(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130824.overDrawFilter(c, tp)
-    return c:IsController(tp)
+    return c:IsControler(tp)
     -- 该条件意义不明
 
     and c:IsPreviousLocation(LOCATION_DECK)
