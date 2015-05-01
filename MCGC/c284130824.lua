@@ -15,7 +15,7 @@ function c284130824.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SPSUMMON_CONDITION)
     e1:SetValue(c284130824.spsummonLimit)
-    --    c:RegisterEffect(e1)
+    c:RegisterEffect(e1)
 
     -- 特招方法
     local e2 = Effect.CreateEffect(c)
@@ -49,13 +49,12 @@ function c284130824.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function c284130824.spsummonFilter(c)
-    return c:IsSetCard(0x2222) and c:IsType(TYPE_MONSTER) and c:IsFaceup()
-end
-
 function c284130824.spsummonLimit(e, se, sp, st)
     return not e:GetHandler():IsLocation(LOCATION_EXTRA)
-    -- 限制“从额外卡组以外的地方”召唤
+end
+
+function c284130824.spsummonFilter(c)
+    return c:IsSetCard(0x2222) and c:IsType(TYPE_MONSTER) and c:IsFaceup()
 end
 
 function c284130824.spsummonCondition(e, c)
@@ -63,10 +62,7 @@ function c284130824.spsummonCondition(e, c)
         return ture
     end
     local tp = c:GetControler()
-    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2
-    -- 我能说这个场地剩余空格大于一个负数是什么意思我没看懂吗
-
-    and Duel.IsExistingMatchingCard(c284130824.spsummonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)
+    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2 and Duel.IsExistingMatchingCard(c284130824.spsummonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)
 end
 
 function c284130824.spsummonOperation(e, tp, eg, ep, ev, re, r, rp, c)
@@ -81,50 +77,31 @@ function c284130824.toHandTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
         return Duel.IsExistingMatchingCard(Card.IsSetCard, tp, LOCATION_GRAVE, 0, 1, nil, 0x2222)
     end
     local g = Duel.SelectMatchingCard(tp, Card.IsSetCard, tp, LOCATION_GRAVE, 0, 1, 1, nil, 0x2222)
-
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, nil, 0)
-    -- 因为该效果要求不能被连锁，所以取对象不入连锁
 end
 
 function c284130824.toHandOperation(e, tp, eg, ep, ev, re, r, rp)
     local test, g = Duel.GetOperationInfo(0, CATEGORY_TOHAND)
-    -- 因为不入连锁所以使用GetOperationInfo而非GetChainInfo
-
     if test then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
     end
 end
 
 function c284130824.overDrawCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() ~= PHASE_DRAW
-    -- 要求当前不是抽卡阶段
-
-    and eg:IsExists(c284130824.overDrawFilter, 1, nil, 1 - tp)
-    -- 用下一个函数检查卡片
+    return Duel.GetCurrentPhase() ~= PHASE_DRAW and eg:IsExists(c284130824.overDrawFilter, 1, nil, 1 - tp)
 end
 
 function c284130824.overDrawFilter(c, tp)
-    return c:IsControler(tp)
-    -- 该条件意义不明
-
-    and c:IsPreviousLocation(LOCATION_DECK)
-    -- 从卡组抽出来的
+    return c:IsControler(tp) and c:IsPreviousLocation(LOCATION_DECK)
 end
 
 function c284130824.overDrawTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return e:GetHandler():IsRelateToEffect(e)
-        -- 这个条件没看懂
-
-        and e:GetHandler():IsFaceup()
-        -- 要求本卡正面表示
-
-        and Duel.IsExistingMatchingCard(Card.IsSetCard, tp, LOCATION_DECK, 0, 1, nil, 0x2222)
-        -- 检查卡组中是否有【MC群】
+        return e:GetHandler():IsRelateToEffect(e) and e:GetHandler():IsFaceup() and Duel.IsExistingMatchingCard(Card.IsSetCard, tp, LOCATION_DECK, 0, 1, nil, 0x2222)
     end
-    local g = Duel.SelectTarget(tp, Card.IsSetCard, tp, LOCATION_DECK, 0, 1, 1, nil, 0x2222)
-    -- 这里用SelectTarget直接入连锁
 
+    local g = Duel.SelectMatchingCard(tp, Card.IsSetCard, tp, LOCATION_DECK, 0, 1, 1, nil, 0x2222)
+    Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_SEARCH + CATEGORY_TOHAND, g, 1, nil, 0)
 end
 
