@@ -5,6 +5,7 @@ function c284130864.initial_effect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetTarget(c284130864.tg1)
+    e1:SetCountLimit(1,284130864+EFFECT_COUNT_CODE_SINGLE)
     e1:SetOperation(c284130864.op)
     c:RegisterEffect(e1)
 
@@ -15,8 +16,8 @@ function c284130864.initial_effect(c)
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_SZONE)
-    e2:SetHintTiming(0, TIMING_END_PHASE)
-    e2:SetCountLimit(1, 284130864)
+    e2:SetHintTiming(0,TIMING_END_PHASE)
+    e2:SetCountLimit(1,284130864+EFFECT_COUNT_CODE_SINGLE)
     e2:SetLabel(1)
     e2:SetCost(c284130864.cost)
     e2:SetTarget(c284130864.tg)
@@ -42,12 +43,12 @@ function c284130864.tg1(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         local g = Duel.SelectTarget(tp, c284130864.filter, tp, LOCATION_HAND, 0, 1, 1, nil, e, tp)
         Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, 0, 0)
-        e:SetCategory(CATEGORY_DESTROY)
-        e:SetLabel(1)
+    e:SetCategory(CATEGORY_DESTROY)
+    e:SetLabel(1)
         e:GetHandler():RegisterFlagEffect(284130864, RESET_EVENT + 0x1fe0000 + RESET_PHASE + PHASE_END, 0, 1)
     else
-        e:SetCategory(0)
-        e:SetLabel(0)
+    e:SetCategory(0)
+    e:SetLabel(0)
     end
 end
 
@@ -63,7 +64,7 @@ function c284130864.tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > -1 and Duel.IsExistingTarget(c284130864.filter, tp,
         LOCATION_HAND, 0, 1, nil, e, tp)
-    end
+end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local g = Duel.SelectTarget(tp, c284130864.filter, tp, LOCATION_HAND, 0, 1, 1, nil, e, tp)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, 0, 0)
