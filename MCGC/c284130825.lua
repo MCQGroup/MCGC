@@ -10,10 +10,10 @@ function c284130825.initial_effect(c)
 
     -- 限制特招
     local e2 = Effect.CreateEffect(c)
-    e2:SetRange(LOCATION_PZONE)
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
     e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CANNOT_DISABLE)
+    e2:SetRange(LOCATION_PZONE)
     e2:SetTargetRange(1, 0)
     e2:SetTarget(c284130825.limitSpecialSummon)
     c:RegisterEffect(e2)
@@ -33,9 +33,9 @@ function c284130825.initial_effect(c)
     -- 特招规则
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetCode(EFFECT_SPSUMMON_PROC)
     e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e4:SetRange(LOCATION_HAND)
-    e4:SetCode(EFFECT_SPSUMMON_PROC)
     e4:SetCondition(c284130825.specialSummonCondition)
     e4:SetOperation(c284130825.specialSummonOperation)
     c:RegisterEffect(e4)
@@ -93,6 +93,7 @@ function c284130825.specialSummonCondition(e, c)
     if c == nil then
         return ture
     end
+    local tp = c:GetControler()
     return Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
 end
 
