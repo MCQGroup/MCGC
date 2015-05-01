@@ -32,28 +32,23 @@ function c284130825.initial_effect(c)
 
     -- 特招规则
     local e4 = Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetType(EFFECT_TYPE_FIELD)
     e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e4:SetRange(LOCATION_HAND)
     e4:SetCode(EFFECT_SPSUMMON_PROC)
     e4:SetCondition(c284130825.specialSummonCondition)
+    e4:SetOperation(c284130825.specialSummonOperation)
     c:RegisterEffect(e4)
 
-    local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE)
-    e5:SetCode(EFFECT_SUMMON_COST)
-    e5:SetOperation(c284130825.specialSummonOperation)
-    c:RegisterEffect(e5)
-
     -- 特招触发
-    local e6 = Effect.CreateEffect(c)
-    e6:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e6:SetProperty(CATEGORY_SPECIAL_SUMMON + CATEGORY_ATKCHANGE)
-    e6:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e6:SetCondition(c284130825.spsummonSuccessCondition)
-    e6:SetTarget(c284130825.spsummonSuccessTarget)
-    e6:SetOperation(c284130825.spsummonSuccessOperation)
-    c:RegisterEffect(e6)
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e5:SetProperty(CATEGORY_SPECIAL_SUMMON + CATEGORY_ATKCHANGE)
+    e5:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e5:SetCondition(c284130825.spsummonSuccessCondition)
+    e5:SetTarget(c284130825.spsummonSuccessTarget)
+    e5:SetOperation(c284130825.spsummonSuccessOperation)
+    c:RegisterEffect(e5)
 end
 
 function c284130825.filter(c)
@@ -84,36 +79,36 @@ end
 
 function c284130825.recoverOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.Recover(tp, 1000, REASON_EFFECT)
-    if Duel.SelectYesNo(tp,aux.Stringid(284130816,0)) then
-    local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_REMOVED, 0, 1, 1, nil)
-    Duel.SendtoHand(g,tp,REASON_EFFECT)
+    if Duel.SelectYesNo(tp, aux.Stringid(284130816, 0)) then
+        local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_REMOVED, 0, 1, 1, nil)
+        Duel.SendtoHand(g, tp, REASON_EFFECT)
     end
 end
 
-function c284130825.leinFilter(c)
+function c284130825.lainFilter(c)
     return c:GetCode() >= 284130816 and c:GetCode() <= 284130823
 end
 
-function c284130825.specialSummonCondition(e, c, minc)
+function c284130825.specialSummonCondition(e, c)
     if c == nil then
         return ture
     end
-    return Duel.IsExistingMatchingCard(c284130825.leinFilter, tp, LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
+    return Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
 end
 
-function c284130825.specialSummonOperation(e, tp, eg, ep, ev, re, r, rp)
-    e:GetHandler():RegisterFlagEffect(0x2222, RESET_LEAVE, 0, 0)
+function c284130825.specialSummonOperation(e, tp, eg, ep, ev, re, r, rp, c)
+    e:GetHandler().flag = true
 end
 
 function c284130825.spsummonSuccessCondition(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetFlagEffect(0x2222) > 0
+    return e:GetHandler().flag
 end
 
 function c284130825.spsummonSuccessTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return ture
     end
-    local g = Duel.SelectMatchingCard(tp, c284130825.leinFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil)
+    local g = Duel.SelectMatchingCard(tp, c284130825.lainFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil)
     Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, 0)
 end
