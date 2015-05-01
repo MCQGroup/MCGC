@@ -23,7 +23,7 @@ function c284130824.initial_effect(c)
     e2:SetCode(EFFECT_SPSUMMON_PROC)
     e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     e2:SetRange(LOCATION_EXTRA)
-    e2:SetCondition(c284130824.spsummonCondition)
+    --    e2:SetCondition(c284130824.spsummonCondition)
     e2:SetOperation(c284130824.spsummonOperation)
     c:RegisterEffect(e2)
 
@@ -58,12 +58,11 @@ function c284130824.spsummonFilter(c)
 end
 
 function c284130824.spsummonCondition(e, c)
-    return true
---    if c == nil then
---        return ture
---    end
---    local tp = c:GetControler()
---    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2 and Duel.IsExistingMatchingCard(c284130824.spsummonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)
+    if c == nil then
+        return ture
+    end
+    local tp = c:GetControler()
+    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2 and Duel.IsExistingMatchingCard(c284130824.spsummonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)
 end
 
 function c284130824.spsummonOperation(e, tp, eg, ep, ev, re, r, rp, c)
