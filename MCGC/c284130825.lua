@@ -93,7 +93,7 @@ function c284130825.specialSummonCondition(e, c)
     if c == nil then
         return ture
     end
-    return Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
+    return Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
 end
 
 function c284130825.specialSummonOperation(e, tp, eg, ep, ev, re, r, rp, c)
