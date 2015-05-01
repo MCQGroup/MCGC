@@ -84,9 +84,9 @@ end
 
 function c284130825.recoverOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.Recover(tp, 1000, REASON_EFFECT)
-    if Duel.SelectYesNo(tp,aux.Stringid(284130816,0)) then
-    local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_REMOVED, 0, 1, 1, nil)
-    Duel.SendtoHand(g,tp,REASON_EFFECT)
+    if Duel.SelectYesNo(tp, aux.Stringid(284130816, 0)) then
+        local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_REMOVED, 0, 1, 1, nil)
+        Duel.SendtoHand(g, tp, REASON_EFFECT)
     end
 end
 
