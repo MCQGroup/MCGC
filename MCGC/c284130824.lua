@@ -58,11 +58,12 @@ function c284130824.spsummonFilter(c)
 end
 
 function c284130824.spsummonCondition(e, c)
-    if c == nil then
-        return ture
-    end
-    local tp = c:GetControler()
-    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2 and Duel.IsExistingMatchingCard(c284130824.spsummonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)
+    return true
+--    if c == nil then
+--        return ture
+--    end
+--    local tp = c:GetControler()
+--    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2 and Duel.IsExistingMatchingCard(c284130824.spsummonFilter, tp, LOCATION_ONFIELD, 0, 2, nil)
 end
 
 function c284130824.spsummonOperation(e, tp, eg, ep, ev, re, r, rp, c)
