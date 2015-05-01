@@ -54,7 +54,7 @@
     <Compile Include="MCGC\c284130857.lua" />
     <Compile Include="MCGC\c284130864.lua" />
     <Compile Include="MCGC\c284130870.lua" />
-    <Compile Include="MCGC\class and funtions.lua" />
+    <Compile Include="MCGC\ygoLib.lua" />
     <Compile Include="MCGC\constant.lua" />
     <Compile Include="MCGC\utility.lua" />
   </ItemGroup>
