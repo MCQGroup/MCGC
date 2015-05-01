@@ -7,7 +7,7 @@ function c284130824.initial_effect(c)
     c:EnableReviveLimit()
 
     -- 融合素材
-    aux.AddFusionProcFunRep(c, c284130824.spsummonFilter, 2, true)
+    aux.AddFusionProcFun2(c, c284130824.spsummonFilter, c284130824.spsummonFilter, true)
 
     -- 特招限制
     local e1 = Effect.CreateEffect(c)
