@@ -64,9 +64,6 @@ function c284130824.spsummonFilter(c)
 end
 
 function c284130824.spsummonCondition(e, c)
-    if c == nil then
-        return false
-    end
     local tp = c:GetControler()
     return Duel.IsExistingMatchingCard(c284130824.spsummonFilter, tp, LOCATION_MZONE, 0, 2, nil)
 end

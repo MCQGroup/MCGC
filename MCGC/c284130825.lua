@@ -90,12 +90,8 @@ function c284130825.lainFilter(c)
 end
 
 function c284130825.specialSummonCondition(e, c)
-    if c == nil then
-        return false
-    end
     local tp = c:GetControler()
-    return true
---    return Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
+    return Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
 end
 
 function c284130825.specialSummonOperation(e, tp, eg, ep, ev, re, r, rp, c)
