@@ -18,7 +18,7 @@ function c284130813.initial_effect(c)
 
     -- 卡组检索、特招、送墓
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(74131780, 0))
+    e3:SetDescription(aux.Stringid(284130813, 0))
     e3:SetCategory(CATEGORY_SEARCH + CATEGORY_RELEASE + CATEGORY_SPECIAL_SUMMON + CATEGORY_TOGRAVE)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetType(EFFECT_TYPE_IGNITION)

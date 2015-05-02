@@ -47,6 +47,42 @@ function c284130825.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
+function c284130825.lainFilter(c)
+    return c:GetCode() >= 284130816 and c:GetCode() <= 284130823
+end
+
+function c284130825.OnHandActivationCondition(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.CheckLocation(tp, LOCATION_SZONE, 6) or Duel.CheckLocation(tp, LOCATION_MZONE, 7) or Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
+end
+
+function c284130825.OnHandActivationOperation(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local choose = 0
+    local test1 = Duel.CheckLocation(tp, LOCATION_SZONE, 6) or Duel.CheckLocation(tp, LOCATION_SZONE, 7)
+    Debug.Message(test1)
+    local test2 = Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
+
+    if test1 and test2 then
+        choose = Duel.SelectOption(tp, aux.Stringid(284130825, 0), aux.Stringid(284130825, 1))
+    elseif test1 then
+        choose = 0
+    elseif test2 then
+        choose = 1
+    end
+
+    if choose == 0 then
+        Duel.MoveToField(c, tp, tp, LOCATION_SZONE, POS_FACEUP, true)
+        if Duel.CheckLocation(tp, LOCATION_SZONE, 6) then
+            Duel.MoveSequence(c, 6)
+        elseif Duel.CheckLocation(tp, LOCATION_SZONE, 7) then
+            Duel.MoveSequence(c, 7)
+        end
+    elseif choose == 1 then
+        local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
+        Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL + 0x2222, tp, tp, false, false, pos)
+    end
+end
+
 function c284130825.filter(c)
     return c:IsSetCard(0x2222)
 end
@@ -81,42 +117,8 @@ function c284130825.recoverOperation(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function c284130825.lainFilter(c)
-    return c:GetCode() >= 284130816 and c:GetCode() <= 284130823
-end
-
-function c284130825.OnHandActivationCondition(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-
-    c284130825.test1 = Duel.CheckLocation(tp, LOCATION_SZONE, 6) or Duel.CheckLocation(tp, LOCATION_MZONE, 7)
-    c284130825.test2 = Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
-
-    return c284130825.test1 or c284130825.test2
-end
-
-function c284130825.OnHandActivationOperation(e, tp, eg, ep, ev, re, r, rp, c)
-    local c = e:GetHandler()
-    local choose = 0
-
-    if c284130825.test1 and c284130825.test2 then
-        choose = Duel.SelectOption(tp, aux.Stringid(284130825, 0), aux.Stringid(284130825, 1))
-    elseif c284130825.test1 then
-        choose = 1
-    elseif c284130825.test2 then
-        choose = 2
-    end
-
-    if choose == 0 then
-        Duel.MoveToField(c, tp, tp, LOCATION_SZONE, POS_FACEUP, true)
-        if Duel.CheckLocation(tp, LOCATION_SZONE, 6) then
-            Duel.MoveSequence(c, 6)
-        elseif Duel.CheckLocation(tp, LOCATION_MZONE, 7) then
-            Duel.MoveSequence(c, 7)
-        end
-    elseif choose == 1 then
-        local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
-        Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL + 0x2222, tp, tp, false, false, pos)
-    end
+function c284130825.spsummonSuccessFilter(c, e)
+    return c284130825.lainFilter(c) and c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SPECIAL, c:GetControler(), false, false)
 end
 
 function c284130825.spsummonSuccessCondition(e, tp, eg, ep, ev, re, r, rp)
@@ -125,9 +127,9 @@ end
 
 function c284130825.spsummonSuccessTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return true
+        return Duel.IsExistingMatchingCard(c284130825.spsummonSuccessFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, nil, e)
     end
-    local g = Duel.SelectMatchingCard(tp, c284130825.lainFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil)
+    local g = Duel.SelectMatchingCard(tp, c284130825.spsummonSuccessFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, e)
     Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, 0)
 end
