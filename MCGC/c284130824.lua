@@ -60,12 +60,18 @@ function c284130824.spsummonLimit(e, se, sp, st)
 end
 
 function c284130824.spsummonFilter(c)
+    Debug.Message('以下为调试')
+    Debug.Message(c)
+    Debug.Message(c:IsSetCard(0x2222))
+    Debug.Message(c:IsType(TYPE_MONSTER))
+    Debug.Message(c:IsFaceup())
+    Debug.Message('以上为调试')
     return c:IsSetCard(0x2222) and c:IsType(TYPE_MONSTER) and c:IsFaceup()
 end
 
 function c284130824.spsummonCondition(e, c)
     if c == nil then
-        return false
+        return true
     end
     local tp = c:GetControler()
     return Duel.IsExistingMatchingCard(c284130824.spsummonFilter, tp, LOCATION_MZONE, 0, 2, nil)
