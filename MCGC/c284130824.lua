@@ -24,29 +24,35 @@ function c284130824.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     e2:SetRange(LOCATION_EXTRA)
     e2:SetCondition(c284130824.spsummonCondition)
-    e2:SetOperation(c284130824.spsummonOperation)
     c:RegisterEffect(e2)
 
-    -- 特招触发（无法连锁）
     local e3 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_TOHAND)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e3:SetTarget(c284130824.toHandTarget)
-    e3:SetOperation(c284130824.toHandOperation)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_SPSUMMON_COST)
+    e3:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    e3:SetOperation(c284130824.spsummonOperation)
     c:RegisterEffect(e3)
 
-    -- 对方额外抽卡触发
+    -- 特招触发（无法连锁）
     local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
-    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e4:SetProperty(EFFECT_FLAG_DELAY)
-    e4:SetCode(EVENT_TO_HAND)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCondition(c284130824.overDrawCondition)
-    e4:SetTarget(c284130824.overDrawTarget)
-    e4:SetOperation(c284130824.overDrawOperation)
+    e1:SetCategory(CATEGORY_TOHAND)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e4:SetTarget(c284130824.toHandTarget)
+    e4:SetOperation(c284130824.toHandOperation)
     c:RegisterEffect(e4)
+
+    -- 对方额外抽卡触发
+    local e5 = Effect.CreateEffect(c)
+    e5:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
+    e5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e5:SetProperty(EFFECT_FLAG_DELAY)
+    e5:SetCode(EVENT_TO_HAND)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetCondition(c284130824.overDrawCondition)
+    e5:SetTarget(c284130824.overDrawTarget)
+    e5:SetOperation(c284130824.overDrawOperation)
+    c:RegisterEffect(e5)
 end
 
 function c284130824.spsummonLimit(e, se, sp, st)
@@ -59,7 +65,7 @@ end
 
 function c284130824.spsummonCondition(e, c)
     if c == nil then
-        return ture
+        return false
     end
     local tp = c:GetControler()
     return Duel.IsExistingMatchingCard(c284130824.spsummonFilter, tp, LOCATION_MZONE, 0, 2, nil)
