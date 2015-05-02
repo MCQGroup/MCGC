@@ -86,10 +86,6 @@ function c284130825.recoverOperation(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130825.lainFilter(c)
-    Debug.Message('以下为调试')
-    Debug.Message(c)
-    Debug.Message(c:GetCode())
-    Debug.Message('以上为调试')
     return c:GetCode() >= 284130816 and c:GetCode() <= 284130823
 end
 
