@@ -1,11 +1,16 @@
 -- MC群的现充 手滑
 function c284130825.initial_effect(c)
-    -- 灵摆
+    -- 灵摆规则
     aux.AddPendulumProcedure(c)
 
+    -- 手卡发动
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e1:SetRange(LOCATION_HAND)
+    e1:SetCondition(c284130825.OnHandActivationCondition)
+    e1:SetOperation(c284130825.OnHandActivationOperation)
     c:RegisterEffect(e1)
 
     -- 限制特招
@@ -30,25 +35,16 @@ function c284130825.initial_effect(c)
     e3:SetOperation(c284130825.recoverOperation)
     c:RegisterEffect(e3)
 
-    -- 特招规则
-    local e4 = Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_FIELD)
-    e4:SetCode(EFFECT_SPSUMMON_PROC)
-    e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e4:SetRange(LOCATION_HAND)
-    e4:SetCondition(c284130825.specialSummonCondition)
-    e4:SetOperation(c284130825.specialSummonOperation)
-    c:RegisterEffect(e4)
-
     -- 特招触发
-    local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e5:SetProperty(CATEGORY_SPECIAL_SUMMON + CATEGORY_ATKCHANGE)
-    e5:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e5:SetCondition(c284130825.spsummonSuccessCondition)
-    e5:SetTarget(c284130825.spsummonSuccessTarget)
-    e5:SetOperation(c284130825.spsummonSuccessOperation)
-    c:RegisterEffect(e5)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e4:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_CARD_TARGET)
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_ATKCHANGE)
+    e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e4:SetCondition(c284130825.spsummonSuccessCondition)
+    e4:SetTarget(c284130825.spsummonSuccessTarget)
+    e4:SetOperation(c284130825.spsummonSuccessOperation)
+    c:RegisterEffect(e4)
 end
 
 function c284130825.filter(c)
@@ -89,25 +85,47 @@ function c284130825.lainFilter(c)
     return c:GetCode() >= 284130816 and c:GetCode() <= 284130823
 end
 
-function c284130825.specialSummonCondition(e, c)
-    if c == nil then
-        return true
-    end
-    local tp = c:GetControler()
-    return Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
+function c284130825.OnHandActivationCondition(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+
+    c284130825.test1 = Duel.CheckLocation(tp, LOCATION_SZONE, 6) or Duel.CheckLocation(tp, LOCATION_MZONE, 7)
+    c284130825.test2 = Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
+
+    return c284130825.test1 or c284130825.test2
 end
 
-function c284130825.specialSummonOperation(e, tp, eg, ep, ev, re, r, rp, c)
-    e:GetHandler().flag = true
+function c284130825.OnHandActivationOperation(e, tp, eg, ep, ev, re, r, rp, c)
+    local c = e:GetHandler()
+    local choose = 0
+
+    if c284130825.test1 and c284130825.test2 then
+        choose = Duel.SelectOption(tp, aux.Stringid(284130825, 0), aux.Stringid(284130825, 1))
+    elseif c284130825.test1 then
+        choose = 1
+    elseif c284130825.test2 then
+        choose = 2
+    end
+
+    if choose == 0 then
+        Duel.MoveToField(c, tp, tp, LOCATION_SZONE, POS_FACEUP, true)
+        if Duel.CheckLocation(tp, LOCATION_SZONE, 6) then
+            Duel.MoveSequence(c, 6)
+        elseif Duel.CheckLocation(tp, LOCATION_MZONE, 7) then
+            Duel.MoveSequence(c, 7)
+        end
+    elseif choose == 1 then
+        local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
+        Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL + 0x2222, tp, tp, false, false, pos)
+    end
 end
 
 function c284130825.spsummonSuccessCondition(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler().flag
+    return bit.band(e:GetHandler():GetSummonType(), 0x2222) == 0x2222
 end
 
 function c284130825.spsummonSuccessTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return ture
+        return true
     end
     local g = Duel.SelectMatchingCard(tp, c284130825.lainFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil)
     Duel.SetTargetCard(g)
