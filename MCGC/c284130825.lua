@@ -52,15 +52,14 @@ function c284130825.lainFilter(c)
 end
 
 function c284130825.OnHandActivationCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.CheckLocation(tp, LOCATION_SZONE, 6) or Duel.CheckLocation(tp, LOCATION_MZONE, 7) or Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
+    return Duel.CheckLocation(tp, LOCATION_SZONE, 6) or Duel.CheckLocation(tp, LOCATION_MZONE, 7) or(Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0)
 end
 
 function c284130825.OnHandActivationOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local choose = 0
     local test1 = Duel.CheckLocation(tp, LOCATION_SZONE, 6) or Duel.CheckLocation(tp, LOCATION_SZONE, 7)
-    Debug.Message(test1)
-    local test2 = Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil)
+    local test2 = Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
 
     if test1 and test2 then
         choose = Duel.SelectOption(tp, aux.Stringid(284130825, 0), aux.Stringid(284130825, 1))
@@ -111,7 +110,7 @@ end
 
 function c284130825.recoverOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.Recover(tp, 1000, REASON_EFFECT)
-    if Duel.SelectYesNo(tp, aux.Stringid(284130816, 0)) then
+    if Duel.SelectYesNo(tp, aux.Stringid(284130825, 2)) then
         local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_REMOVED, 0, 1, 1, nil)
         Duel.SendtoHand(g, tp, REASON_EFFECT)
     end
@@ -122,7 +121,7 @@ function c284130825.spsummonSuccessFilter(c, e)
 end
 
 function c284130825.spsummonSuccessCondition(e, tp, eg, ep, ev, re, r, rp)
-    return bit.band(e:GetHandler():GetSummonType(), 0x2222) == 0x2222
+    return bit.band(e:GetHandler():GetSummonType(), 0x2222) == 0x2222 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
 end
 
 function c284130825.spsummonSuccessTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
