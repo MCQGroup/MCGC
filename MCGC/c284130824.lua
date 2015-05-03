@@ -59,7 +59,7 @@ end
 
 function c284130824.spsummonCondition(e, c)
     if c == nil then
-        return ture
+        return true
     end
     local tp = c:GetControler()
     return Duel.IsExistingMatchingCard(c284130824.spsummonFilter, tp, LOCATION_MZONE, 0, 2, nil)

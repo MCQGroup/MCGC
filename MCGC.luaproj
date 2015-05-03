@@ -25,8 +25,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="MCGC\" />
-    <Folder Include="MCGC\obj\" />
-    <Folder Include="MCGC\obj\Debug\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MCGC\MCQ.txt" />
@@ -54,6 +52,7 @@
     <Compile Include="MCGC\c284130857.lua" />
     <Compile Include="MCGC\c284130864.lua" />
     <Compile Include="MCGC\c284130870.lua" />
+    <Compile Include="MCGC\sampleFunctions.lua" />
     <Compile Include="MCGC\ygoLib.lua" />
     <Compile Include="MCGC\constant.lua" />
     <Compile Include="MCGC\utility.lua" />

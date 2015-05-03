@@ -28,6 +28,7 @@ function c284130814.initial_effect(c)
     e3:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e3:SetRange(LOCATION_SZONE)
     e3:SetCountLimit(1)
+    e3:SetCondition(c284130814.costCondition)
     e3:SetOperation(c284130814.costOperation)
     c:RegisterEffect(e3)
 end
@@ -53,6 +54,10 @@ function c284130814.toDeckOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoDeck(g, nil, 2, REASON_EFFECT)
     Duel.ShuffleDeck(tp)    -- It's reported that the previous line won't shuffle the deck so here do it by hand
     Duel.Draw(tp, 5 - Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0), REASON_EFFECT)
+end
+
+function c284130814.costCondition(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer == tp
 end
 
 function c284130814.costOperation(e, tp, eg, ep, ev, re, r, rp)
