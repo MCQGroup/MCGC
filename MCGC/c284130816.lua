@@ -92,7 +92,7 @@ function c284130816.drawCost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
     local g = Duel.SelectMatchingCard(tp, c284130816.drawFilter, tp, LOCATION_HAND, 0, 1, 1, nil)
     Duel.Remove(g, POS_FACEUP, REASON_COST)
-    Duel.PayLPCost(tp, 1000)
+    Duel.PayLPCost(tp, 2000)
 end
 
 function c284130816.drawTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
