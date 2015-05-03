@@ -57,7 +57,7 @@ function c284130814.toDeckOperation(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130814.costCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer == tp
+    return Duel.GetTurnPlayer() == tp
 end
 
 function c284130814.costOperation(e, tp, eg, ep, ev, re, r, rp)

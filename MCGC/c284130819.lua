@@ -10,7 +10,7 @@ function c284130819.initial_effect(c)
 end
 
 function c284130819.filter(c)
-    return c:IsSetCard(0x2222)
+    return c:IsSetCard(0x2222) and c:IsType(TYPE_MONSTER)
 end
 
 function c284130819.operation(e, tp, eg, ep, ev, re, r, rp)
