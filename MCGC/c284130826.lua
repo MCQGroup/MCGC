@@ -87,7 +87,6 @@ function c284130826.operation(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if e:GetHandler():IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
         Duel.Equip(tp, e:GetHandler(), tc)
-        flag = 0
     end
 end
 
@@ -95,7 +94,6 @@ function c284130826.operation2(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if e:GetHandler():IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
         Duel.Equip(tp, e:GetHandler(), tc)
-        flag = 1
     end
 end
 
@@ -128,16 +126,14 @@ function c284130826.drawOperation(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130826.condition(e, tp, eg, ep, ev, re, r, rp)
-    if flag == 0 then
-        return true
-    end
+    return e:GetHandler():GetPreviousLocation() == LOCATION_HAND
 end
 
 function c284130826.reflectCondition(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ec = c:GetEquipTarget()
 
-    if flag ~= 0 or c:IsStatus(STATUS_BATTLE_DESTROYED) or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
+    if e:GetHandler():GetPreviousLocation() ~= LOCATION_HAND or c:IsStatus(STATUS_BATTLE_DESTROYED) or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
         return false
     end
 
