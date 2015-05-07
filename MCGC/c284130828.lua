@@ -23,7 +23,6 @@ function c284130828.initial_effect(c)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e3:SetCode(EVENT_DAMAGE_CALCULATING)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(1, 0)
     e3:SetOperation(c284130828.atkUp)
     c:RegisterEffect(e3)
 end
@@ -44,8 +43,8 @@ function c284130828.atkUp(e, tp, eg, ep, ev, re, r, rp)
     local a = Duel.GetAttacker()
     local d = Duel.GetAttackTarget()
     if d then
-        local test1 = a:IsSetCard(0x2222)
-        local test2 = d:IsSetCard(0x2222)
+        local test1 = a:IsSetCard(0x2222) and a:IsControler(tp)
+        local test2 = d:IsSetCard(0x2222) and d:IsControler(tp)
         if test1 or test2 then
             if test1 then
                 local e1 = Effect.CreateEffect(a)
