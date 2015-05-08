@@ -921,6 +921,7 @@ end
 
 function Effect.SetReset(e, reset_flag, reset_count)
     -- 设置reset参数
+    -- 默认reset_count = 1
 end
 
 function Effect.SetLabel(e, label)

@@ -53,10 +53,11 @@ function c284130829.attackCost(e, tp, eg, ep, ev, re, r, rp, chk)
         return true
     end
     local t = { }
-    for i = 1, math.floor(tp:GetLP() / 100) do
+    for i = 1, math.min(15, math.floor(tp:GetLP() / 100)) do
         t[i] = i * 100
     end
     local attack = Duel.AnnounceNumber(tp, table.unpack(t))
+    -- 不确定这里的AnnouceNumber是否合适
     e:SetLabel(t[attack])
 end
 
@@ -67,7 +68,7 @@ function c284130829.attackOperation(e, tp, eg, ep, ev, re, r, rp)
     e1:SetCategory(CATEGORY_ATKCHANGE)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_UPDATE_ATTACK)
-    e1:SetReset()   -- 下个回合结束
+    e1:SetReset(RESET_END, 2)
     e1:SetValue(e:GetLabel())
     c:RegisterEffect(e1)
 
