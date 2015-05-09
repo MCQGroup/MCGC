@@ -52,14 +52,14 @@ function c284130825.lainFilter(c)
 end
 
 function c284130825.OnHandActivationCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.CheckLocation(tp, LOCATION_SZONE, 6) or Duel.CheckLocation(tp, LOCATION_MZONE, 7) or(Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0)
+    return Duel.CheckLocation(tp, LOCATION_SZONE, 6) or Duel.CheckLocation(tp, LOCATION_MZONE, 7) or(Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0)
 end
 
 function c284130825.OnHandActivationOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local choose = 0
     local test1 = Duel.CheckLocation(tp, LOCATION_SZONE, 6) or Duel.CheckLocation(tp, LOCATION_SZONE, 7)
-    local test2 = Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+    local test2 = Duel.IsExistingMatchingCard(c284130825.lainFilter, tp, LOCATION_MZONE + LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
 
     if test1 and test2 then
         choose = Duel.SelectOption(tp, aux.Stringid(284130825, 0), aux.Stringid(284130825, 1))
