@@ -13,10 +13,10 @@ function c284130827.initial_effect(c)
 
     -- 攻击力上升
     local e2 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_EQUIP)
-    e3:SetCode(EFFECT_UPDATE_ATTACK)
-    e3:SetValue(500)
-    c:RegisterEffect(e3)
+    e2:SetType(EFFECT_TYPE_EQUIP)
+    e2:SetCode(EFFECT_UPDATE_ATTACK)
+    e2:SetValue(500)
+    c:RegisterEffect(e2)
 
     -- 贯穿伤害
     local e3 = Effect.CreateEffect(c)

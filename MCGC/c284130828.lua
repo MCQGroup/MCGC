@@ -27,7 +27,8 @@ function c284130828.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function c284130828.noTributeCondition(e, c)
+function c284130828.noTributeCondition(e)
+    local c = e:GetHandler()
     return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_MZONE, 0) == 0 and Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE) > 0
 end
 
