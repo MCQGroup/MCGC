@@ -87,9 +87,7 @@ function c284130827.battleTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     if ev <= 1000 then
         Duel.Recover(tp, ev, REASON_EFFECT)
     elseif ev <= 2000 then
-        if not e:GetHandler():GetPreviousPosition() == LOCATION_DECK then
-            Duel.Draw(tp, 1, REASON_EFFECT)
-        end
+        Duel.Draw(tp, 1, REASON_EFFECT)
     else
         if not e:GetHandler():GetPreviousPosition() == LOCATION_GRAVE then
             local g = Duel.GetMatchingGroup(Card.IsDiscardable, tp, 0, LOCATION_HAND, nil)
