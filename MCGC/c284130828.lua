@@ -37,7 +37,7 @@ function c284130828.filter(c)
 end
 
 function c284130828.spSummonCondition(e, c)
-    return Duel.GetMatchingGroupCount(c284130828.filter, tp, LOCATION_MZONE, 0, nil) > 2
+    return Duel.GetMatchingGroupCount(c284130828.filter, tp, LOCATION_ONFIELD, 0, nil) > 2
 end
 
 function c284130828.atkUp(e, tp, eg, ep, ev, re, r, rp)
@@ -52,7 +52,7 @@ function c284130828.atkUp(e, tp, eg, ep, ev, re, r, rp)
                 e1:SetType(EFFECT_TYPE_SINGLE)
                 e1:SetCode(EFFECT_UPDATE_ATTACK)
                 e1:SetReset(RESET_PHASE + RESET_DAMAGE_CAL)
-                e1:SetValue(Duel.GetMatchingGroupCount(c284130828.filter, tp, LOCATION_MZONE, 0, nil) * 100)
+                e1:SetValue(Duel.GetMatchingGroupCount(c284130828.filter, tp, LOCATION_ONFIELD, 0, nil) * 100)
                 a:RegisterEffect(e1)
             end
             if test2 then
@@ -60,7 +60,7 @@ function c284130828.atkUp(e, tp, eg, ep, ev, re, r, rp)
                 e2:SetType(EFFECT_TYPE_SINGLE)
                 e2:SetCode(EFFECT_UPDATE_ATTACK)
                 e2:SetReset(RESET_PHASE + RESET_DAMAGE_CAL)
-                e2:SetValue(Duel.GetMatchingGroupCount(c284130828.filter, tp, LOCATION_MZONE, 0, nil) * 100)
+                e2:SetValue(Duel.GetMatchingGroupCount(c284130828.filter, tp, LOCATION_ONFIELD, 0, nil) * 100)
                 d:RegisterEffect(e2)
             end
         end
