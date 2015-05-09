@@ -52,7 +52,7 @@ function c284130829.attackCost(e, tp, eg, ep, ev, re, r, rp, chk)
         return true
     end
     local t = { }
-    for i = 1, math.min(15, math.floor(tp:GetLP() / 100)) do
+    for i = 1, math.min(15, math.floor(Duel.GetLP(tp) / 100)) do
         t[i] = i * 100
     end
     local attack = Duel.AnnounceNumber(tp, table.unpack(t))

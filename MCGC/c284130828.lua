@@ -1,6 +1,6 @@
 -- MC群的吉祥物 罐罐子
 function c284130828.initial_effect(c)
-    -- 无解放普唤
+    -- 无解放普招
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
     e1:SetCode(EFFECT_SUMMON_PROC)
