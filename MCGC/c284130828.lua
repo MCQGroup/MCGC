@@ -2,10 +2,11 @@
 function c284130828.initial_effect(c)
     -- 无解放普招
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_SUMMON_PROC)
-    e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetRange(LOCATION_HAND)
+    e1:SetValue(SUMMON_TYPE_ADVANCE)
     e1:SetCondition(c284130828.noTributeCondition)
     c:RegisterEffect(e1)
 
@@ -29,7 +30,8 @@ end
 
 function c284130828.noTributeCondition(e)
     local c = e:GetHandler()
-    return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_MZONE, 0) == 0 and Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE) > 0
+    local tp = c:GetControler()
+    return Duel.GetFieldGroupCount(tp, LOCATION_MZONE, 0) == 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
 end
 
 function c284130828.filter(c)
@@ -43,26 +45,28 @@ end
 function c284130828.atkUp(e, tp, eg, ep, ev, re, r, rp)
     local a = Duel.GetAttacker()
     local d = Duel.GetAttackTarget()
+    local test1 = a:IsSetCard(0x2222) and a:IsControler(tp)
+    local test2 = false
     if d then
-        local test1 = a:IsSetCard(0x2222) and a:IsControler(tp)
-        local test2 = d:IsSetCard(0x2222) and d:IsControler(tp)
-        if test1 or test2 then
-            if test1 then
-                local e1 = Effect.CreateEffect(a)
-                e1:SetType(EFFECT_TYPE_SINGLE)
-                e1:SetCode(EFFECT_UPDATE_ATTACK)
-                e1:SetReset(RESET_PHASE + RESET_DAMAGE_CAL)
-                e1:SetValue(Duel.GetMatchingGroupCount(c284130828.filter, tp, LOCATION_ONFIELD, 0, nil) * 100)
-                a:RegisterEffect(e1)
-            end
-            if test2 then
-                local e2 = Effect.CreateEffect(d)
-                e2:SetType(EFFECT_TYPE_SINGLE)
-                e2:SetCode(EFFECT_UPDATE_ATTACK)
-                e2:SetReset(RESET_PHASE + RESET_DAMAGE_CAL)
-                e2:SetValue(Duel.GetMatchingGroupCount(c284130828.filter, tp, LOCATION_ONFIELD, 0, nil) * 100)
-                d:RegisterEffect(e2)
-            end
+        test2 = d:IsSetCard(0x2222) and d:IsControler(tp)
+    end
+    if test1 or test2 then
+        local atk = Duel.GetMatchingGroupCount(c284130828.filter, tp, LOCATION_ONFIELD, 0, nil) * 100
+        if test1 then
+            local e1 = Effect.CreateEffect(a)
+            e1:SetType(EFFECT_TYPE_SINGLE)
+            e1:SetCode(EFFECT_UPDATE_ATTACK)
+            e1:SetReset(RESET_PHASE + RESET_DAMAGE_CAL)
+            e1:SetValue(atk)
+            a:RegisterEffect(e1)
+        end
+        if test2 then
+            local e2 = Effect.CreateEffect(d)
+            e2:SetType(EFFECT_TYPE_SINGLE)
+            e2:SetCode(EFFECT_UPDATE_ATTACK)
+            e2:SetReset(RESET_PHASE + RESET_DAMAGE_CAL)
+            e2:SetValue(atk)
+            d:RegisterEffect(e2)
         end
     end
 end
