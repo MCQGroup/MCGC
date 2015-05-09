@@ -13,7 +13,7 @@ function c284130826.initial_effect(c)
 
     local e2 = e1:Clone()
     e2:SetRange(LOCATION_GRAVE + LOCATION_REMOVED)
-    e2:SetOperation(c284130826.opopo)
+    e2:SetOperation(c284130826.operation2)
     c:RegisterEffect(e2)
 
     -- Atk up
@@ -28,9 +28,10 @@ function c284130826.initial_effect(c)
     e4:SetType(EFFECT_TYPE_SINGLE)
     e4:SetCode(EFFECT_EQUIP_LIMIT)
     e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e4:SetValue(c284130826.equiplimit)
+    e4:SetValue(c284130826.equipLimit)
     c:RegisterEffect(e4)
 
+    -- 战破触发抽卡
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(284130826, 0))
     e5:SetCategory(CATEGORY_DRAW)
@@ -38,12 +39,12 @@ function c284130826.initial_effect(c)
     e5:SetCode(EVENT_BATTLE_DESTROYING)
     e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e5:SetRange(LOCATION_SZONE)
-    e5:SetCondition(c284130826.drcon)
-    e5:SetTarget(c284130826.drtg)
-    e5:SetOperation(c284130826.drop)
+    e5:SetCondition(c284130826.drawCondition)
+    e5:SetTarget(c284130826.drawTarget)
+    e5:SetOperation(c284130826.drawOperation)
     c:RegisterEffect(e5)
 
-    -- destroy sub
+    -- 代破
     local e6 = Effect.CreateEffect(c)
     e6:SetType(EFFECT_TYPE_EQUIP)
     e6:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
@@ -52,28 +53,33 @@ function c284130826.initial_effect(c)
     e6:SetValue(1)
     c:RegisterEffect(e6)
 
+    -- 反击效果
     local e7 = Effect.CreateEffect(c)
     e7:SetDescription(aux.Stringid(284130826, 0))
     e7:SetCategory(CATEGORY_DISABLE)
     e7:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_QUICK_O)
     e7:SetCode(EVENT_CHAINING)
     e7:SetRange(LOCATION_SZONE)
-    e7:SetCondition(c284130826.discon)
-    e7:SetTarget(c284130826.distg)
-    e7:SetOperation(c284130826.disop)
+    e7:SetCondition(c284130826.reflectCondition)
+    e7:SetTarget(c284130826.reflectTarget)
+    e7:SetOperation(c284130826.reflectOperation)
     c:RegisterEffect(e7)
 end
 
 function c284130826.filter(c)
     local code = c:GetCode()
-    return c:IsFaceup() and(code == 284130816 or code == 284130817 or code == 284130818 or code == 284130819 or code == 284130820 or code == 284130821 or code == 284130822 or code == 284130823)
+    return c:IsFaceup() and code >= 284130816 and code <= 284130823
 end
 
 function c284130826.target(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chkc then return chkc:GetLocation() == LOCATION_MZONE and c284130826.filter(chkc) end
-    if chk == 0 then return Duel.IsExistingTarget(c284130826.filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil) end
+    if chkc then
+        return chkc:GetLocation() == LOCATION_MZONE and c284130826.filter(chkc)
+    end
+    if chk == 0 then
+        return Duel.IsExistingTarget(c284130826.filter, tp, LOCATION_MZONE, 0, 1, nil)
+    end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_EQUIP)
-    Duel.SelectTarget(tp, c284130826.filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil)
+    Duel.SelectTarget(tp, c284130826.filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
     Duel.SetOperationInfo(0, CATEGORY_EQUIP, e:GetHandler(), 1, 0, 0)
 end
 
@@ -81,65 +87,74 @@ function c284130826.operation(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if e:GetHandler():IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
         Duel.Equip(tp, e:GetHandler(), tc)
-        fujiatiaojian = 0
     end
 end
 
-function c284130826.equiplimit(e, c)
-    local code = c:GetCode()
-    return c:IsFaceup() and(code == 284130816 or code == 284130817 or code == 284130818 or code == 284130819 or code == 284130820 or code == 284130821 or code == 284130822 or code == 284130823)
+function c284130826.operation2(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if e:GetHandler():IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
+        Duel.Equip(tp, e:GetHandler(), tc)
+    end
 end
 
-function c284130826.drcon(e, tp, eg, ep, ev, re, r, rp)
+function c284130826.equipLimit(e, c)
+    return c284130826.filter(c)
+end
+
+function c284130826.drawCondition(e, tp, eg, ep, ev, re, r, rp)
     local ec = eg:GetFirst()
     local bc = ec:GetBattleTarget()
     return e:GetHandler():GetEquipTarget() == eg:GetFirst() and ec:IsControler(tp)
     and bc:IsLocation(LOCATION_GRAVE) and bc:IsReason(REASON_BATTLE)
 end
 
-function c284130826.drtg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
+function c284130826.drawTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
     Duel.SetTargetPlayer(tp)
     Duel.SetTargetParam(1)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
 end
 
-function c284130826.drop(e, tp, eg, ep, ev, re, r, rp)
-    if not e:GetHandler():IsRelateToEffect(e) then return end
+function c284130826.drawOperation(e, tp, eg, ep, ev, re, r, rp)
+    if not e:GetHandler():IsRelateToEffect(e) then
+        return
+    end
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
     Duel.Draw(p, d, REASON_EFFECT)
 end
 
-function c284130826.opopo(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    if e:GetHandler():IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
-        Duel.Equip(tp, e:GetHandler(), tc)
-        fujiatiaojian = 1
+function c284130826.condition(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetPreviousLocation() == LOCATION_HAND
+end
+
+function c284130826.reflectCondition(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ec = c:GetEquipTarget()
+
+    if e:GetHandler():GetPreviousLocation() ~= LOCATION_HAND or c:IsStatus(STATUS_BATTLE_DESTROYED) or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
+        return false
+    end
+
+    local loc, tg = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_LOCATION, CHAININFO_TARGET_CARDS)
+    if tg and tg:IsContains(ec) then
+        return Duel.IsChainDisablable(ev) and loc ~= LOCATION_DECK
+    else
+        return false
     end
 end
 
-function c284130826.condition(e, tp, eg, ep, ev, re, r, rp)
-    if fujiatiaojian == 0 then return true end
-end
-
-function c284130826.discon(e, tp, eg, ep, ev, re, r, rp)
+function c284130826.reflectTarget(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
     local c = e:GetHandler()
-    if fujiatiaojian == 0 then return true end
-    if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
-    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
-    local loc, tg = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_LOCATION, CHAININFO_TARGET_CARDS)
-    if not tg or not tg:IsContains(c) then return false end
-    return Duel.IsChainDisablable(ev) and loc ~= LOCATION_DECK
-end
-
-function c284130826.distg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-    local c = e:GetHandler()
-    Duel.SendtoHand(tc, nil, REASON_COST)
+    Duel.SendtoDeck(c, nil, 2, REASON_COST)
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
 end
 
-function c284130826.disop(e, tp, eg, ep, ev, re, r, rp, chk)
+function c284130826.reflectOperation(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.NegateEffect(ev)
     Duel.Destroy(re:GetHandler(), REASON_EFFECT)
 end
