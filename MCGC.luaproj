@@ -51,6 +51,7 @@
     <Compile Include="MCGC\c284130828.lua" />
     <Compile Include="MCGC\c284130829.lua" />
     <Compile Include="MCGC\c284130830.lua" />
+    <Compile Include="MCGC\c284130831.lua" />
     <Compile Include="MCGC\c284130854.lua" />
     <Compile Include="MCGC\c284130856.lua" />
     <Compile Include="MCGC\c284130857.lua" />
