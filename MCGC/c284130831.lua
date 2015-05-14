@@ -14,6 +14,11 @@ function c284130831.initial_effect(c)
     c:RegisterEffect(e1)
 
     local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
+    e2:SetRange(LOCATION_REMOVED)
+    e2:SetCode(EVENT_PHASE + PHASE_STANDBY)
+    e2:SetLabelObject(e1)
     c:RegisterEffect(e2)
 
     -- 不入墓地
@@ -35,5 +40,13 @@ function c284130831.removeForSpSummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function c284130831.removeForSpSummonOperation(e, tp, eg, ep, ev, re, r, rp)
-    
+
+end
+
+function c284130831.delayTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
+
+end
+
+function c284130831.delayTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
+
 end
