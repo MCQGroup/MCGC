@@ -1,5 +1,5 @@
 -- MC群的追忆 木头
--- e1, e2 参考[23015896]炎王神兽 大鹏不死鸟
+-- e1 参考[23015896]炎王神兽 大鹏不死鸟、[75500286]封印之黄金柜
 
 function c284130831.initial_effect(c)
     -- 不能通常召唤
@@ -13,21 +13,13 @@ function c284130831.initial_effect(c)
     e1:SetOperation(c284130831.removeForSpSummonOperation)
     c:RegisterEffect(e1)
 
+    -- 不入墓地
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
-    e2:SetRange(LOCATION_REMOVED)
-    e2:SetCode(EVENT_PHASE + PHASE_STANDBY)
-    e2:SetLabelObject(e1)
     c:RegisterEffect(e2)
 
-    -- 不入墓地
+    -- 手卡丢弃免伤
     local e3 = Effect.CreateEffect(c)
     c:RegisterEffect(e3)
-
-    -- 手卡丢弃免伤
-    local e4 = Effect.CreateEffect(c)
-    c:RegisterEffect(e4)
 end
 
 
@@ -40,13 +32,29 @@ function c284130831.removeForSpSummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function c284130831.removeForSpSummonOperation(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
 
-end
+    Duel.Remove(c, POS_FACEUP, REASON_EFFECT)
 
-function c284130831.delayTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
-
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e1:SetRange(LOCATION_REMOVED)
+    e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
+    e1:SetCountLimit(1)
+    e1:SetReset(RESET_EVENT + 0x1fe0000 + RESET_PHASE + PHASE_STANDBY + RESET_SELF_TURN)
+    e1:SetOperation(c284130831.delayTriggerOperation)
+    c:RegisterEffect(e1)
 end
 
 function c284130831.delayTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
-
+    if Duel.GetTurnPlayer == tp then
+        local c = e:GetHandler()
+        local sel = Duel.SelectYesNo(tp, aux.Stringid(284130831, 0))
+        if sel then
+            Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, POS_FACEUP_ATTACK)
+            c:CompleteProcedure()
+        else
+            Duel.SendtoHand(c, tp, REASON_EFFECT)
+        end
+    end
 end
