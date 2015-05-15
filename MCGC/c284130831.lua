@@ -1,5 +1,7 @@
 -- MC群的追忆 木头
 -- e1 参考[23015896]炎王神兽 大鹏不死鸟、[75500286]封印之黄金柜
+-- e2 参考[10736540]湖中少女 薇薇安
+-- e3 参考[19113101]阻碍番茄
 
 function c284130831.initial_effect(c)
     -- 不能通常召唤
@@ -15,10 +17,16 @@ function c284130831.initial_effect(c)
 
     -- 不入墓地
     local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_TO_GRAVE_REDIRECT)
+    e2:SetValue(LOCATION_REMOVED)
     c:RegisterEffect(e2)
 
     -- 手卡丢弃免伤
     local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_DAMAGE)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     c:RegisterEffect(e3)
 end
 

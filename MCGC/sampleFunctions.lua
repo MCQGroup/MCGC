@@ -17,6 +17,22 @@ function common_operation(e, tp, eg, ep, ev, re, r, rp)
     -- 不返回值
 end
 
+-- Value
+--[[
+    name    type        whole_name      description
+    -------------------------------------------------------
+    e       Effect      Effect          该效果本身
+    re      Effect      Reason Effect   因……效果
+    val     int         Value           相关数值
+    r       REASON_     Reason          因……原因
+    rp      PLAYER_     Reason Player   因……玩家
+    rc      Card        Reason Card     因……卡片
+]]
+function common_value(e, re, val, r, rp, rc)
+    -- 已知用于EFFECT_CHANGE_DAMAGE
+    -- 返回value值
+end
+
 -- 触发型效果用函数
 --[[
     name    type        whole_name      description
