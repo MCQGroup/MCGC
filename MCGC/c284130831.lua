@@ -35,7 +35,7 @@ function c284130831.removeForSpSummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetMatchingGroupCount(Card.IsAbleToGraveAsCost, tp, LOCATION_DECK, 0, nil) > 0
     end
-    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToGraveAsCost, tp, LOCATION_DECK, 0, nil)
+    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToGraveAsCost, tp, LOCATION_DECK, 0, 1, 1, nil)
     Duel.SendtoGrave(g, REASON_COST)
 end
 
