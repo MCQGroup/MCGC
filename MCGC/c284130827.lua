@@ -89,6 +89,7 @@ function c284130827.battleTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     elseif ev <= 2000 then
         Duel.Draw(tp, 1, REASON_EFFECT)
     else
+        Debug.Message(e:GetHandler():GetPreviousPosition())
         if not(e:GetHandler():GetPreviousPosition() == LOCATION_GRAVE) then
             local g = Duel.GetMatchingGroup(Card.IsDiscardable, tp, 0, LOCATION_HAND, nil)
             local dg = g:RandomSelect(tp, math.floor(ev / 1500))

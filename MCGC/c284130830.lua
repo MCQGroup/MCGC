@@ -20,7 +20,7 @@ end
 
 function c284130830.summonTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return true
+        return Duel.GetMatchingGroupCount(Card.IsType, tp, 0, LOCATION_MZONE, nil, TYPE_MONSTER) > 0
     end
     local g = Duel.SelectMatchingCard(tp, Card.IsType, tp, 0, LOCATION_MZONE, 1, 1, nil, TYPE_MONSTER)
     Duel.SetTargetCard(g)
@@ -28,7 +28,7 @@ function c284130830.summonTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function c284130830.summonTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
+    local tc = Duel.GetFirstTarget():GetFirst()
     local e1 = Effect.CreateEffect(tc)
     e1:SetCategory(CATEGORY_ATKCHANGE)
     e1:SetType(EFFECT_TYPE_SINGLE)
