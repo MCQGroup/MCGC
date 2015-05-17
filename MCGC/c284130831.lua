@@ -45,28 +45,31 @@ end
 function c284130831.removeForSpSummonOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    Duel.Remove(c, POS_FACEUP, REASON_EFFECT)
-
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e1:SetRange(LOCATION_REMOVED)
     e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e1:SetCountLimit(1)
     e1:SetReset(RESET_EVENT + RESET_TOFIELD)
+    e1:SetCondition(c284130831.delayTriggerCondition)
     e1:SetOperation(c284130831.delayTriggerOperation)
     c:RegisterEffect(e1)
+
+    Duel.Remove(c, POS_FACEUP, REASON_EFFECT)
+end
+
+function c284130831.delayTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer == tp
 end
 
 function c284130831.delayTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetTurnPlayer == tp then
-        local c = e:GetHandler()
-        local sel = Duel.SelectYesNo(tp, aux.Stringid(284130831, 0))
-        if sel then
-            Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, POS_FACEUP_ATTACK)
-            c:CompleteProcedure()
-        else
-            Duel.SendtoHand(c, tp, REASON_EFFECT)
-        end
+    local c = e:GetHandler()
+    local sel = Duel.SelectYesNo(tp, aux.Stringid(284130831, 0))
+    if sel then
+        Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, POS_FACEUP_ATTACK)
+        c:CompleteProcedure()
+    else
+        Duel.SendtoHand(c, tp, REASON_EFFECT)
     end
 end
 
