@@ -71,7 +71,7 @@ function c284130827.operation(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     local c = e:GetHandler(c)
     if c:GetLocation() == LOCATION_GRAVE then
-        e:SetLabel(0x2222)
+        c:RegisterFlagEffect(0x2222, RESET_EVENT + RESET_LEAVE, 0, 1)
     end
     if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
         Duel.Equip(tp, c, tc)
@@ -93,7 +93,7 @@ function c284130827.battleTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     elseif ev <= 2000 then
         Duel.Draw(tp, 1, REASON_EFFECT)
     else
-        if not(e:GetLabel() ~= 0x2222) then
+        if e:GetHandler():GetFlagEffect(0x2222) == 0 then
             local g = Duel.GetMatchingGroup(Card.IsDiscardable, tp, 0, LOCATION_HAND, nil)
             local dg = g:RandomSelect(tp, math.floor(ev / 1500))
             Duel.SendtoGrave(dg, REASON_DISCARD)
