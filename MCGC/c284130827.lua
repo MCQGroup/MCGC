@@ -84,7 +84,7 @@ end
 
 function c284130827.battleTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
     local ec = e:GetHandler():GetEquipTarget()
-    return ec and eg:IsContains(ec) and ep ~= tp
+    return ec and eg:IsContains(ec) and ep ~= tp and(ev <= 2000 or e:GetHandler():GetFlagEffect(0x2222) == 0)
 end
 
 function c284130827.battleTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
