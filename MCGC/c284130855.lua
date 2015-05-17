@@ -5,14 +5,15 @@ function c284130855.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetCountLimit(1)
     e1:SetTarget(c284130855.target)
     e1:SetOperation(c284130855.activate)
     c:RegisterEffect(e1)
 end
 function c284130855.target(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return true end
-    local a=Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)*500
-    local b=Duel.GetFieldGroupCount(1-tp,LOCATION_ONFIELD,0)*500
+    local a=Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)*500
+    local b=Duel.GetFieldGroupCount(1-tp,LOCATION_MZONE,0)*500
     dam=a+b
     Duel.SetTargetParam(dam)
     Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,dam)
