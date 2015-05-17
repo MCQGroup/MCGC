@@ -28,7 +28,7 @@ function c284130830.summonTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function c284130830.summonTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget():GetFirst()
+    local tc = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS):GetFirst()
     local e1 = Effect.CreateEffect(tc)
     e1:SetCategory(CATEGORY_ATKCHANGE)
     e1:SetType(EFFECT_TYPE_SINGLE)
