@@ -44,7 +44,7 @@ function c284130827.initial_effect(c)
     local e6 = Effect.CreateEffect(c)
     e6:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
     e6:SetCode(EVENT_BATTLE_DAMAGE)
-    e6:SetRange(LOCATION_MZONE)
+    e6:SetRange(LOCATION_SZONE)
     e6:SetCondition(c284130827.battleTriggerCondition)
     e6:SetOperation(c284130827.battleTriggerOperation)
     c:RegisterEffect(e6)
@@ -69,8 +69,12 @@ end
 
 function c284130827.operation(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
-    if e:GetHandler():IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
-        Duel.Equip(tp, e:GetHandler(), tc)
+    local c = e:GetHandler(c)
+    if c:GetLocation() == LOCATION_GRAVE then
+        e:SetLabel(0x2222)
+    end
+    if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
+        Duel.Equip(tp, c, tc)
     end
 end
 
@@ -89,7 +93,7 @@ function c284130827.battleTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     elseif ev <= 2000 then
         Duel.Draw(tp, 1, REASON_EFFECT)
     else
-        if not e:GetHandler():GetPreviousPosition() == LOCATION_GRAVE then
+        if not(e:GetLabel() ~= 0x2222) then
             local g = Duel.GetMatchingGroup(Card.IsDiscardable, tp, 0, LOCATION_HAND, nil)
             local dg = g:RandomSelect(tp, math.floor(ev / 1500))
             Duel.SendtoGrave(dg, REASON_DISCARD)
