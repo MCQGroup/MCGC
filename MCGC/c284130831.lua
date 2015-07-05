@@ -4,7 +4,7 @@
 -- e3 参考[40640059]栗子球
 
 
---[整理一下目前的问题：e1除外延迟特招，除外正常，但是无法返场，推测是返场效果的问题，有待更改和测试]
+-- [整理一下目前的问题：e1除外延迟特招，除外正常，但是无法返场，推测是返场效果的问题，有待更改和测试]
 function c284130831.initial_effect(c)
     -- 不能通常召唤
     c:EnableReviveLimit()
@@ -51,7 +51,7 @@ function c284130831.removeForSpSummonOperation(e, tp, eg, ep, ev, re, r, rp)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e1:SetRange(LOCATION_REMOVED)
     e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
-    e1:SetCountLimit(1)
+    --    e1:SetCountLimit(1)
     --    e1:SetReset(RESET_EVENT + RESET_TOFIELD)
     e1:SetCondition(c284130831.delayTriggerCondition)
     e1:SetOperation(c284130831.delayTriggerOperation)
