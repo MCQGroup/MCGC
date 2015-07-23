@@ -23,7 +23,7 @@ function c284130832.initial_effect(c)
     c:RegisterEffect(e3)
 end
 function c284130832.filter(c)
-    return ((c:IsCode(284130832)) or (c:IsCode(284130833))) or c:IsCanBeSpecialSummoned(e2,0,tp,false,false,POS_FACEUP) end
+    return ((c:IsCode(284130832)) or (c:IsCode(284130833))) and c:IsCanBeSpecialSummoned(e2,0,tp,false,false,POS_FACEUP) end
 
 function c284130832.condition(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
