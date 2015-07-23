@@ -49,7 +49,7 @@ function c284130868.activate1(e,tp,eg,ep,ev,re,r,rp)
     g = Duel.GetMatchingGroup(c284130868.fifter,tp,LOCATION_DECK+LOCATION_GRAVE,0,nil)
     if g:GetCount() > 0 then
     a=Duel.SelectMatchingCard(tp,c284130868.fifter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,9999,nil)
-    Duel.SendtoHand(g,tp,REASON_EFFECT)
+    Duel.SendtoHand(a,tp,REASON_EFFECT)
     end
 end
 function c284130868.condition2(e,tp,eg,ep,ev,re,r,rp)
@@ -76,7 +76,7 @@ function c284130868.activate2(e,tp,eg,ep,ev,re,r,rp)
     g = Duel.GetMatchingGroup(c284130868.fifter,tp,LOCATION_DECK+LOCATION_GRAVE,0,nil)
     if g:GetCount() > 0 then
     a=Duel.SelectMatchingCard(tp,c284130868.fifter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,9999,nil)
-    Duel.SendtoHand(g,tp,REASON_EFFECT)
+    Duel.SendtoHand(a,tp,REASON_EFFECT)
     end
 end
 function c284130868.fifter(c)
