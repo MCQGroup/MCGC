@@ -34,6 +34,7 @@ function c284130832.condition(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsPreviousLocation(LOCATION_SZONE) and c:IsPreviousPosition(POS_FACEDOWN) and c:IsReason(REASON_EFFECT) and c:IsReason(REASON_DESTROY) then return true end
 end
+
 function c284130832.regop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsPreviousLocation(LOCATION_SZONE) and c:IsPreviousPosition(POS_FACEDOWN) and c:IsReason(REASON_EFFECT) and c:IsReason(REASON_DESTROY) then
@@ -41,12 +42,14 @@ function c284130832.regop(e, tp, eg, ep, ev, re, r, rp)
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
     end
 end
+
 function c284130832.thtg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.GetMatchingGroup(c284130832.tohandfilter, tp, LOCATION_GRAVE, 0, nil) end
     Duel.SetOperationInfo(0, CATEGORY_FLIP, nil, 0, tp, 1)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
     Duel.SetOperationInfo(0, CATEGORY_SEARCH, nil, 0, tp, 1)
 end
+
 function c284130832.thop(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.SelectMatchingCard(tp, c284130832.tohandfilter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
     Duel.SendtoHand(tc, tp, REASON_EFFECT)
@@ -56,6 +59,7 @@ function c284130832.thop(e, tp, eg, ep, ev, re, r, rp)
         Duel.SendtoGrave(ag, REASON_DISCARD + REASON_EFFECT)
     end
 end
+
 function c284130832.tohandfilter(c)
     return c:IsSetCard(0x2222)
 end
