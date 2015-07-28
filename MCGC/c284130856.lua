@@ -1,4 +1,5 @@
 -- MC群的铁毡雨
+
 function c284130856.initial_effect(c)
     -- Activate
     local e1 = Effect.CreateEffect(c)

@@ -52,7 +52,8 @@ end
 function c284130814.toDeckOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(c284130814.filter, tp, LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED, 0, nil)
     Duel.SendtoDeck(g, nil, 2, REASON_EFFECT)
-    Duel.ShuffleDeck(tp)    -- It's reported that the previous line won't shuffle the deck so here do it by hand
+    Duel.ShuffleDeck(tp)
+    -- It's reported that the previous line won't shuffle the deck so here do it by hand
     Duel.Draw(tp, 5 - Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0), REASON_EFFECT)
 end
 

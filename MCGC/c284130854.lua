@@ -1,4 +1,5 @@
 -- 罐罐子的倾家荡产？！
+
 function c284130854.initial_effect(c)
     -- Activate
     local e1 = Effect.CreateEffect(c)

@@ -14,13 +14,16 @@ function c284130823.initial_effect(c)
     e1:SetOperation(c284130823.remop)
     c:RegisterEffect(e1)
 end
+
 function c284130823.remcon(e,tp,eg,ep,ev,re,r,rp)
     return e:GetHandler():GetSummonType()==SUMMON_TYPE_SYNCHRO
 end
+
 function c284130823.remtg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,0x1e,1,nil) and Duel.IsExistingMatchingCard(Card.IsAbleToGrave,tp,0,0x1e,1,nil) and Duel.IsExistingMatchingCard(Card.IsAbleToHand,tp,0,0x1e,1,nil) end
     Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,0,0x1e)
 end
+
 function c284130823.remop(e,tp,eg,ep,ev,re,r,rp)
     local g1=Duel.GetMatchingGroup(Card.IsAbleToHand,tp,0,LOCATION_ONFIELD,nil)
     local g2=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,0,LOCATION_GRAVE,nil)
