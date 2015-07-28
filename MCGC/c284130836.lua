@@ -26,7 +26,9 @@ function c284130836.sptg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function c284130836.spop(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
+        return
+    end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local tc = Duel.GetFirstTarget()
     if tc:IsRelateToEffect(e) and Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then

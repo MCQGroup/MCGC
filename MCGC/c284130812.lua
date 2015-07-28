@@ -1,4 +1,5 @@
 -- MC群的群主 纸睡
+
 function c284130812.initial_effect(c)
     -- 通常召唤
     local e1 = Effect.CreateEffect(c)

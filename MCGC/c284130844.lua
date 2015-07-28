@@ -36,14 +36,18 @@ function c284130844.mtfilter(c)
 end
 
 function c284130844.mttg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
+    if chk == 0 then
+        return true
+    end
     if e:GetHandler():GetOverlayCount() > 0 then
         opt = Duel.SelectOption(tp, aux.Stringid(284130844, 1), aux.Stringid(284130844, 2))
         e:SetLabel(opt)
     else
         e:SetLabel(0)
     end
-    if e:GetLabel() == 0 then Duel.IsExistingMatchingCard(c284130844.mtfilter, tp, LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil) end
+    if e:GetLabel() == 0 then
+        Duel.IsExistingMatchingCard(c284130844.mtfilter, tp, LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil)
+    end
     if e:GetLabel() == 1 then
         local g = e:GetHandler():GetOverlayGroup()
         Duel.SendtoGrave(g, REASON_EFFECT)
@@ -52,7 +56,9 @@ end
 
 function c284130844.mtop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+    if not c:IsRelateToEffect(e) or c:IsFacedown() then
+        return
+    end
     if e:GetLabel() == 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
         local g = Duel.SelectMatchingCard(tp, c284130844.mtfilter, tp, LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil)

@@ -1,4 +1,5 @@
 -- MC群的大土豪 憨憨
+
 function c284130815.initial_effect(c)
     -- 抽卡和返回卡组
     local e1 = Effect.CreateEffect(c)

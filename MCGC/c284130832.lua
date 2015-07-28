@@ -1,4 +1,5 @@
 -- MC群的幻影 节操
+
 function c284130832.initial_effect(c)
     -- 放置到后场
     local e1 = Effect.CreateEffect(c)

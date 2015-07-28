@@ -1,3 +1,5 @@
+-- MCÈºµÄºì°ü£¡
+
 function c284130855.initial_effect(c)
     -- Activate
     local e1 = Effect.CreateEffect(c)

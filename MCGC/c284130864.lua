@@ -1,4 +1,5 @@
 -- MCÈºµÄYYÆµµÀ
+
 function c284130864.initial_effect(c)
     -- Activate
     local e1 = Effect.CreateEffect(c)
@@ -34,8 +35,12 @@ function c284130864.filter(c, e, tp)
 end
 
 function c284130864.tg1(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chkc then return chkc:IsLocation(LOCATION_GRAVE) and c284130864.filter(chkc, e, tp) end
-    if chk == 0 then return Duel.GetLocationCount(tp, LOCATION_MZONE) > -1 and Duel.IsExistingTarget(c284130864.filter, tp, LOCATION_HAND, 0, 1, nil, e, tp) and Duel.IsExistingMatchingCard(c284130864.costfilter, tp, LOCATION_MZONE, 0, 1, nil) end
+    if chkc then
+        return chkc:IsLocation(LOCATION_GRAVE) and c284130864.filter(chkc, e, tp)
+    end
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > -1 and Duel.IsExistingTarget(c284130864.filter, tp, LOCATION_HAND, 0, 1, nil, e, tp) and Duel.IsExistingMatchingCard(c284130864.costfilter, tp, LOCATION_MZONE, 0, 1, nil)
+    end
     if Duel.SelectYesNo(tp, aux.Stringid(284130864, 1)) then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOHAND)
         local g = Duel.SelectMatchingCard(tp, c284130864.costfilter, tp, LOCATION_MZONE, 0, 1, 1, nil)
@@ -53,14 +58,18 @@ function c284130864.tg1(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function c284130864.cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.IsExistingMatchingCard(c284130864.costfilter, tp, LOCATION_MZONE, 0, 1, nil) end
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(c284130864.costfilter, tp, LOCATION_MZONE, 0, 1, nil)
+    end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOHAND)
     local g = Duel.SelectMatchingCard(tp, c284130864.costfilter, tp, LOCATION_MZONE, 0, 1, 1, nil)
     Duel.SendtoHand(g, nil, REASON_COST)
 end
 
 function c284130864.tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chkc then return chkc:IsLocation(LOCATION_GRAVE) and c284130864.filter(chkc, e, tp) end
+    if chkc then
+        return chkc:IsLocation(LOCATION_GRAVE) and c284130864.filter(chkc, e, tp)
+    end
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > -1 and Duel.IsExistingTarget(c284130864.filter, tp,
         LOCATION_HAND, 0, 1, nil, e, tp)
@@ -72,8 +81,12 @@ function c284130864.tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function c284130864.op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
-    if e:GetLabel() == 0 then return end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
+        return
+    end
+    if e:GetLabel() == 0 then
+        return
+    end
     local tc = Duel.GetFirstTarget()
     if tc:IsRelateToEffect(e) then
         Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
