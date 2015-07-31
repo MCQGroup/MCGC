@@ -1559,12 +1559,12 @@ function Duel.CheckSummonCount(c)
     -- 检查回合玩家本回合是否还能通常召唤[卡片c]
 end
 
-function Duel.GetLocationCount(player, location, use_player, reason)
+function Duel.GetLocationCount(player, location, ...)
     -- 返回玩家player的指定场地location剩余的空格数。
     -- location只能是LOCATION_MZONE或者LOCATION_SZONE。
     -- ##额外参数与凯撒斗技场的效果有关
-    -- ##use_player为要使用这个区域的玩家，默认为当前玩家
-    -- ##reason为LOCATION_REASON_TOFIELD=0x1(默认值)或LOCATION_REASON_CONTROL=0x2（这两个宏未写入constant.lua）
+    -- ##1. use_player为要使用这个区域的玩家，默认为当前玩家
+    -- ##2. reason为LOCATION_REASON_TOFIELD=0x1(默认值)或LOCATION_REASON_CONTROL=0x2（这两个宏未写入constant.lua）
 end
 
 function Duel.GetFieldCard(player, location, sequence)
