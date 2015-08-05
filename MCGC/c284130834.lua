@@ -38,6 +38,7 @@ function c284130834.operation(e, tp, eg, ep, ev, re, r, rp)
     -- here set the battle immune
     e2;SetType(EFFECT_TYPE_SINGLE)
     e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e2:SetReset()
     -- 第三个回合重置
     c2:RegisterEffect(e2)
 end
