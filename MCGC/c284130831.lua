@@ -50,8 +50,6 @@ function c284130831.removeForSpSummonOperation(e, tp, eg, ep, ev, re, r, rp)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e1:SetRange(LOCATION_REMOVED)
     e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
-    --    e1:SetCountLimit(1)
-    --    e1:SetReset(RESET_EVENT + RESET_TOFIELD)
     e1:SetCondition(c284130831.delayTriggerCondition)
     e1:SetOperation(c284130831.delayTriggerOperation)
     c:RegisterEffect(e1)
@@ -68,8 +66,9 @@ function c284130831.delayTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     local sel = Duel.SelectYesNo(tp, aux.Stringid(284130831, 0))
     Duel.SendtoHand(c, tp, REASON_EFFECT)
     if sel then
-        Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, POS_FACEUP_ATTACK)
         c:CompleteProcedure()
+        Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, POS_FACEUP_ATTACK)
+        e:Reset()
     end
 end
 
