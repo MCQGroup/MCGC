@@ -31,7 +31,7 @@ function c284130834.operation(e, tp, eg, ep, ev, re, r, rp)
     e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e1:SetLabel(0)
     e1:SetCondition(c284130834.thirdTriggerCondition)
-    e1:SetOperation(c284138034.thirdTriggerOperation)
+    e1:SetOperation(c284130834.thirdTriggerOperation)
     c1:RegisterEffect(e1)
     Duel.Remove(c1, POS_FACEUP, REASON_EFFECT)
     
@@ -49,7 +49,7 @@ function c284130834.operation(e, tp, eg, ep, ev, re, r, rp)
     e3:SetCode(EVENT_TO_GRAVE)
     e3:SetReset(RESET_STANDBY + RESET_SELF_TURN, 3)
     e3:SetLabelObject(e1)
-    e3:SetOperation(c284138034.toGraveTriggerOperation)
+    e3:SetOperation(c284130834.toGraveTriggerOperation)
     c2:RegisterEffect(e3)
 end
 
@@ -67,8 +67,8 @@ function c284130834.thirdTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function c284138034.toGraveTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
-    local e = e3:GetLabelObject()
-    Duel.SendtoDeck(e:GetHandler(), tp, REASON_EFFECT)
-    e:Reset()
+function c284130834.toGraveTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
+    local te = e:GetLabelObject()
+    Duel.SendtoDeck(te:GetHandler(), tp,nil, REASON_EFFECT)
+    te:Reset()
 end
