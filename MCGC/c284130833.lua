@@ -17,11 +17,16 @@ function c284130833.cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(Card.IsAbleToDeck, tp, LOCATION_HAND, 0, 1, nil)
     end
-    local max_val = Duel.GetLocationCount(tp, LOCATION_HAND)
-    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToDeck, tp, LOCATION_HAND, 0, 1, max_val, nil)
-    local sel = Duel.SelectOption(tp, aux.Stringid(284130833, 0), aux.Stringid(284130833, 1))
+    
+    local max_val = Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)
+    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToDeck, tp, LOCATION_HAND, 0, 1, max_val, nil) 
+    if Duel.IsExistingMatchingCard(nil,1-tp,LOCATION_ONFIELD,0,1,nil) then
+    sel = Duel.SelectOption(tp, aux.Stringid(284130833, 0), aux.Stringid(284130833, 1))
+    else
+    sel = 0
+    end
     Duel.SetOperationInfo(0x2222, 284130833, nil, g:GetCount(), nil, sel)
-    Dual.SendtoDeck(g, nil, 2, REASON_COST)
+    Duel.SendtoDeck(g, nil, 2, REASON_COST)
 end
 
 function c284130833.operation(e, tp, eg, ep, ev, re, r, rp)
@@ -37,7 +42,7 @@ function c284130833.operation(e, tp, eg, ep, ev, re, r, rp)
         elseif sel == 1 then
             Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, count - 1)
             Duel.Draw(tp, count - 1, REASON_EFFECT)
-            g = Duel.SelectMatchingCard(tp, Card.IsDestructable, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
+            g = Duel.SelectMatchingCard(tp,nil, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
             Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, g:GetCount(), nil, 0)
             Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
         end
