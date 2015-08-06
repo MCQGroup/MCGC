@@ -1,4 +1,5 @@
 -- MC群的隐者 柠檬
+
 function c284130830.initial_effect(c)
     -- 不能特殊召唤
     local e1 = Effect.CreateEffect(c)

@@ -1,4 +1,5 @@
 -- MC群的画师 玲音
+
 function c284130819.initial_effect(c)
     -- 卡组检索
     local e1 = Effect.CreateEffect(c)

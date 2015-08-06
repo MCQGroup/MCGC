@@ -1,4 +1,5 @@
 -- MC群的战神 无情
+
 function c284130811.initial_effect(c)
     -- 不能特殊召唤
     local e1 = Effect.CreateEffect(c)
@@ -40,12 +41,15 @@ function c284130811.cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local g2 = Duel.SelectMatchingCard(tp, c284130811.filter, tp, LOCATION_HAND, 0, 1, 1, nil)
     local g3 = Duel.SelectMatchingCard(tp, c284130811.filter, tp, LOCATION_DECK, 0, 1, 1, nil)
     local g = Group.CreateGroup()
+
     if g1 then
         g:Merge(g1)
     end
+
     if g2 then
         g:Merge(g2)
     end
+
     if g3 then
         g:Merge(g3)
     end

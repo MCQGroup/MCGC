@@ -1,4 +1,5 @@
 -- MC群的摆渡者 玲音
+
 function c284130822.initial_effect(c)
     -- 不能特招
     local e1 = Effect.CreateEffect(c)

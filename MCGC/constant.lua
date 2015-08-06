@@ -10,9 +10,15 @@ LOCATION_EXTRA = 0x40		-- 额外
 LOCATION_OVERLAY = 0x80		-- 超量素材
 LOCATION_DECKBOT = 0x10001	-- 卡组底部
 LOCATION_DECKSHF = 0x20001	-- 卡组顶部
+
 -- Locations (for SetRange)
 LOCATION_FZONE = 0x100		-- 场地区
 LOCATION_PZONE = 0x200		-- 摇摆区
+
+-- Location Reason (for Duel.GetLocationCount)
+LOCATION_REASON_TOFIELD = 0x1 -- 默认值
+LOCATION_REASON_CONTROL = 0x2
+
 -- Positions 表示形式
 POS_FACEUP_ATTACK = 0x1	-- 表侧攻击
 POS_FACEDOWN_ATTACK = 0x2	-- 里侧攻击
@@ -23,6 +29,7 @@ POS_FACEDOWN = 0xa	-- 背面表示
 POS_ATTACK = 0x3	-- 攻击表示
 POS_DEFENCE = 0xc	-- 守备表示
 NO_FLIP_EFFECT = 0x10000-- 不发动反转效果
+
 -- Types 卡片类型
 TYPE_MONSTER = 0x1		-- 怪兽卡
 TYPE_SPELL = 0x2		-- 魔法卡
@@ -47,6 +54,7 @@ TYPE_FLIP = 0x200000	-- 翻转
 TYPE_TOON = 0x400000	-- 卡通
 TYPE_XYZ = 0x800000	-- 超量
 TYPE_PENDULUM = 0x1000000	-- 摇摆
+
 -- Attributes 属性
 ATTRIBUTE_EARTH = 0x01		-- 地
 ATTRIBUTE_WATER = 0x02		-- 水
@@ -55,6 +63,7 @@ ATTRIBUTE_WIND = 0x08		-- 风
 ATTRIBUTE_LIGHT = 0x10		-- 光
 ATTRIBUTE_DARK = 0x20		-- 暗
 ATTRIBUTE_DEVINE = 0x40		-- 神
+
 -- Races 种族
 RACE_ALL = 0xffffff		-- 全种族
 RACE_WARRIOR = 0x1		-- 战士
@@ -81,6 +90,7 @@ RACE_PSYCHO = 0x100000	-- 念动力
 RACE_DEVINE = 0x200000	-- 幻神兽
 RACE_CREATORGOD = 0x400000	-- 创造神
 RACE_WYRM = 0x800000	-- 幻龙
+
 -- Reason 卡片到当前位置的原因 
 REASON_DESTROY = 0x1		-- 破坏
 REASON_RELEASE = 0x2		-- 解放
@@ -108,6 +118,7 @@ REASON_REPLACE = 0x1000000	-- 代替
 REASON_DRAW = 0x2000000	-- 抽卡
 REASON_REDIRECT = 0x4000000	-- 改变去向（大宇宙，带菌等）
 REASON_REVEAL = 0x8000000	-- 翻开卡组（森罗）
+
 -- Summon Type --召唤类型
 SUMMON_TYPE_NORMAL = 0x10000000 -- 通常召唤(EFFECT_SUMMON_PROC,EFFECT_SET_PROC 可用Value修改數值)
 SUMMON_TYPE_ADVANCE = 0x11000000 -- 上级召唤
@@ -119,6 +130,7 @@ SUMMON_TYPE_RITUAL = 0x45000000	-- 仪式召唤
 SUMMON_TYPE_SYNCHRO = 0x46000000	-- 同调召唤
 SUMMON_TYPE_XYZ = 0x49000000	-- 超量召唤
 SUMMON_TYPE_PENDULUM = 0x4a000000 -- 摇摆召唤
+
 -- Status	--卡片当前状态
 STATUS_DISABLED = 0x0001		-- 效果被无效
 STATUS_TO_ENABLE = 0x0002		-- 将变成有效
@@ -148,6 +160,7 @@ STATUS_JUST_POS = 0x1000000	--
 STATUS_CONTINUOUS_POS = 0x2000000	-- 连续变更表示形式？
 STATUS_IS_PUBLIC = 0x4000000	-- 公开展示
 STATUS_ACT_FROM_HAND = 0x8000000	-- 在手牌发动
+
 -- Assume
 ASSUME_CODE = 1
 ASSUME_TYPE = 2
@@ -157,9 +170,11 @@ ASSUME_ATTRIBUTE = 5
 ASSUME_RACE = 6
 ASSUME_ATTACK = 7
 ASSUME_DEFENCE = 8
+
 -- Counter	--指示物
 COUNTER_NEED_PERMIT = 0x1000	-- 某指示物数量上限
 COUNTER_NEED_ENABLE = 0x2000	-- 可以放置某指示物
+
 -- Phase	--阶段
 PHASE_DRAW = 0x01	-- 抽卡阶段
 PHASE_STANDBY = 0x02	-- 准备阶段
@@ -169,9 +184,11 @@ PHASE_DAMAGE = 0x10	-- 伤害计算前
 PHASE_DAMAGE_CAL = 0x20	-- 伤害计算时
 PHASE_MAIN2 = 0x40	-- 主要阶段2
 PHASE_END = 0x80	-- 结束阶段
+
 -- Player	--玩家
 PLAYER_NONE = 2		-- 2个玩家都不是
 PLAYER_ALL = 3		-- 2个玩家都是
+
 -- Chain info	--连锁信息
 CHAININFO_CHAIN_COUNT = 0x01	-- 连锁数
 CHAININFO_TRIGGERING_EFFECT = 0x02	-- 连锁的效果
@@ -187,6 +204,7 @@ CHAININFO_DISABLE_PLAYER = 0x400	-- 无效的玩家
 CHAININFO_CHAIN_ID = 0x800	-- 连锁ID
 CHAININFO_TYPE = 0x1000	-- 连锁类型
 CHAININFO_EXTTYPE = 0x2000	-- 连锁额外类型
+
 -- ========== Reset ==========	--重置条件（注意：重置条件可以多个相加，例如0x000c0000=0x00040000+0x00080000=RESET_TOGRAVE+RESET_REMOVE）
 RESET_DRAW = PHASE_DRAW			-- 抽卡阶段重置
 RESET_STANDBY = PHASE_STANDBY		-- 准备阶段重置
@@ -215,6 +233,7 @@ RESET_LEAVE = 0x00800000			-- 从场上离开重置
 RESET_TOFIELD = 0x01000000			-- 到场上重置
 RESET_CONTROL = 0x02000000			-- 控制器变更重置
 RESET_OVERLAY = 0x04000000			-- 超量叠放重置
+
 -- ========== Types ==========	--效果类型（定义效果触发类型，和codes一起使用）
 EFFECT_TYPE_SINGLE = 0x0001		-- 自己状态变化时触发
 EFFECT_TYPE_FIELD = 0x0002		-- 场上所有卡状态变化时触发
@@ -228,6 +247,7 @@ EFFECT_TYPE_QUICK_O = 0x0100		-- 诱发即时效果
 EFFECT_TYPE_TRIGGER_F = 0x0200		-- 诱发必发效果
 EFFECT_TYPE_QUICK_F = 0x0400		-- 诱发即时必发效果（熊猫龙等）
 EFFECT_TYPE_CONTINUOUS = 0x0800		-- 不入连锁的诱发效果
+
 -- ========== Flags ==========	--效果的特殊性质
 EFFECT_FLAG_INITIAL = 0x0001		-- 可以发动的
 EFFECT_FLAG_FUNC_VALUE = 0x0002		-- 此效果的Value属性是函数
@@ -260,6 +280,7 @@ EFFECT_FLAG_CHAIN_UNIQUE = 0x8000000	-- 同一组连锁只能发动一次
 EFFECT_FLAG_NAGA = 0x10000000 -- 神卡纳迦！
 EFFECT_FLAG_COF = 0x20000000 -- 邪恶的仪式
 EFFECT_FLAG_CVAL_CHECK = 0x40000000	-- 以卡为COST的诱发效果需要使用
+
 -- ========== Codes ==========	--对永续性效果表示效果类型 EFFECT开头，对诱发型效果表示触发效果的事件/时点 EVENT开头
 EFFECT_IMMUNE_EFFECT = 1		-- 效果免疫
 EFFECT_DISABLE = 2		-- 效果无效（一时无效？）
@@ -531,6 +552,7 @@ EVENT_PHASE = 0x1000	-- 阶段结束时
 EVENT_PHASE_START = 0x2000	-- 阶段开始时
 EVENT_ADD_COUNTER = 0x10000-- 增加指示物时
 EVENT_REMOVE_COUNTER = 0x20000-- 去除指示物时
+
 -- Categorys	效果分类（表示这个效果将要发生什么事，OperationInfo设置了效果分类才能触发针对这一类型发动的卡，如破坏->星尘龙
 CATEGORY_DESTROY = 0x1		-- 破坏效果
 CATEGORY_RELEASE = 0x2    	-- 解放效果
@@ -561,6 +583,7 @@ CATEGORY_DICE = 0x2000000	-- 骰子效果
 CATEGORY_LEAVE_GRAVE = 0x4000000	-- 离开墓地效果
 CATEGORY_LVCHANGE = 0x8000000	-- 改变等级效果
 CATEGORY_NEGATE = 0x10000000	-- 使发动无效效果
+
 -- Hint
 HINT_EVENT = 1
 HINT_MESSAGE = 2
@@ -572,6 +595,7 @@ HINT_ATTRIB = 7
 HINT_CODE = 8
 HINT_NUMBER = 9
 HINT_CARD = 10
+
 -- Card Hint
 CHINT_TURN = 1
 CHINT_CARD = 2
@@ -579,6 +603,7 @@ CHINT_RACE = 3
 CHINT_ATTRIBUTE = 4
 CHINT_NUMBER = 5
 CHINT_DESC = 6
+
 -- Hint Message	--提示消息，显示在窗口的上面
 HINTMSG_RELEASE = 500	-- 请选择要解放的卡
 HINTMSG_DISCARD = 501	-- 请选择要丢弃的手牌
@@ -616,6 +641,7 @@ HINTMSG_TARGET = 551	-- 请选择效果的对象
 HINTMSG_COIN = 552	-- 请选择硬币的正反面
 HINTMSG_DICE = 553	-- 请选择骰子的结果
 HINTMSG_CARDTYPE = 554	-- 请选择一个种类
+
 -- Timing	--提示时点，可以给freechain卡片增加自动提示时点
 TIMING_DRAW_PHASE = 0x1			-- 抽卡阶段时点
 TIMING_STANDBY_PHASE = 0x2        	-- 准备阶段时点
@@ -643,6 +669,7 @@ TIMING_TODECK = 0x400000   	-- 回卡组时点
 TIMING_TOGRAVE = 0x800000   	-- 进墓地时点
 TIMING_BATTLE_PHASE = 0x1000000  	-- 战斗阶段时点
 TIMING_EQUIP = 0x2000000  	-- 装备时点
+
 -- Global flag	--特殊标记
 GLOBALFLAG_DECK_REVERSE_CHECK = 0x1		-- 卡组翻转标记
 GLOBALFLAG_BRAINWASHING_CHECK = 0x2		-- 洗脑解除标记
@@ -654,10 +681,12 @@ GLOBALFLAG_SPSUMMON_COUNT = 0x40		-- 特殊召唤次数标记
 GLOBALFLAG_XMAT_COUNT_LIMIT = 0x80		-- 超量素材数量限制标记（光天使 天座）
 GLOBALFLAG_SELF_TOGRAVE = 0x100		--
 GLOBALFLAG_SPSUMMON_ONCE = 0x200		--
+
 --
 EFFECT_COUNT_CODE_OATH = 0x10000000 -- 使用次数限制(誓约效果)
 EFFECT_COUNT_CODE_DUEL = 0x20000000 -- 决斗中使用次数
 EFFECT_COUNT_CODE_SINGLE = 0x1		-- 多个效果公共使用次数
+
 -- 特殊选项
 DUEL_TEST_MODE = 0x01		-- 测试模式？坑了？
 DUEL_ATTACK_FIRST_TURN = 0x02		-- 第一回合可以攻击（用于残局
@@ -666,6 +695,7 @@ DUEL_ENABLE_PRIORITY = 0x08		-- 启动优先权
 DUEL_PSEUDO_SHUFFLE = 0x10		-- 不洗牌
 DUEL_TAG_MODE = 0x20		-- 双打PP
 DUEL_SIMPLE_AI = 0x40		-- AI
+
 --
 ACTIVITY_SUMMON = 1		--
 ACTIVITY_NORMALSUMMON = 2		--

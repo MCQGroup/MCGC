@@ -1,4 +1,5 @@
 -- 与镰刀尺的契约
+
 function c284130870.initial_effect(c)
     -- 仪式召唤
     aux.AddRitualProcGreater(c, aux.FilterBoolFunction(Card.IsCode, 284130820))

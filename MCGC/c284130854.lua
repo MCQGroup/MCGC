@@ -1,4 +1,5 @@
 -- 罐罐子的倾家荡产？！
+
 function c284130854.initial_effect(c)
     -- Activate
     local e1 = Effect.CreateEffect(c)
@@ -25,7 +26,9 @@ function c284130854.activate(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, p, HINTMSG_TODECK)
     Group.CreateGroup(g)
     g = Duel.SelectMatchingCard(p, Card.IsAbleToDeckAsCost, p, LOCATION_HAND, 0, 1, 63, nil)
-    if g:GetCount() == 0 then return end
+    if g:GetCount() == 0 then
+        return
+    end
     d = g:GetCount() + 1
     Duel.SendtoDeck(g, nil, 2, REASON_EFFECT)
     Duel.ShuffleDeck(p)

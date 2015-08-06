@@ -3,6 +3,7 @@
 function c284130816.initial_effect(c)
     -- 灵摆召唤
     aux.AddPendulumProcedure(c)
+
     -- 发动
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
