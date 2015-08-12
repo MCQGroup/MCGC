@@ -28,9 +28,13 @@ end
     rp      PLAYER_     Reason Player   因……玩家
     rc      Card        Reason Card     因……卡片
 ]]
-function common_value(e, re, val, r, rp, rc)
+function common_value1(e, re, val, r, rp, rc)
     -- 已知用于EFFECT_CHANGE_DAMAGE
     -- 返回value值
+end
+
+function common_value2(e, c)
+    -- 已知用于EFFECT_UPDATE_ATTACK, EFFECT_UPDATE_DEFENSE
 end
 
 -- 触发型效果用函数
