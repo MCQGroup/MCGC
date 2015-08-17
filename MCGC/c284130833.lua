@@ -9,7 +9,7 @@ function c284130833.initial_effect(c)
     e1:SetCode(EVENT_SUMMON_SUCCESS)
     e1:SetCost(c284130833.cost)
     e1:SetOperation(c284130833.operation)
-    e1:SetCountLimit(1, 284130833)
+    e1:SetCountLimit(1, 84130833)
     c:RegisterEffect(e1)
 end
 
