@@ -34,6 +34,7 @@ function c284130824.initial_effect(c)
     e3:SetCode(EVENT_SPSUMMON_SUCCESS)
     e3:SetTarget(c284130824.toHandTarget)
     e3:SetOperation(c284130824.toHandOperation)
+    e3:SetCountLimit(1, 84130824)
     c:RegisterEffect(e3)
 
     -- 对方额外抽卡触发
@@ -55,7 +56,7 @@ function c284130824.spsummonLimit(e, se, sp, st)
 end
 
 function c284130824.spsummonFilter(c)
-    return c:IsSetCard(0x2222) and c:IsType(TYPE_MONSTER) and c:IsFaceup()
+    return c:IsSetCard(0x2222) and c:IsType(TYPE_MONSTER) and c:IsFaceup() and c:IsAbleToDeckAsCost()
 end
 
 function c284130824.spsummonCondition(e, c)

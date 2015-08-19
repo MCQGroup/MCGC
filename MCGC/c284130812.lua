@@ -1,4 +1,5 @@
 -- MC群的群主 纸睡
+
 function c284130812.initial_effect(c)
     -- 通常召唤
     local e1 = Effect.CreateEffect(c)
@@ -120,7 +121,7 @@ end
 function c284130812.spSummonFromHandOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, c284130812.spSummonFromHandFilter, tp, LOCATION_HAND, 0, 0, Duel.GetLocationCount(tp, LOCATION_MZONE), nil, e, tp)
     Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
-    Duel.PayLPCost(tp, g:GetSum(Card.GetAttack))
+    Duel.Damage(tp, g:GetSum(Card.GetAttack), REASON_EFFECT)
 end
 
 function c284130812.spSummonFromHandFilter(c, e, tp)

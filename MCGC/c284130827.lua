@@ -1,4 +1,5 @@
 -- 手滑的盘子
+
 function c284130827.initial_effect(c)
     -- 发动
     local e1 = Effect.CreateEffect(c)

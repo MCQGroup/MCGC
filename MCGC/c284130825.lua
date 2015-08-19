@@ -1,4 +1,5 @@
 -- MC群的现充 手滑
+
 function c284130825.initial_effect(c)
     -- 灵摆规则
     aux.AddPendulumProcedure(c)

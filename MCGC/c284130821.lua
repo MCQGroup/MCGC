@@ -1,4 +1,5 @@
 -- MC群的现充 玲音
+
 function c284130821.initial_effect(c)
     -- 超量
     aux.AddXyzProcedure(c, nil, 4, 2)

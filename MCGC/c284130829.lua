@@ -1,4 +1,5 @@
 -- MC群的班底 奇迹
+
 function c284130829.initial_effect(c)
     -- 不能通常召唤
     c:EnableReviveLimit()

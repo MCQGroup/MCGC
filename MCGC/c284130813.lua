@@ -1,4 +1,5 @@
 -- MC群的苦逼 DZ
+
 function c284130813.initial_effect(c)
     -- 反转召唤
     local e1 = Effect.CreateEffect(c)
