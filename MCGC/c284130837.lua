@@ -8,7 +8,7 @@ function c284130837.initial_effect(c)
     e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
     e1:SetCountLimit(1, 84130837 + EFFECT_COUNT_CODE_DUEL)
     e1:SetCost(c284130837.spsummonCost)
-    e1:SetOperation()
+    e1:SetOperation(c284130837.spsummonOperation)
     c:RegisterEffect(e1)
 
     -- 特招成功触发
@@ -20,4 +20,8 @@ function c284130837.spsummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
     end
     local g = Duel.SelectMatchingCard(tp, Card.IsAbleToDeckAsCost, tp, LOCATION_HAND, 0, 1, 1, nil)
     Duel.SendtoDeck(g, tp, 0, REASON_COST)
+end
+
+function c284130837.spsummonOperation(e, tp, eg, ep, ev, re, r, rp)
+
 end
