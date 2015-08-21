@@ -12,6 +12,14 @@ function c284130837.initial_effect(c)
     c:RegisterEffect(e1)
 
     -- 特招成功触发
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    -- 这个效果到底取不取对象？
+    e2:SetCondition()
+    e2:SetOperation()
+    c:RegisterEffect(e2)
 end
 
 function c284130837.spsummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -26,4 +34,17 @@ function c284130837.spsummonOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
     Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+end
+
+function c284130837.spsummon_successFilter(c)
+    return c:IsSetCard(0x2222) and c:IsType(TYPE_MONSTER) and c:GetLevel() == 2
+end
+
+function c284130837.spsummon_successCondition(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(c284130837.spsummon_successFilter, tp, LOCATION_DECK, 0, 1, nil)
+end
+
+function c284130837.spsummon_successOperation(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.SelectMatchingCard(tp, c284130837.spsummon_successFilter, tp, LOCATION_DECK, 0, 1, 1, nil)
+    Duel.SendtoHand(g, tp, REASON_EFFECT)
 end
