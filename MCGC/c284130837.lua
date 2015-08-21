@@ -23,5 +23,7 @@ function c284130837.spsummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function c284130837.spsummonOperation(e, tp, eg, ep, ev, re, r, rp)
-
+    local c = e:GetHandler()
+    local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
+    Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
 end
