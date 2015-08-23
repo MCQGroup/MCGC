@@ -17,8 +17,8 @@ function c284130837.initial_effect(c)
     e2:SetCode(EVENT_SPSUMMON_SUCCESS)
     e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     -- 这个效果到底取不取对象？
-    e2:SetCondition()
-    e2:SetOperation()
+    e2:SetCondition(c284130837.spsummon_successCondition)
+    e2:SetOperation(c284130837.spsummon_successOperation)
     c:RegisterEffect(e2)
 end
 
