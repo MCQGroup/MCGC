@@ -16,7 +16,6 @@ function c284130837.initial_effect(c)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetCode(EVENT_SPSUMMON_SUCCESS)
     e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    -- 这个效果到底取不取对象？
     e2:SetCondition(c284130837.spsummon_successCondition)
     e2:SetOperation(c284130837.spsummon_successOperation)
     c:RegisterEffect(e2)
@@ -32,8 +31,10 @@ end
 
 function c284130837.spsummonOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
-    Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+    if c:IsLocation(LOCATION_HAND + LOCATION_GRAVE) then
+        local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
+        Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+    end
 end
 
 function c284130837.spsummon_successFilter(c)
