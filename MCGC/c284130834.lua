@@ -34,7 +34,7 @@ function c284130834.operation(e, tp, eg, ep, ev, re, r, rp)
     e1:SetOperation(c284130834.thirdTriggerOperation)
     c1:RegisterEffect(e1)
     Duel.Remove(c1, POS_FACEUP, REASON_EFFECT)
-    
+
     -- 战破免疫三回合
     local c2 = e:GetHandler()
     local e2 = Effect.CreateEffect(c2)
@@ -69,6 +69,6 @@ end
 
 function c284130834.toGraveTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     local te = e:GetLabelObject()
-    Duel.SendtoDeck(te:GetHandler(), tp,nil, REASON_EFFECT)
+    Duel.SendtoDeck(te:GetHandler(), tp, nil, REASON_EFFECT)
     te:Reset()
 end

@@ -34,7 +34,7 @@ function c284130824.initial_effect(c)
     e3:SetCode(EVENT_SPSUMMON_SUCCESS)
     e3:SetTarget(c284130824.toHandTarget)
     e3:SetOperation(c284130824.toHandOperation)
-    e3:SetCountLimit(284130824)
+    e3:SetCountLimit(1, 84130824)
     c:RegisterEffect(e3)
 
     -- 对方额外抽卡触发
