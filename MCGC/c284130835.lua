@@ -16,26 +16,22 @@ function c284130835.initial_effect(c)
     e2:SetTarget(c284130835.banTarget)
     c:RegisterEffect(e2)
 
-    local e3 = e2:Clone()
-    e3:SetCode(EFFECT_DISABLE)
+    -- 攻击力上升场上的卡的数量
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_UPDATE_ATTACK)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetValue(c284130835.updateAtk)
     c:RegisterEffect(e3)
 
-    -- 攻击力上升场上的卡的数量
-    local e4 = Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_SINGLE)
-    e4:SetCode(EFFECT_UPDATE_ATTACK)
-    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetValue(c284130835.updateAtk)
-    c:RegisterEffect(e4)
-
     -- 破坏送墓触发
-    local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e5:SetCode(EVENT_DESTROY)
-    e5:SetTarget(c284130835.destroyTriggerTarget)
-    e5:SetOperation(c284130835.destroyTriggerOperation)
-    c:RegisterEffect(e5)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e4:SetCode(EVENT_DESTROY)
+    e4:SetTarget(c284130835.destroyTriggerTarget)
+    e4:SetOperation(c284130835.destroyTriggerOperation)
+    c:RegisterEffect(e4)
 end
 
 function c284130835.banFilter(c)
