@@ -34,15 +34,10 @@ function c284130836.spop(e, tp, eg, ep, ev, re, r, rp)
     if tc:IsRelateToEffect(e) and Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then
         local e1 = Effect.CreateEffect(tc)
         e1:SetType(EFFECT_TYPE_SINGLE)
-        e1:SetCode(EFFECT_DISABLE)
-        e1:SetReset(RESET_EVENT + 0x1fe0000)
+        e1:SetCode(EFFECT_DISABLE_EFFECT)
+        e1:SetReset(RESET_EVENT + 0x1FE0000)
+        -- 0x01FE0000 = RESET_TOFIELD + RESET_LEAVE + RESET_TODECK + RESET_TOHAND + RESET_TEMP_REMOVE + RESET_REMOVE + RESET_TOGRAVE + RESET_TURN_SET
         tc:RegisterEffect(e1)
-
---        local e2 = Effect.CreateEffect(tc)
---        e2:SetType(EFFECT_TYPE_SINGLE)
---        e2:SetCode(EFFECT_DISABLE_EFFECT)
---        e2:SetReset(RESET_EVENT + 0x1fe0000)
---        tc:RegisterEffect(e2)
     end
     Duel.SpecialSummonComplete()
 end
