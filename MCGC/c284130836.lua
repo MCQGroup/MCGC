@@ -41,6 +41,7 @@ function c284130836.spop(e, tp, eg, ep, ev, re, r, rp)
 
         local e2 = e1:Clone()
         e2:SetCode(EFFECT_DISABLE)
+        e3:SetValue(RESET_TURN_SET)
         tc:RegisterEffect(e2)
     end
     Duel.SpecialSummonComplete()
