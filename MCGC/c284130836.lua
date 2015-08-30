@@ -38,6 +38,10 @@ function c284130836.spop(e, tp, eg, ep, ev, re, r, rp)
         e1:SetReset(RESET_EVENT + 0x1FE0000)
         -- 0x01FE0000 = RESET_TOFIELD + RESET_LEAVE + RESET_TODECK + RESET_TOHAND + RESET_TEMP_REMOVE + RESET_REMOVE + RESET_TOGRAVE + RESET_TURN_SET
         tc:RegisterEffect(e1)
+
+        local e2 = e1:Clone()
+        e2:SetCode(EFFECT_DISABLE)
+        tc:RegisterEffect(e2)
     end
     Duel.SpecialSummonComplete()
 end
