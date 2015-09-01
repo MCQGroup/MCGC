@@ -35,12 +35,12 @@ function c284130834.operation(e, tp, eg, ep, ev, re, r, rp)
     c1:RegisterEffect(e1)
     Duel.Remove(c1, POS_FACEUP, REASON_EFFECT)
 
-    -- 战破免疫三回合
+    -- 战破免疫三回合（参考棉花糖31305911)
     local c2 = e:GetHandler()
     local e2 = Effect.CreateEffect(c2)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e2:SetValue(1)  -- 并不知道这里的数值是什么意思，但是棉花糖里有
     e2:SetReset(RESET_STANDBY + RESET_SELF_TURN, 3)
     c2:RegisterEffect(e2)
 
