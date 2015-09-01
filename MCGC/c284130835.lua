@@ -12,7 +12,7 @@ function c284130835.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetCode(EFFECT_FORBIDDEN)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_SET_AVAILABLE)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_SET_AVAILABLE)
     e2:SetTarget(c284130835.banTarget)
     c:RegisterEffect(e2)
 
@@ -39,7 +39,7 @@ function c284130835.banFilter(c)
 end
 
 function c284130835.banTarget(e, c)
-    return c:IsCode(284130835) and not c:IsOnField() and Duel.IsExistingMatchingCard(c284130835.banFilter, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, nil)
+    return Duel.IsExistingMatchingCard(c284130835.banFilter, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, nil)
 end
 
 function c284130835.updateAtk(e, c)
