@@ -37,24 +37,24 @@ end
 
 function c284130831.removeForSpSummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetMatchingGroupCount(Card.IsAbleToGraveAsCost, tp, LOCATION_DECK, 0, nil) > 0
+        return true
     end
-    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToGraveAsCost, tp, LOCATION_DECK, 0, 1, 1, nil)
-    Duel.SendtoGrave(g, REASON_COST)
+    Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_COST)
 end
 
 function c284130831.removeForSpSummonOperation(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToGraveAsCost, tp, LOCATION_DECK, 0, 1, 1, nil)
+    Duel.SendtoGrave(g, REASON_EFFECT)
 
+    local c = e:GetHandler()
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e1:SetRange(LOCATION_REMOVED)
---    e1:SetCondition(c284130831.delayTriggerCondition)
+    e1:SetReset(RESET_EVENT + RESET_TOHAND + RESET_TOFIELD)
+    e1:SetCondition(c284130831.delayTriggerCondition)
     e1:SetOperation(c284130831.delayTriggerOperation)
     c:RegisterEffect(e1)
-
-    Duel.Remove(c, POS_FACEUP, REASON_EFFECT)
 end
 
 function c284130831.delayTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
@@ -64,11 +64,12 @@ end
 function c284130831.delayTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local sel = Duel.SelectYesNo(tp, aux.Stringid(284130831, 0))
-    Duel.SendtoHand(c, tp, REASON_EFFECT)
+
     if sel then
-        c:CompleteProcedure()
         Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, POS_FACEUP_ATTACK)
-        e:Reset()
+        c:CompleteProcedure()
+    else
+        Duel.SendtoHand(c, tp, REASON_EFFECT)
     end
 end
 
