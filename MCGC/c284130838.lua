@@ -25,6 +25,11 @@ function c284130838.initial_effect(c)
 
     -- 一回合一次从手卡特招
     local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_ACTIONS)
+    e3:SetCountLimit(1)
+    e3:SetCondition()
+    e3:SetTarget()  -- 开连锁但不取对象是什么意思？
+    e3:SetOperation()
     c:RegisterEffect(e3)
 
     -- 除外并卡组检索
@@ -49,6 +54,8 @@ end
 function c284130838.synchroSuccessTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local g = Duel.GetMatchingGroup(c284130838.filter, tp, LOCATION_EXTRA, 0, nil)
     if g:GetCount() > 0 then
+        Duel.SetTargetPlayer(tp)
+        Duel.SetTargetParam(g:GetCount() * 500)
         Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, nil, tp, g:GetCount() * 500)
         e:SetLabelObject(g)
     end
