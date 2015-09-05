@@ -12,6 +12,7 @@ function c284130838.initial_effect(c)
     e1:SetCode(EFFECT_SPSUMMON_CONDITION)
     e1:SetCondition()
     -- 这里是用condition还是target来着
+    -- 参考流天类星龙、毒蛇神
     c:RegisterEffect(e1)
 
     -- 同调召唤成功触发
@@ -28,7 +29,6 @@ function c284130838.initial_effect(c)
     e3:SetType(EFFECT_TYPE_ACTIONS)
     e3:SetCountLimit(1)
     e3:SetCondition()
-    e3:SetTarget()  -- 开连锁但不取对象是什么意思？
     e3:SetOperation()
     c:RegisterEffect(e3)
 
