@@ -95,9 +95,12 @@ end
 
 function c284130838.actionCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return 
+        return e:GetHandler():IsLocation(LOCATION_ONFIELD + LOCATION_GRAVE)
     end
+    Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_COST)
 end
 
 function c284130838.actionOperation(e, tp, eg, ep, ev, re, r, rp, chk)
+    local g = Duel.SelectMatchingCard(tp, c2841308383.filter,tp, LOCATION_DECK, 0, 1, 1, nil)
+    Duel.SendtoHand(g, tp, REASON_EFFECT)
 end
