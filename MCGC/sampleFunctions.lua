@@ -19,15 +19,20 @@ end
 
 -- Value
 --[[
-    name    type        whole_name      description
+    name    type            whole_name      description
     -------------------------------------------------------
-    e       Effect      Effect          该效果本身
-    re      Effect      Reason Effect   因……效果
-    val     int         Value           相关数值
-    r       REASON_     Reason          因……原因
-    rp      PLAYER_     Reason Player   因……玩家
-    rc      Card        Reason Card     因……卡片
-    c       Card        Card            效果所属的卡片
+    e       Effect          Effect          该效果本身
+    re      Effect          Reason Effect   因……效果
+    val     int             Value           相关数值
+    r       REASON_         Reason          因……原因
+    rp      PLAYER_         Reason Player   因……玩家
+    rc      Card            Reason Card     因……卡片
+
+    c       Card            Card            效果所属的卡片
+
+    se      Effect          Summon Effect   进行召唤的效果（？）
+    sp      PLAYER_         Summon Player   进行召唤的玩家
+    st      SUMMON_TYPE_    Summon Type     召唤类型
 ]]
 function common_value1(e, re, val, r, rp, rc)
     -- 已知用于EFFECT_CHANGE_DAMAGE
@@ -36,6 +41,10 @@ end
 
 function common_value2(e, c)
     -- 已知用于EFFECT_UPDATE_ATTACK, EFFECT_UPDATE_DEFENSE
+end
+
+function common_value3(e, se, sp, st)
+    -- 已知用于EFFECT_SPSUMMON_CONDITION
 end
 
 -- 触发型效果用函数
