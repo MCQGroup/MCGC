@@ -90,7 +90,8 @@ function c284130838.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, nil)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, nil, tp, 1)
     -- 这个效果能不能召唤自己？这个效果特招的怪物要选择表示形式吗？
-    Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, true, false, pos)
+    -- 不能。要。
+    Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
 end
 
 function c284130838.actionCost(e, tp, eg, ep, ev, re, r, rp, chk)
