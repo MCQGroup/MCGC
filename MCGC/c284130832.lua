@@ -40,7 +40,12 @@ function c284130832.regop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsPreviousLocation(LOCATION_SZONE) and c:IsPreviousPosition(POS_FACEDOWN) and c:IsReason(REASON_EFFECT) and c:IsReason(REASON_DESTROY) then
         local g = Duel.SelectMatchingCard(tp, c284130832.filter, tp, LOCATION_DECK + LOCATION_HAND + LOCATION_GRAVE, 0, 1, 3, nil)
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+        local c = g:GetFirst()
+        while c do
+            local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
+            Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+            c = g:GetNext()
+        end
     end
 end
 
