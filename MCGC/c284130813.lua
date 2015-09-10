@@ -20,7 +20,8 @@ function c284130813.initial_effect(c)
     -- 卡组检索、特招、送墓
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(284130813, 0))
-    e3:SetCategory(CATEGORY_SEARCH + CATEGORY_SPECIAL_SUMMON + CATEGORY_TOGRAVE) --解放自己是cost
+    e3:SetCategory(CATEGORY_SEARCH + CATEGORY_SPECIAL_SUMMON + CATEGORY_TOGRAVE)
+    -- 解放自己是cost
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
@@ -58,9 +59,10 @@ function c284130813.operation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, c284130813.filter, tp, LOCATION_DECK, 0, 2, 2, nil)
 
     Duel.ConfirmCards(1 - tp, g)
+    Duel.Hint(HINT_SELECTMSG, 1 - tp, HINTMSG_SPSUMMON)
     local sg = g:Select(1 - tp, 1, 1, nil)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local pos = Duel.SelectPosition(tp, sg:GetFirst(), POS_FACEUP)
     g:Sub(sg)
     Duel.SendtoGrave(g, REASON_EFFECT)
-    Duel.SpecialSummon(sg, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
+    Duel.SpecialSummon(sg, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
 end
