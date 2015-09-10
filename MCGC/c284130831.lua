@@ -4,6 +4,7 @@
 -- e3 参考[40640059]栗子球
 
 -- [整理一下目前的问题：e1除外延迟特招，除外正常，但是无法返场，推测是返场效果的问题，有待更改和测试]
+-- 问题：能回手牌吗？
 function c284130831.initial_effect(c)
     -- 不能通常召唤
     c:EnableReviveLimit()
@@ -66,7 +67,8 @@ function c284130831.delayTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     local sel = Duel.SelectYesNo(tp, aux.Stringid(284130831, 0))
 
     if sel then
-        Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, POS_FACEUP_ATTACK)
+        local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
+        Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, pos)
         c:CompleteProcedure()
     else
         Duel.SendtoHand(c, tp, REASON_EFFECT)
