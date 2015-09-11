@@ -29,6 +29,11 @@ function bit.rshift(a, b)
 end
 
 -- =====Card类=====
+-- 属性
+Card.material_count     -- 融合素材的数量
+Card.material -- 融合素材的数组，内容为卡片ID
+
+-- 方法
 function Card.GetCode(c)
     -- 返回c的当前代号（可能因为效果改变）
 end

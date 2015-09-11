@@ -47,6 +47,10 @@ function common_value3(e, se, sp, st)
     -- 已知用于EFFECT_SPSUMMON_CONDITION
 end
 
+function common_value4(e, re, tp)
+    -- 已知用于EFFECT_CANNOT_ACTIVATE
+end
+
 -- 触发型效果用函数
 --[[
     name    type        whole_name      description
