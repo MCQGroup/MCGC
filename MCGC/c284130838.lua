@@ -45,7 +45,14 @@ function c284130838.initial_effect(c)
     c:RegisterEffect(e4)
 
     -- 破坏支付特招
-
+    local e5 = Effect.CreateEffect(c)
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e4:SetCode()    -- 这里应该用什么时点？
+    e4:SetCondition()   -- 这里貌似应该有个检查？
+    e4:SetCost()
+    e4:SetOperation()
+    c:RegisterEffect(e5)
 end
 
 function c284130838.filter(c)
@@ -101,8 +108,8 @@ function c284130838.actionCost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_COST)
 end
 
-function c284130838.actionOperation(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.SelectMatchingCard(tp, c2841308383.filter,tp, LOCATION_DECK, 0, 1, 1, nil)
+function c284130838.actionOperation(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.SelectMatchingCard(tp, c284130838.filter,tp, LOCATION_DECK, 0, 1, 1, nil)
     if g:GetFirst() and Duel.SendtoHand(g, tp, REASON_EFFECT) and g:GetFirst():IsLocation(LOCATION_HAND) then
         Duel.ConfirmCards(1- tp, g)
         -- 这里要不要给对方展示这张卡？
@@ -125,4 +132,16 @@ end
 
 function c284130838.action_activateLimit(e, re, rp)
     return re:GetHandler():IsCode(e:GetLabel()) and not re:GetHandler():IsImmuneToEffect(e)
+end
+
+function c284130838.destroyTriggerCost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.CheckLPCost(tp, 1000)
+    end
+    Duel.PayLPCost(tp, 1000)
+end
+
+function c284130838.destroyTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
+    local pos = Duel.SelectPosition(tp, e:GetHandler(), POS_FACEUP)
+    Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, true, false, pos)
 end
