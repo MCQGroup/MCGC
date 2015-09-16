@@ -8,6 +8,7 @@
 *.config
 *.luaproj
 *.sln
+.*
 
 # Build results
 [Dd]ebug/
