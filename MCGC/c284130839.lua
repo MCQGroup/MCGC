@@ -14,6 +14,10 @@ function c284130839.initial_effect(c)
 	c:RegisterEffect(e1)
 	
 	-- 战破触发
+	local e2 = Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+	e2:SetCode()
+	
 	-- 结束阶段必定发动
 	-- 因效果破坏必定发动
 end 
