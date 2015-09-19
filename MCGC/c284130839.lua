@@ -16,7 +16,12 @@ function c284130839.initial_effect(c)
 	-- 战破触发
 	local e2 = Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-	e2:SetCode()
+	e2:SetCode(EVENT_BATTLED)
+	-- 参考[72989439]混沌战士 -开辟的使者-
+	e2:SetCondition(c284130839.battleDestroyTriggerCondition)
+	e2:SetTarget(c284130839.battleDestroyTriggerTarget)
+	e2:SetOperation(c284130839.battleDestroyTriggerOperation)
+	c:RegisterEffect(e2)
 	
 	-- 结束阶段必定发动
 	-- 因效果破坏必定发动
@@ -32,4 +37,39 @@ end
 
 function c284130839.syncSummonSuccessTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
 	-- 这个效果是对场地生效，还是对当前场上所有的怪物生效？
+	-- 参考[86396750]精灵兽 火狮
+	local e1 = Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+	e1:SetTarget(c284130839.syncSST_Target)
+	e1:SetTargetRange(LOCATION_MZONE, 0)
+	e1:SetReset(RESET_SELF_TURN + RESET_PHASE + RESET_END, 2)
+	Duel.RegisterEffect(e1, tp)
+	
+	local e2 = e1:Clone()
+	e2:SetCode(EFFECT_UPDATE_ATTACK)
+	e2:SetValue(300)
+	Duel.RegisterEffect(e2, tp)
+end
+
+function c284130839.syncSST_Target(e, c)
+	return c284130839.filter(c)
+end
+
+function c284130839.battleDestroyTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
+	local c = e:GetHandler()
+	local bc = c:GetBattleTarget()
+	
+	return bc and bc:IsStatus(STATUS_BATTLE_DESTROYED)
+end
+
+function c284130839.battleDestroyTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+	local g = Duel.SelectMatchingCard(tp, Card.IsDestructable, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
+	Duel.SetTargetCard(g)
+	Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, g:GetCount(), nil, nil)
+end
+
+function c284130839.battleDestroyTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
+	local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
+	Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
 end
