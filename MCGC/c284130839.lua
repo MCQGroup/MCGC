@@ -34,7 +34,10 @@ function c284130839.initial_effect(c)
 	-- 因效果破坏必定发动
 	local e4 = Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-	e3:SetCode()
+	e3:SetCode(EVENT_TO_GRAVE)
+	e3:SetCondition(c284130839.destroyCondition)
+	e3:SetOperation(c284130839.destroyOperation)
+	-- 参考[70054514]暗海救生圈
 	c:RegisterEffect(e4)
 end 
 
@@ -93,4 +96,15 @@ function c284130839.turnEndOperation(e, tp, eg, ep, ev, re, r, rp)
 	local g = Duel.SelectMatchingCard(tp, Card.IsDestructable, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1, nil)
 	Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
 	Duel.Draw(g:GetFirst():GetControler(), 1, REASON_EFFECT)
+end
+
+function c284130839.destroyCondition(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsReason(REASON_DESTROY) and c:IsReason(REASON_EFFECT) and c:IsPreviousLocation(LOCATION_ONFIELD)
+end
+
+function c284130839.destroyOperation(e, tp, eg, ep, ev, re, r, rp)
+	local g = Duel.GetMatchingGroup(Card.IsDestructable, tp, 0, LOCATION_ONFIELD, nil)
+	Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
+	Duel.Damage(PLAYER_ALL, g:GetCount() * 300, REASON_EFFECT)
 end
