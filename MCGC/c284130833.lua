@@ -7,7 +7,6 @@ function c284130833.initial_effect(c)
     e1:SetCategory(CATEGORY_DRAW)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_SUMMON_SUCCESS)
-    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e1:SetCost(c284130833.cost)
     e1:SetOperation(c284130833.operation)
     e1:SetCountLimit(1, 84130833)
@@ -36,16 +35,12 @@ function c284130833.operation(e, tp, eg, ep, ev, re, r, rp)
     if test then
         if sel == 0 then
             if e:GetHandler():IsLocation(LOCATION_MZONE) then
-                Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, count + 1)
                 Duel.Draw(tp, count + 1, REASON_EFFECT)
-                Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, e:GetHandler(), 1, nil, 0)
                 Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
             end
         elseif sel == 1 then
-            Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, count - 1)
             Duel.Draw(tp, count - 1, REASON_EFFECT)
             g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
-            Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, g:GetCount(), nil, 0)
             Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
         end
     end

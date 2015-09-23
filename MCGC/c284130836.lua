@@ -1,4 +1,4 @@
--- MCÈºµÄÖÇÕß ¶þÓã
+-- MCç¾¤çš„æ™ºè€… äºŒé±¼
 
 function c284130836.initial_effect(c)
     -- spsummon
@@ -7,6 +7,7 @@ function c284130836.initial_effect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_SUMMON_SUCCESS)
+    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e1:SetTarget(c284130836.sptg)
     e1:SetOperation(c284130836.spop)
     c:RegisterEffect(e1)

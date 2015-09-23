@@ -24,6 +24,7 @@ function c284130840.initial_effect(c)
 	-- 从墓地特招
 	local e3 = Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_ACTIONS)
+	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetTarget()
 	e3:SetOperation()
 	c:RegisterEffect(e3)
