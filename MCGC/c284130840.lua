@@ -48,4 +48,12 @@ function c284130840.syncSummonSuccessCondition(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130840.syncSummonSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
+	local lv = Duel.AnnounceLevel(tp)
+	local c = e:GetHandler()
+	local e1 = Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetCode(EFFECT_CHANGE_LEVEL)
+	e1:SetValue(lv)
+	e1:SetReset(RESET_SELF_TURN)
+	c:RegisterEffect(e1)
 end
