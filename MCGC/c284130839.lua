@@ -79,6 +79,9 @@ function c284130839.battleDestroyCondition(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130839.battleDestroyTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+	if chk == 0 then
+		return Duel.IsExistingMatchingCard(Card.IsDestructable, tp, 0,  LOCATION_ONFIELD, 1, nil)
+	end
 	local g = Duel.SelectMatchingCard(tp, Card.IsDestructable, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
 	Duel.SetTargetCard(g)
 	Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, g:GetCount(), nil, nil)

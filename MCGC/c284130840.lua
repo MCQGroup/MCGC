@@ -57,3 +57,9 @@ function c284130840.syncSummonSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
 	e1:SetReset(RESET_SELF_TURN)
 	c:RegisterEffect(e1)
 end
+
+function c284130840.spsummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
+	if chk == 0 then
+		return 
+	end
+end
