@@ -58,8 +58,17 @@ function c284130840.syncSummonSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
 	c:RegisterEffect(e1)
 end
 
+function c284130840.spsummonFilter(c)
+	return c284130840.filter(c) and c:IsTypeTYPE_MONSTER()
+end
+
 function c284130840.spsummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
+	local g = Duel.GetMatchingGroup(c284130840.spsummonFilter, tp, LOCATION_GRAVE, 0, nil)
 	if chk == 0 then
-		return 
+		return g:CheckWithSumEqual(Card.GetLevel, 5)
+		-- g:CheckWithSumEqual(Card.GetLevel, 5, 1, g:GetCount())
 	end
+	local sg = g:SelectWithSumEqual(tp, Card.GetLevel, 5)
+	-- g:SelectWithSumEqual(tp, Card.GetLevel, 5, 1, g:GetCount()
+	Duel.Remove(sg, POS_FACEUP, REASON_COST)
 end
