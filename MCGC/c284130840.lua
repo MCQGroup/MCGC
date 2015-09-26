@@ -17,7 +17,7 @@ function c284130840.initial_effect(c)
 	local e2 = Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
-	e2:SetCost()
+	e2:SetCost(c284130840.spsummonCost)
 	e2:SetOperation()
 	c:RegisterEffect(e2)
 	
@@ -71,4 +71,27 @@ function c284130840.spsummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
 	local sg = g:SelectWithSumEqual(tp, Card.GetLevel, 5)
 	-- g:SelectWithSumEqual(tp, Card.GetLevel, 5, 1, g:GetCount()
 	Duel.Remove(sg, POS_FACEUP, REASON_COST)
+end
+
+function c284130840.spsummonOperation(e, tp, eg, ep, ev, re, r, rp)
+	local c = e:GetHandler()
+	
+	local e1 = Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetCode(EFFECT_DISABLE)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+	e1:SetReset(RESET_EVENT + RESET_LEAVE + RESET_TURN_SET)
+	c:RegisterEffect(e1)
+	
+	local e2 = Effect.CreateEffect(c)
+	e2:SetTarget(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EVENT_PHASE_START + PHASE_END)
+	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+	e2:SetReset(RESET_EVENT + RESET_LEAVE)
+	e2:SetOperation(c284130840.destroyOperation)
+	c:RegisterEffect(e2)
+end
+
+function c284130840.destroyOperation(e, tp, eg, ep, ev, re, r, rp)
+	Duel.Destroy(e:GetHandler(), REASON_EFFECT, LOCATION_REMOVED)
 end
