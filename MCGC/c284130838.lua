@@ -47,9 +47,9 @@ function c284130838.initial_effect(c)
     local e5 = Effect.CreateEffect(c)
     e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    -- 参考[131182]奇迹反转士
-    e4:SetCode(EVENT_DESTROYED)    -- 这里应该用什么时点？
-    e4:SetCondition(c284130838.destroyTriggerCondition)   -- 这里貌似应该有个检查？
+    -- 参考[23015896]炎王神兽 大鹏不死鸟
+    e4:SetCode(EVENT_TO_GRAVE)
+    e4:SetCondition(c284130838.destroyTriggerCondition)
     e4:SetCost(c284130838.destroyTriggerCost)
     e4:SetOperation(destroyTriggerOperation)
     c:RegisterEffect(e5)
@@ -136,7 +136,7 @@ function c284130838.action_activateLimit(e, re, rp)
 end
 
 function c284130838.destroyTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
-    return bit.band(r, REASON_EFFECT) == REASON_EFFECT
+    return bit.band(r, REASON_EFFECT + REASON_DESTROY) == REASON_EFFECT + REASON_DESTROY
 end
 
 function c284130838.destroyTriggerCost(e, tp, eg, ep, ev, re, r, rp, chk)
