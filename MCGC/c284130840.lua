@@ -18,24 +18,23 @@ function c284130840.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
 	e2:SetCost(c284130840.spsummonCost)
-	e2:SetOperation()
+	e2:SetOperation(c284130840.spsummonOperation)
 	c:RegisterEffect(e2)
 	
 	-- 从墓地特招
 	local e3 = Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_ACTIONS)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e3:SetTarget()
-	e3:SetOperation()
+	e3:SetCost(c284130840.spsummon2Cost)
+	e3:SetTarget(c284130840.spsummon2Target)
+	e3:SetOperation(c284130840.spsummon2Operation)
 	c:RegisterEffect(e3)
 	
 	-- 送墓必发
 	local e4 = Effect.CreateEffect(c)
 	e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
 	e4:SetCode(EVENT_TO_GRAVE)
-	e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e4:SetTarget()
-	e4:SetOperation()
+	e4:SetOperation(c284130840.toGraveOperation)
 	c:RegisterEffect(e4)
 end	
 
@@ -94,4 +93,31 @@ end
 
 function c284130840.destroyOperation(e, tp, eg, ep, ev, re, r, rp)
 	Duel.Destroy(e:GetHandler(), REASON_EFFECT, LOCATION_REMOVED)
+end
+
+function c284130840.spsummon2Cost(e, tp, eg, ep, ev, re, r, rp, chk)
+	if chk == 0 then 
+		return Duel.CheckLPCost(tp, 1000)
+	end
+	Duel.PayLPCost(tp, 1000)
+end
+
+function c284130840.spsummon2Target(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+	if chk == 0 then
+		return Duel.IsExistingMatchingCard(c284130840.spsummonFilter, tp, LOCATION_GRAVE, 0, 1, nil)
+	end
+	local g = Duel.SelectMatchingCard(tp, c284130840.spsummonFilter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
+	Duel.SetTarget(g)
+	Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, nil)
+end
+
+function c284130840.spsummon2Operation(e, tp, eg, ep, ev, re, r, rp)
+	local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
+	if Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEDOWN_DEFENCE)
+		Duel.SendtoGrave(c:GetHandler(), REASON_EFFECT)
+	end
+end
+
+function c284130840.toGraveOperation(e, tp, eg, ep, ev, re, r, rp)
+	Duel.Draw(tp, 1, REASON_EFFECT)
 end
