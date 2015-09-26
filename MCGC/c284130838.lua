@@ -18,7 +18,6 @@ function c284130838.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_TODECK + CATEGORY_RECOVER)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    -- 怎么样才能不触发送墓效果？这个效果的类型是不是应该是EFFECT_TYPE_QUICK_F或者是EFFECT_TYPE_CONTINUES
     e2:SetCode(EVENT_SPSUMMON_SUCCESS)
     e2:SetCondition(c284130838.synchroSuccessTriggerCondition)
     e2:SetTarget(c284130838.synchroSuccessTriggerTarget)
@@ -48,10 +47,11 @@ function c284130838.initial_effect(c)
     local e5 = Effect.CreateEffect(c)
     e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e4:SetCode()    -- 这里应该用什么时点？
-    e4:SetCondition()   -- 这里貌似应该有个检查？
-    e4:SetCost()
-    e4:SetOperation()
+    -- 参考[131182]奇迹反转士
+    e4:SetCode(EVENT_DESTROYED)    -- 这里应该用什么时点？
+    e4:SetCondition(c284130838.destroyTriggerCondition)   -- 这里貌似应该有个检查？
+    e4:SetCost(c284130838.destroyTriggerCost)
+    e4:SetOperation(destroyTriggerOperation)
     c:RegisterEffect(e5)
 end
 
@@ -82,7 +82,8 @@ end
 function c284130838.synchroSuccessTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     local player, value = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
     local g = e:GetLabelObject()
-    Duel.SendtoGrave(g, REASON_EFFECT)
+    Duel.SendtoGrave(g, REASON_EFFECT + REASON_RETURN)
+    -- 参考[48976825]来自异次元的埋葬
     Duel.Recover(player, value, REASON_EFFECT)
 end
 
@@ -132,6 +133,10 @@ end
 
 function c284130838.action_activateLimit(e, re, rp)
     return re:GetHandler():IsCode(e:GetLabel()) and not re:GetHandler():IsImmuneToEffect(e)
+end
+
+function c284130838.destroyTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
+    return bit.band(r, REASON_EFFECT) == REASON_EFFECT
 end
 
 function c284130838.destroyTriggerCost(e, tp, eg, ep, ev, re, r, rp, chk)
