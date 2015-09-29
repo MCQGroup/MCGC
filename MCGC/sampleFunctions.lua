@@ -10,11 +10,24 @@
     re      Effect      Reason Effect   因……效果
     r       REASON_     Reason          因……原因
     rp      PLAYER_     Reason Player   因……玩家
+    
+    gc      Card        Group Card      融合材料所涉及的卡片
+    chkf    PLAYER_     Check Player    似乎用于强制检测该怪兽是否属于某个玩家
+    
+    c       Card        Card            将要被特殊召唤的卡片
 ]]
 
 -- Operation
 function common_operation(e, tp, eg, ep, ev, re, r, rp)
     -- 不返回值
+end
+
+function common_operation2(e, tp, eg, ep, ev, re, r, rp, gc, chkf)
+    -- 已知用于EFFECT_FUSION_MATERIAL
+end
+
+function common_operation3(e, tp, eg, ep, ev, re, r, rp, c)
+    -- 已知用于EFFECT_SPSUMMON_PROC
 end
 
 -- Value
@@ -40,7 +53,7 @@ function common_value1(e, re, val, r, rp, rc)
 end
 
 function common_value2(e, c)
-    -- 已知用于EFFECT_UPDATE_ATTACK, EFFECT_UPDATE_DEFENSE
+    -- 已知用于EFFECT_UPDATE_ATTACK, EFFECT_UPDATE_DEFENSE, EFFECT_SPSUMMON_PROC
 end
 
 function common_value3(e, se, sp, st)
