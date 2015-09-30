@@ -1,4 +1,4 @@
--- MCÈºµÄÖÇÕß ¶þÓã
+-- MCç¾¤çš„æ™ºè€… äºŒé±¼
 
 function c284130836.initial_effect(c)
     -- spsummon
@@ -7,6 +7,7 @@ function c284130836.initial_effect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_SUMMON_SUCCESS)
+    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e1:SetTarget(c284130836.sptg)
     e1:SetOperation(c284130836.spop)
     c:RegisterEffect(e1)
@@ -34,10 +35,15 @@ function c284130836.spop(e, tp, eg, ep, ev, re, r, rp)
     if tc:IsRelateToEffect(e) and Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then
         local e1 = Effect.CreateEffect(tc)
         e1:SetType(EFFECT_TYPE_SINGLE)
-        e1:SetCode(EFFECT_DISABLE_EFFECT)
+        e1:SetCode(EFFECT_DISABLE)
         e1:SetReset(RESET_EVENT + 0x1FE0000)
         -- 0x01FE0000 = RESET_TOFIELD + RESET_LEAVE + RESET_TODECK + RESET_TOHAND + RESET_TEMP_REMOVE + RESET_REMOVE + RESET_TOGRAVE + RESET_TURN_SET
         tc:RegisterEffect(e1)
+
+        local e2 = e1:Clone()
+        e2:SetCode(EFFECT_DISABLE_EFFECT)
+        e2:SetValue(RESET_TURN_SET)
+        tc:RegisterEffect(e2)
     end
     Duel.SpecialSummonComplete()
 end

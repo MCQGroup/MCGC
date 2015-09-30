@@ -7,8 +7,9 @@ function c284130870.initial_effect(c)
     -- 墓地除外触发特招和装备
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_EQUIP)
-    e1:SetRange(LOCATION_GRAVE)
     e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e1:SetRange(LOCATION_GRAVE)
     e1:SetCost(c284130870.removeCost)
     e1:SetTarget(c284130870.removeTarget)
     e1:SetOperation(c284130870.removeOperation)
@@ -46,7 +47,8 @@ end
 
 function c284130870.removeOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS):GetFirst()
-    Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
+    local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
+    Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
 
     local equipCard = Duel.SelectMatchingCard(tp, Card.IsCode, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, 284130826):GetFirst()
     Duel.Equip(tp, equipCard, c)

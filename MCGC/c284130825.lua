@@ -136,7 +136,8 @@ end
 
 function c284130825.spsummonSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
     local c1 = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS):GetFirst()
-    Duel.SpecialSummon(c1, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_ATTACK)
+    local pos = Duel.SelectPosition(tp, c1, POS_FACEUP)
+    Duel.SpecialSummon(c1, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
 
     local c2 = e:GetHandler()
     local e1 = Effect.CreateEffect(c2)

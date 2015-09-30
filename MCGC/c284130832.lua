@@ -21,6 +21,7 @@ function c284130832.initial_effect(c)
     e3:SetDescription(aux.Stringid(284130832, 1))
     e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e3:SetCode(EVENT_FLIP)
     e3:SetTarget(c284130832.thtg)
     e3:SetOperation(c284130832.thop)
@@ -40,7 +41,12 @@ function c284130832.regop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsPreviousLocation(LOCATION_SZONE) and c:IsPreviousPosition(POS_FACEDOWN) and c:IsReason(REASON_EFFECT) and c:IsReason(REASON_DESTROY) then
         local g = Duel.SelectMatchingCard(tp, c284130832.filter, tp, LOCATION_DECK + LOCATION_HAND + LOCATION_GRAVE, 0, 1, 3, nil)
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+        local c = g:GetFirst()
+        while c do
+            local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
+            Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+            c = g:GetNext()
+        end
     end
 end
 
