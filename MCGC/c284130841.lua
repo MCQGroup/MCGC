@@ -4,6 +4,7 @@ function c284130841.initial_effect(c)
 	-- 次元融合
     -- 参考[56655675]圣灵兽骑 地火狮
     c:EnableReviveLimit()
+    -- 因为是族融合所以不填融合素材
     
     local e1=Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
