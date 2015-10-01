@@ -38,11 +38,11 @@ function c284130841.fusionFilter1(c)
 end
 
 function c284130841.shouhuaFilter(c)
-    return c:IsCode(284130825) or c:IsCode
+    return c:IsCode(284130825) or c:IsCode(284130841)
 end
 
 function c284130841.fusionFilter2(c)
-    return c:IsCode()
+    return c284130841.shouhuaFilter(c) and c:IsAbleToDeckAsCost() and c:IsCanBeFusionMaterial()
 end
 
 function c284130841.fusionCondition(e, c)
@@ -50,39 +50,17 @@ function c284130841.fusionCondition(e, c)
         return true
     end
     local tp = c:GetControler()
-    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2 and Duel.
+    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -2 and Duel.IsExistingMatchingCard(c284130841.fusionFilter1, tp, LOCATION_MZONE, 0, 1, nil) and Duel.IsExistingMatchingCard(c284130841.fusionFilter2, tp, LOCATION_MZONE, 0, 1, nil)
 end
 
 function c284130841.fusionOperation(e, tp, eg, ep, ev, re, r, rp, c)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local g1 = Duel.SelectMatchingCard(tp, c284130841.fusionFilter1, tp, LOCATION_MZONE, 0, 1, 1, nil)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local g2 = Duel.SelectMatchingCard(tp, c284130841.fusionFilter2, tp, LOCATION_MZONE, 0, 1, 1, nil)
+    g1:Merge(g2)
+    c:SetMaterial(g1)
+    Duel.SendToDeck(g1, nil, nil, REASON_COST)
 end
 
 -- 以下是参考用代码
-function c56655675.spfilter1(c)
-    return c:IsSetCard(0x40b5) and c:IsAbleToRemoveAsCost() and c:IsCanBeFusionMaterial()
-end
-function c56655675.spfilter2(c)
-    return c:IsSetCard(0x10b5) and c:IsAbleToRemoveAsCost() and c:IsCanBeFusionMaterial()
-end
-function c56655675.spfilter3(c)
-    return c:IsSetCard(0x20b5) and c:IsAbleToRemoveAsCost() and c:IsCanBeFusionMaterial()
-end
-function c56655675.spcon(e,c)
-    if c==nil then return true end
-    local tp=c:GetControler()
-    return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2
-        and Duel.IsExistingMatchingCard(c56655675.spfilter1,tp,LOCATION_MZONE,0,1,nil)
-        and Duel.IsExistingMatchingCard(c56655675.spfilter2,tp,LOCATION_MZONE,0,1,nil)
-        and Duel.IsExistingMatchingCard(c56655675.spfilter3,tp,LOCATION_MZONE,0,1,nil)
-end
-function c56655675.spop(e,tp,eg,ep,ev,re,r,rp,c)
-    Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-    local g1=Duel.SelectMatchingCard(tp,c56655675.spfilter1,tp,LOCATION_MZONE,0,1,1,nil)
-    Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-    local g2=Duel.SelectMatchingCard(tp,c56655675.spfilter2,tp,LOCATION_MZONE,0,1,1,nil)
-    Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-    local g3=Duel.SelectMatchingCard(tp,c56655675.spfilter3,tp,LOCATION_MZONE,0,1,1,nil)
-    g1:Merge(g2)
-    g1:Merge(g3)
-    c:SetMaterial(g1)
-    Duel.Remove(g1,POS_FACEUP,REASON_COST)
-end
