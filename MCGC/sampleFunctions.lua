@@ -41,7 +41,7 @@ end
     rp      PLAYER_         Reason Player   因……玩家
     rc      Card            Reason Card     因……卡片
 
-    c       Card            Card            效果所属的卡片
+    c       Card            Card            效果所属/需要判断的卡片
 
     se      Effect          Summon Effect   进行召唤的效果（？）
     sp      PLAYER_         Summon Player   进行召唤的玩家
@@ -53,7 +53,7 @@ function common_value1(e, re, val, r, rp, rc)
 end
 
 function common_value2(e, c)
-    -- 已知用于EFFECT_UPDATE_ATTACK, EFFECT_UPDATE_DEFENSE, EFFECT_SPSUMMON_PROC
+    -- 已知用于EFFECT_UPDATE_ATTACK, EFFECT_UPDATE_DEFENSE, EFFECT_SPSUMMON_PROC, EFFECT_CANNOT_SELECT_BATTLE_TARGET
 end
 
 function common_value3(e, se, sp, st)
