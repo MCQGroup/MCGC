@@ -6,13 +6,13 @@ function c284130841.initial_effect(c)
     c:EnableReviveLimit()
     -- 因为是族融合所以不填融合素材
     
-    local e1=Effect.CreateEffect(c)
+    local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SPSUMMON_CONDITION)
     c:RegisterEffect(e1)
     
-    local e2=Effect.CreateEffect(c)
+    local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetCode(EFFECT_SPSUMMON_PROC)
     e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
@@ -23,7 +23,8 @@ function c284130841.initial_effect(c)
     c:RegisterEffect(e2)
 	
 	-- 攻击聚焦
-	
+	local e3 = Effect.CreateEffect(c)
+    c:RegisterEffect(e3) 
 	
 	-- 攻守上升
 
