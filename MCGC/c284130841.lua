@@ -23,7 +23,14 @@ function c284130841.initial_effect(c)
     c:RegisterEffect(e2)
 	
 	-- 攻击聚焦
+    -- 参考[50449881]鲨鱼要塞
 	local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetTargetRange(0, LOCATION_MZONE)
+    e3:SetCondition(c284130841.atkFocusCondition)
+    e3:SetValue(c284130841.atkFocus)
     c:RegisterEffect(e3) 
 	
 	-- 攻守上升
@@ -64,4 +71,11 @@ function c284130841.fusionOperation(e, tp, eg, ep, ev, re, r, rp, c)
     Duel.SendToDeck(g1, nil, nil, REASON_COST)
 end
 
+function c284130841.atkFocusCondition(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsFaceup()
+end
+
+function c284130841.atkFocus(e, c)
+    return c ~= e:GetHandler()
+end
 -- 以下是参考用代码
