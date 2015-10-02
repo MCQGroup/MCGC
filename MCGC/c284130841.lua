@@ -29,7 +29,8 @@ function c284130841.initial_effect(c)
     e3:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
     e3:SetRange(LOCATION_MZONE)
     e3:SetTargetRange(0, LOCATION_MZONE)
-    e3:SetCondition(c284130841.atkFocusCondition)
+    -- e3:SetCondition(c284130841.atkFocusCondition)
+    -- [66865880]棉花糖的眼镜有正面表示检查而鲨鱼要塞没有，因此这里注释，测试后视情况更改
     e3:SetValue(c284130841.atkFocus)
     c:RegisterEffect(e3) 
 	
