@@ -35,7 +35,15 @@ function c284130841.initial_effect(c)
     c:RegisterEffect(e3) 
 	
 	-- 攻守上升
-
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetCode(EFFECT_UPDATE_ATTACK)
+    e4:SetValue(c284130841.update)
+    c:RegisterEffect(e4)
+    
+    local e5 = e4:Clone()
+    e5:SetCode(EFFECT_UPDATE_DEFENCE)
+    c:RegisterEffect(e5)
 end
 
 function c284130841.lainFilter(c)
@@ -79,4 +87,12 @@ end
 function c284130841.atkFocus(e, c)
     return c ~= e:GetHandler()
 end
--- 以下是参考用代码
+
+function c284130841.updateFilter(c)
+    return c:IsFaceup() and c:IsType(TYPE_PENDULUM) and (c284130841.lainFilter(c) or c284130841.shouhuaFilter(c))
+    -- 这里关于额外卡组中的表侧表示的怪兽存疑，等待进一步解释
+end
+
+function c284130841.update(e, c)
+    return 300 * Duel.GetMatchingGroupCount(c284130841.updateFilter, tp, LOCATION_MZONE + LOCATION_EXTRA, 0, nil)
+end
