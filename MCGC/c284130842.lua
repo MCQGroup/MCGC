@@ -24,7 +24,10 @@ function c284130842.initial_effect(c)
 	-- 攻击上升
 	local e3 = Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-	e3:SetCode()
+	e3:SetCode(EVENT_BATTLE_CONFIRM)
+	e3:SetCondition(c284130842.atkUpCondition)
+	e3:SetOperation(cc284130842.atkUpOperation)
+	c:RegisterEffect(e3)
 	
 	-- 防御穿透
 		
@@ -40,4 +43,18 @@ end
 
 function c284130842.indestructableValue(e, re, tp)
 	return tp ~= e:GetHandlerPlayer()
+end
+
+function c284130842.atkUpCondition(e, tp, eg, ep, ev, re, r, rp)
+	return e:GetHandler():GetBattleTarget():GetPreviousLocation() == LOCATION_EXTRA
+end
+
+function c284130842.atkUpOperation(e, tp, eg, ep, ev, re, r, rp)
+	local c = e:GetHandler()
+	local e1 = Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetCode(EFFECT_UPDATE_ATTACK)
+	e1:SetValue(500)
+	e1:SetReset(RESET_PHASE + PHASE_BATTLE)
+	c:RegisterEffect(e1)
 end
