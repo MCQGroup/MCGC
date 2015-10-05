@@ -46,6 +46,8 @@ end
     se      Effect          Summon Effect   进行召唤的效果（？）
     sp      PLAYER_         Summon Player   进行召唤的玩家
     st      SUMMON_TYPE_    Summon Type     召唤类型
+    
+    tp      PLAYER_         Target Player   发发动效果的玩家
 ]]
 function common_value1(e, re, val, r, rp, rc)
     -- 已知用于EFFECT_CHANGE_DAMAGE
@@ -61,7 +63,7 @@ function common_value3(e, se, sp, st)
 end
 
 function common_value4(e, re, tp)
-    -- 已知用于EFFECT_CANNOT_ACTIVATE
+    -- 已知用于EFFECT_CANNOT_ACTIVATE, EFFECT_INDESTRUCTABLE_EFFECT
 end
 
 -- 触发型效果用函数
