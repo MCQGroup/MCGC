@@ -24,13 +24,16 @@ function c284130842.initial_effect(c)
 	-- 攻击上升
 	local e3 = Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-	e3:SetCode(EVENT_BATTLE_CONFIRM)
+	e3:SetCode(EVENT_BATTLE_START)
 	e3:SetCondition(c284130842.atkUpCondition)
 	e3:SetOperation(cc284130842.atkUpOperation)
 	c:RegisterEffect(e3)
 	
 	-- 防御穿透
-		
+	local e4 = Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetCode(EFFECT_PIERCE)
+	c:RegisterEffect(e4)
 end
 
 function c284130842.fusionFilter1(c)
