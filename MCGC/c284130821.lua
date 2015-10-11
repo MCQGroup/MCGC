@@ -44,13 +44,17 @@ function c284130821.removeCost(e, tp, eg, ep, ev, re, r, rp, chk)
     e:GetHandler():RemoveOverlayCard(tp, 1, 1, REASON_COST)
 end
 
+function c284130821.removeFilter(c, e)
+    return c:IsAbleToRemove() and c:IsCanBeEffectTarget(e)
+end
+
 function c284130821.removeTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, LOCATION_MZONE, LOCATION_MZONE, 1, e:GetHandler())
+        return Duel.IsExistingMatchingCard(c284130821.removeFilter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, e:GetHandler(), e)
     end
-    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToRemove, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, e:GetHandler())
+    local g = Duel.SelectMatchingCard(tp, c284130821.removeFilter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, e:GetHandler(), e)
     Duel.SetTargetCard(g)
-    Duel.SetOperationInfo(0, category_remove, g, 1, nil, 0)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, nil, 0)
 end
 
 function c284130821.removeOperation(e, tp, eg, ep, ev, re, r, rp)
