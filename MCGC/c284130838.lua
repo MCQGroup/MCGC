@@ -95,8 +95,12 @@ function c284130838.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == tp and(phase == PHASE_MAIN1 or phase == PHASE_MAIN2)
 end
 
+function c284130838.ignitionFilter(c)
+    return c284130838.filter(c) and c:IsSpecialSummonable()
+end
+
 function c284130838.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.SelectMatchingCard(tp, c284130838.filter, tp, LOCATION_HAND, 0, 1, 1, nil)
+    local g = Duel.SelectMatchingCard(tp, c284130838.ignitionFilter, tp, LOCATION_HAND, 0, 1, 1, nil)
     local pos = Duel.SelectPosition(tp, g:GetFirst(), POS_FACEUP)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, nil)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, nil, tp, 1)
