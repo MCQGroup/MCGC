@@ -10,7 +10,7 @@ function c284130830.initial_effect(c)
 
     -- 通常召唤触发
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DAMAGE)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_ATKCHANGE)
     e2:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_SINGLE)
     e2:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CARD_TARGET)
     e2:SetCode(EVENT_SUMMON_SUCCESS)
@@ -19,11 +19,15 @@ function c284130830.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
+function c284130830.summonTriggerFilter(c, e)
+    return c:IsType(TYPE_MONSTER) and c:IsCanBeEffectTarget(e)
+end
+
 function c284130830.summonTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.GetMatchingGroupCount(Card.IsType, tp, 0, LOCATION_MZONE, nil, TYPE_MONSTER) > 0
+        return Duel.GetMatchingGroupCount(c284130830.summonTriggerFilter, tp, 0, LOCATION_MZONE, nil, e) > 0
     end
-    local g = Duel.SelectMatchingCard(tp, Card.IsType, tp, 0, LOCATION_MZONE, 1, 1, nil, TYPE_MONSTER)
+    local g = Duel.SelectMatchingCard(tp, c284130830.summonTriggerFilter, tp, 0, LOCATION_MZONE, 1, 1, nil, e)
     Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_ATKCHANGE, g, g:GetCount(), nil, 0)
 end
