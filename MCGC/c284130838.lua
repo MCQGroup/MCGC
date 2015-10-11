@@ -70,6 +70,9 @@ function c284130838.synchroSuccessTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130838.synchroSuccessTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(c284130838.filter, tp, LOCATION_EXTRA, 0 , 1, nil)
+    end
     local g = Duel.GetMatchingGroup(c284130838.filter, tp, LOCATION_EXTRA, 0, nil)
     if g:GetCount() > 0 then
         Duel.SetTargetPlayer(tp)
