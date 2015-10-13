@@ -4,9 +4,13 @@ function c284130843.intial_effect(c)
 	-- 同调召唤
 	c:EnableReviveLimit()
 	aux.AddSynchroProcedure(c, c284130843.synchroFilter1, c284130843.synchroFilter2, 2)
-	-- 这里不需要是MC群吗？
+	local e1 = Effect.CreateEffect(c)
+	c:RegisterEffect(e1)
 	
 	-- 展示
+	local e2 = Effect.CreateEffect(c)
+	c:RegisterEffect(e2) 
+	
 	-- 魔免
 	-- 控制权
 	-- 无效效果
@@ -18,9 +22,9 @@ function c284130843.filter(c)
 end
 
 function c284130843.synchroFilter1(c)
-	return c284130843.filter(c) and c:IsType(TYPE_TUNER) and c:IsType(TYPE_SYNCHRO)
+	return c:IsType(TYPE_TUNER) and c:IsType(TYPE_SYNCHRO)
 end
 
 function c284130843.synchroFilter2(c)
-	return c284130843.filter(c) and (c:IsType(TYPE_FUSION) or c:IsType(TYPE_XYZ) or c:IsType(TYPE_PENDULUM))
+	return (c:IsType(TYPE_FUSION) or c:IsType(TYPE_XYZ) or c:IsType(TYPE_PENDULUM))
 end
