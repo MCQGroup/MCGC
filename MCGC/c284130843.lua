@@ -64,6 +64,7 @@ end
 
 function c284130843.showOperation(e, tp, eg, ep, ev, re, r, rp)
 	-- 这尼玛怎么写！
+	-- DZ建议参考自然调整和调节支援士兵
 	local e1 = Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_SYNCHRO_LEVEL)
