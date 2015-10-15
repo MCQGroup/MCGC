@@ -22,7 +22,17 @@ function c284130843.intial_effect(c)
 	c:RegisterEffect(e2) 
 	
 	-- 魔免
+	-- 参考[94784213]威风妖怪·狐
+	local e3 = Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+	c:RegisterEffect(e3)
 	
+	local e4 = e3:Clone()
+	e4:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+	c:RegisterEffect(e4)
 	
 	-- 控制权
 	-- 无效效果
@@ -54,4 +64,11 @@ end
 
 function c284130843.showOperation(e, tp, eg, ep, ev, re, r, rp)
 	-- 这尼玛怎么写！
+	local e1 = Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_SYNCHRO_LEVEL)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e1:SetCondition()
+	e1:SetValue()
+	Duel.RegisterEffect(e1, tp)
 end
