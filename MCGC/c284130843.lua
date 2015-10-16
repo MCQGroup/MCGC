@@ -35,6 +35,9 @@ function c284130843.intial_effect(c)
 	c:RegisterEffect(e4)
 	
 	-- 控制权
+	local e5 = Effect.CreateEffect(c)
+	c:RegisterEffect(e5)
+	
 	-- 无效效果
 	-- 亡语
 end	
@@ -65,6 +68,8 @@ end
 function c284130843.showOperation(e, tp, eg, ep, ev, re, r, rp)
 	-- 这尼玛怎么写！
 	-- DZ建议参考自然调整和调节支援士兵
+	-- 然而并没有什么用
+	-- DZ又建议参考传说之都 亚特兰蒂斯
 	local e1 = Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_SYNCHRO_LEVEL)
