@@ -15,6 +15,11 @@
     chkf    PLAYER_     Check Player    似乎用于强制检测该怪兽是否属于某个玩家
     
     c       Card        Card            将要被特殊召唤的卡片
+    
+    syncard Card        Synchro Card    将要被同调召唤的卡片
+    f       function    Function        卡片过滤函数
+    minc    int         Min Count       最小数量
+    maxc    int         Max Count       最大数量    
 ]]
 
 -- Operation
@@ -28,6 +33,10 @@ end
 
 function common_operation3(e, tp, eg, ep, ev, re, r, rp, c)
     -- 已知用于EFFECT_SPSUMMON_PROC
+end
+
+function common_operation4(e, tp, eg, ep, ev, re, r, rp, syncard, f, minc, maxc)
+    -- 已知用于EFFECT_SYNCHRO_MATERIAL_CUSTOM
 end
 
 -- Value
@@ -93,10 +102,16 @@ end
 --[[
     name    type        whole_name      description
     -------------------------------------------------------
+    e       Effect      Effect          该效果本身
     c       Card        Card            要检查的卡片
     g       Group       Group           要检查的卡片组，与gc成对出现
     gc      int         Group Count     要检查的卡片组中的数目
     te      Effect      Test Effect     要检查的效果
+    
+    syncard Card        Synchro Card    将要被同调召唤的卡片
+    f       function    Function        卡片过滤函数
+    minc    int         Min Count       最小数量
+    maxc    int         Max Count       最大数量
 ]]
 
 -- Condition
@@ -118,4 +133,8 @@ function influence_target1(e, te, tp)
 end
 
 function influence_target2(e, c, tp)
+end
+
+function influence_target3(e, syncard, f, minc, maxc)
+    -- 已知用于EFFECT_SYNCHRO_MATERIAL_CUSTOM
 end
