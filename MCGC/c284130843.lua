@@ -76,11 +76,29 @@ function c284130843.showOperation(e, tp, eg, ep, ev, re, r, rp)
 	-- 然而并没有什么用
 	-- DZ又建议参考传说之都 亚特兰蒂斯
 	-- 参考EFFECT_SYNCHRO_MATERIAL_CUSTOM
-	local e1 = Effect.CreateEffect(e:GetHandler())
-	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetCode(EFFECT_SYNCHRO_LEVEL)
-	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e1:SetCondition()
-	e1:SetValue()
-	Duel.RegisterEffect(e1, tp)
+	Duel.RegisterFlagEffect(tp, 284130843, RESET_PHASE + RESET_END, nil, 1)
+	
+	local tg = Duel.GetMatchingGroup(Card.IsType(TYPE_XYZ), tp, LOCATION_MZONE, 0, nil)
+	local tc = tg:GetFirst()
+	while tc do
+		local te = Effect.CreateEffect(tc)
+		te:SetType(EFFECT_TYPE_FIELD)
+		te:SetCode(EFFECT_SYNCHRO_MATERIAL_CUSTOM)
+		te:SetLabel(e:GetHandler():GetCode())
+		te:SetCondition(function(ein, tpin, egin, epin, evin, rein, rin, rpin)
+			return Duel.GetFlagEffect(tp, 284130843)
+		end)
+		te:SetTarget(function(ein, syncard, f, minc, maxc)
+		-- TODO
+			return true
+		end)
+		te:SetValue(1)
+		te:SetOperation(function(ein, tpin, egin, epin, rein, rin, rpin, syncard, f, minc, maxc)
+		-- TODO
+			return
+		end)
+		tc:RegisterEffect(te)
+		
+		tc = tg:GetNext()
+	end
 end
