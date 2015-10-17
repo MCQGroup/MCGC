@@ -70,32 +70,48 @@ function c284130843.showCost(e, tp, eg, ep, ev, re, r, rp, chk)
 	Duel.ConfirmCards(1 - tp, e:GetHandler())
 end
 
+function c284130843.showSynchroFilter(c, syncard, tuner, f)
+	return c:IsFaceup() and c:IsNotTuner() and c:IsCanBeSynchroMaterial(syncard, tuner) and (f == nil or f(c))
+end
+
+function c284130843.showSynchroCheck(c)
+	if Duel.GetFlagEffect(tp, 284130843) and c:IsType(TYPE_XYZ)
+		return c:GetRank()
+	else
+		return c:GetSynchroLevel()
+	end
+end
+
 function c284130843.showOperation(e, tp, eg, ep, ev, re, r, rp)
-	-- 这尼玛怎么写！
-	-- DZ建议参考自然调整和调节支援士兵
-	-- 然而并没有什么用
-	-- DZ又建议参考传说之都 亚特兰蒂斯
 	-- 参考EFFECT_SYNCHRO_MATERIAL_CUSTOM
 	Duel.RegisterFlagEffect(tp, 284130843, RESET_PHASE + RESET_END, nil, 1)
 	
-	local tg = Duel.GetMatchingGroup(Card.IsType(TYPE_XYZ), tp, LOCATION_MZONE, 0, nil)
+	local tg = Duel.GetMatchingGroup(Card.IsType, tp, LOCATION_MZONE, 0, nil, TYPE_XYZ)
 	local tc = tg:GetFirst()
 	while tc do
 		local te = Effect.CreateEffect(tc)
 		te:SetType(EFFECT_TYPE_FIELD)
 		te:SetCode(EFFECT_SYNCHRO_MATERIAL_CUSTOM)
-		te:SetLabel(e:GetHandler():GetCode())
 		te:SetCondition(function(ein, tpin, egin, epin, evin, rein, rin, rpin)
 			return Duel.GetFlagEffect(tp, 284130843)
 		end)
 		te:SetTarget(function(ein, syncard, f, minc, maxc)
-		-- TODO
-			return true
+			local c = ein:GetHandler()
+			local lv = syncard:GetLevel() - c:GetRank()
+			if lv <= 0 then
+				return false
+			end
+			local g = Duel.GetMatchingGroup(c284130843.showSynchroFilter, tp, LOCATION_MZONE, 0, c, syncard, c, f)
+			return g:CheckWithSumEqual(c284130843.showSynchroCheck, lv, minc, maxc, syncard)
 		end)
 		te:SetValue(1)
 		te:SetOperation(function(ein, tpin, egin, epin, rein, rin, rpin, syncard, f, minc, maxc)
-		-- TODO
-			return
+			local c = ein:GetHandler()
+			local lv = syncard:GetLevel() - c:GetRank()
+			local g = Duel.GetMatchingGroup(c284130843.showSynchroFilter, tp, LOCATION_MZONE, 0, c, syncard, c, f)
+			Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SMATERIAL)
+			local sg = g:SelectWithSumEqual(tp, c284130843.showSynchroCheck, lv, minc, maxc, syncard)
+			Duel.SetSynchroMaterial(sg)
 		end)
 		tc:RegisterEffect(te)
 		
