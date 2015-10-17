@@ -49,7 +49,7 @@ function c284130843.intial_effect(c)
 	e6:SetCategory(CATEGORY_NEGATE)
 	e6:SetType(EFFECT_TYPE_QUICK_O)
     e6:SetCode(EVENT_CHAINING)
-	e6:SetCountLimit(1)	-- 这个能传函数吗？f
+	e6:SetLabel(0)	-- 因为SetCountLimit不能传函数所以用Label来实现
 	e6:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
 	e6:SetRange(LOCATION_MZONE)
 	e6:SetCondition(c284130843.negateCondition)
@@ -65,6 +65,14 @@ function c284130843.intial_effect(c)
 	e6:SetCondition(c284130843.tograveCondition)
 	e6:SetOperation(c284130843.tograveOperation)
 	c:RegisterEffect(e7)
+	
+	-- 每回合重置e6
+	local e8 = Effect.CreateEffect(c)
+	e8:SetTarget(EFFECT_TYPE_CONTINUOUS)
+	e8:SetCode(EVENT_TURN_END)
+	e8:SetLabelObject(e6)
+	e8:SetOperation(c284130843.resetOperation)
+	c:RegisterEffect(e8)
 end	
 
 function c284130843.filter(c)
@@ -139,8 +147,12 @@ function c284130843.showOperation(e, tp, eg, ep, ev, re, r, rp)
 	end
 end
 
+function c284130843.negateFilter(c)
+	return c284130843.filter(c) and c284130843.synchroFilter2(c)
+end
+
 function c284130843.negateCondition(e, tp, eg, ep, ev, re, r, rp)
-	return Duel.IsChainNegatable(ev)
+	return Duel.IsChainNegatable(ev) and Duel.GetMatchingGroupCount(c284130843.negateFilter, tp, LOCATION_MZONE, 0, nil) > e:GetLabel()
 end
 
 function c284130843.negateTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -152,6 +164,7 @@ end
 
 function c284130843.negateOperation(e, tp, eg, ep, ev, re, r, rp)
 	Duel.NegateActivation(ev)
+	e:SetLabel(e:GetLabel() + 1)
 end
 
 function c284130843.tograveCondition(e, tp, eg, ep, ev, re, r, rp)
@@ -186,4 +199,8 @@ function c284130843.tograveOperation(e, tp, eg, ep, ev, re, r, rp)
 	-- 参考[54447022]灵魂补充
 	e2:SetCode(EFFECT_CANNOT_BP)
 	Duel.RegisterEffect(e2, tp)
+end
+
+function c284130843.resetOperation(e, tp, eg, ep, ev, re, r, rp)
+	e:GetLabelObject():SetLabel(0)
 end
