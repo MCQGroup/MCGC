@@ -35,15 +35,35 @@ function c284130843.intial_effect(c)
 	c:RegisterEffect(e4)
 	
 	-- 控制权
+	-- 参考[75830094]荷鲁斯之黑炎龙 LV4
 	local e5 = Effect.CreateEffect(c)
+	e5:SetType(EFFECT_TYPE_SINGLE)
+	e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e5:SetRange(LOCATION_MZONE)
+	e5:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
 	c:RegisterEffect(e5)
 	
 	-- 无效效果
+	-- 参考[35952884]流天类星龙
 	local e6 = Effect.CreateEffect(c)
+	e6:SetCategory(CATEGORY_NEGATE)
+	e6:SetType(EFFECT_TYPE_QUICK_O)
+    e6:SetCode(EVENT_CHAINING)
+	e6:SetCountLimit(1)	-- 这个能传函数吗？f
+	e6:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+	e6:SetRange(LOCATION_MZONE)
+	e6:SetCondition(c284130843.negateCondition)
+	e6:SetTarget(c284130843.negateTarget)
+	e6:SetOperation(c284130843.negateOperation)
 	c:RegisterEffect(e6)
 	
 	-- 亡语
 	local e7 = Effect.CreateEffect(c)
+	e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e6:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+	e6:SetCode(EVENT_TO_GRAVE)
+	e6:SetCondition(c284130843.tograveCondition)
+	e6:SetOperation(c284130843.tograveOperation)
 	c:RegisterEffect(e7)
 end	
 
@@ -105,7 +125,7 @@ function c284130843.showOperation(e, tp, eg, ep, ev, re, r, rp)
 			return g:CheckWithSumEqual(c284130843.showSynchroCheck, lv, minc, maxc, syncard)
 		end)
 		te:SetValue(1)
-		te:SetOperation(function(ein, tpin, egin, epin, rein, rin, rpin, syncard, f, minc, maxc)
+		te:SetOperation(function(ein, tpin, egin, epin, evin, rein, rin, rpin, syncard, f, minc, maxc)
 			local c = ein:GetHandler()
 			local lv = syncard:GetLevel() - c:GetRank()
 			local g = Duel.GetMatchingGroup(c284130843.showSynchroFilter, tp, LOCATION_MZONE, 0, c, syncard, c, f)
@@ -117,4 +137,53 @@ function c284130843.showOperation(e, tp, eg, ep, ev, re, r, rp)
 		
 		tc = tg:GetNext()
 	end
+end
+
+function c284130843.negateCondition(e, tp, eg, ep, ev, re, r, rp)
+	return Duel.IsChainNegatable(ev)
+end
+
+function c284130843.negateTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+	if chk == 0 then
+		return true
+	end
+	Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, nil, nil)
+end
+
+function c284130843.negateOperation(e, tp, eg, ep, ev, re, r, rp)
+	Duel.NegateActivation(ev)
+end
+
+function c284130843.tograveCondition(e, tp, eg, ep, ev, re, r, rp)
+	return bit.band(e:GetHandler():GetPreviousLocation(), LOCATION_MZONE) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and Duel.IsExistingMatchingCard(c284130843.tograveFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, nil)
+end
+
+function c284130843.tograveFilter(c)
+	return c284130843.filter(c) and c:IsSpecialSummonable()
+end
+
+function c284130843.tograveOperation(e, tp, eg, ep, ev, re, r, rp)
+	local g = Duel.SelectMatchingCard(tp, c284130843.tograveFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, Duel.GetLocationCount(tp, LOCATION_MZONE), nil)
+	local c = g:GetFirst()
+	while c do
+		local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
+		Duel.SpecialSummonStep(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+	
+		c = g:GetNext()
+	end
+	Duel.SpecialSummonComplete()
+	
+	local e1 = Effect.CreateEffect(e:GetHandler)
+	-- 参考[37576645}无谋的贪欲
+	e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e1:SetCode(EFFECT_SKIP_DP)
+    e1:SetTargetRange(1, 0)
+    e1:SetReset(RESET_PHASE + PHASE_END, 5)
+	Duel.RegisterEffect(e1, tp)
+	
+	local e2 = e1:Clone()
+	-- 参考[54447022]灵魂补充
+	e2:SetCode(EFFECT_CANNOT_BP)
+	Duel.RegisterEffect(e2, tp)
 end
