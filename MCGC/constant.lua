@@ -701,7 +701,7 @@ GLOBALFLAG_SPSUMMON_ONCE = 0x200		--
 -- 用于Effect.SetCountLimit，意味着code不能超过0x10000000 - 1 = 268435455
 EFFECT_COUNT_CODE_OATH = 0x10000000 -- 使用次数限制(誓约效果)
 EFFECT_COUNT_CODE_DUEL = 0x20000000 -- 决斗中使用次数
-EFFECT_COUNT_CODE_SINGLE = 0x1		-- 多个效果公共使用次数
+EFFECT_COUNT_CODE_SINGLE = 0x1		-- 一张卡片的多个效果公共使用次数，不与其它code叠加使用
 -- 灵摆召唤使用 code = 10000000, 请勿占用
 
 -- 特殊选项
