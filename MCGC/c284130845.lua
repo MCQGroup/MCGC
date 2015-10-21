@@ -2,7 +2,7 @@
 
 function c284130845.initial_effect(c)
 	-- 超量
-    aux.AddXyzProcedure(c, aux.FilterBoolFunction(Card.IsSetCard, 0x2222), 4, 3, c284130845.ovfilter, aux.Stringid(284130845, 0))
+    aux.AddXyzProcedure(c, aux.FilterBoolFunction(Card.IsSetCard, 0x2222), 3, 2, c284130845.ovfilter, aux.Stringid(284130845, 0))
     c:EnableReviveLimit()
 	
 	-- 无效并获得效果
