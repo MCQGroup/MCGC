@@ -74,7 +74,7 @@ function c284130838.synchroSuccessTriggerTarget(e, tp, eg, ep, ev, re, r, rp, ch
         return Duel.IsExistingMatchingCard(c284130838.filter, tp, LOCATION_EXTRA, 0 , 1, nil)
     end
     local g = Duel.GetMatchingGroup(c284130838.filter, tp, LOCATION_EXTRA, 0, nil)
-    if g:GetCount() > 0 then
+    if g then
         Duel.SetTargetPlayer(tp)
         Duel.SetTargetParam(g:GetCount() * 500)
         Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, nil, tp, g:GetCount() * 500)
@@ -101,12 +101,14 @@ end
 
 function c284130838.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, c284130838.ignitionFilter, tp, LOCATION_HAND, 0, 1, 1, nil)
-    local pos = Duel.SelectPosition(tp, g:GetFirst(), POS_FACEUP)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, nil)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, nil, tp, 1)
-    -- 这个效果能不能召唤自己？这个效果特招的怪物要选择表示形式吗？
-    -- 不能。要。
-    Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+    if g then
+        local pos = Duel.SelectPosition(tp, g:GetFirst(), POS_FACEUP)
+        Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, nil)
+        Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, nil, tp, 1)
+        -- 这个效果能不能召唤自己？这个效果特招的怪物要选择表示形式吗？
+        -- 不能。要。
+        Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+    end
 end
 
 function c284130838.actionCost(e, tp, eg, ep, ev, re, r, rp, chk)
