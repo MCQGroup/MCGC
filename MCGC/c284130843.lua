@@ -186,7 +186,7 @@ function c284130843.tograveOperation(e, tp, eg, ep, ev, re, r, rp)
 	end
 	Duel.SpecialSummonComplete()
 	
-	local e1 = Effect.CreateEffect(e:GetHandler)
+	local e1 = Effect.CreateEffect(e:GetHandler())
 	-- 参考[37576645}无谋的贪欲
 	e1:SetType(EFFECT_TYPE_FIELD)
     e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
