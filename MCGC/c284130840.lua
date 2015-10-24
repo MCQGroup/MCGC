@@ -113,7 +113,7 @@ end
 
 function c284130840.spsummon2Operation(e, tp, eg, ep, ev, re, r, rp)
 	local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-	if Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEDOWN_DEFENCE)
+	if Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEDOWN_DEFENCE) then
 		Duel.SendtoGrave(c:GetHandler(), REASON_EFFECT)
 	end
 end
