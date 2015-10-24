@@ -103,7 +103,7 @@ function c284130843.showSynchroFilter(c, syncard, tuner, f)
 end
 
 function c284130843.showSynchroCheck(c)
-	if Duel.GetFlagEffect(tp, 284130843) and c:IsType(TYPE_XYZ)
+	if Duel.GetFlagEffect(tp, 284130843) and c:IsType(TYPE_XYZ) then
 		return c:GetRank()
 	else
 		return c:GetSynchroLevel()
