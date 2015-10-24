@@ -3,7 +3,7 @@
 function c284130840.initial_effect(c)
 	-- 同调
 	c:EnableReviveLimit()
-	aux.AddSynchroProcedure(c, aux.TRUE, c284130840.filter, 1)
+	aux.AddSynchroProcedure2(c, aux.TRUE, c284130840.filter)
 	
 	-- 同调召唤成功选发
 	local e1 = Effect.CreateEffect(c)
