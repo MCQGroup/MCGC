@@ -77,7 +77,7 @@ function c284130841.fusionOperation(e, tp, eg, ep, ev, re, r, rp, c)
     local g2 = Duel.SelectMatchingCard(tp, c284130841.fusionFilter2, tp, LOCATION_MZONE, 0, 1, 1, nil)
     g1:Merge(g2)
     c:SetMaterial(g1)
-    Duel.SendToDeck(g1, nil, nil, REASON_COST)
+    Duel.SendtoDeck(g1, nil, nil, REASON_COST)
 end
 
 function c284130841.atkFocusCondition(e, tp, eg, ep, ev, re, r, rp)
