@@ -70,19 +70,23 @@ function c284130838.synchroSuccessTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130838.synchroSuccessTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(c284130838.filter, tp, LOCATION_EXTRA, 0 , 1, nil)
+    end
     local g = Duel.GetMatchingGroup(c284130838.filter, tp, LOCATION_EXTRA, 0, nil)
     if g:GetCount() > 0 then
         Duel.SetTargetPlayer(tp)
         Duel.SetTargetParam(g:GetCount() * 500)
-        Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, nil, tp, g:GetCount() * 500)
-        e:SetLabelObject(g)
+        Duel.SetOperationInfo(0, CATEGORY_RECOVER, g, g:GetCount(), tp, g:GetCount() * 500)
     end
 end
 
 function c284130838.synchroSuccessTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(c284130838.filter, tp, LOCATION_EXTRA, 0, nil)
     local player, value = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
-    local g = e:GetLabelObject()
-    Duel.SendtoGrave(g, REASON_EFFECT + REASON_RETURN)
+    if g:GetCount() > 0 then
+        Duel.SendtoGrave(g, REASON_EFFECT + REASON_RETURN)
+    end
     -- 参考[48976825]来自异次元的埋葬
     Duel.Recover(player, value, REASON_EFFECT)
 end
@@ -92,14 +96,19 @@ function c284130838.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == tp and(phase == PHASE_MAIN1 or phase == PHASE_MAIN2)
 end
 
+function c284130838.ignitionFilter(c)
+    return c284130838.filter(c) and c:IsSpecialSummonable()
+end
+
 function c284130838.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.SelectMatchingCard(tp, c284130838.filter, tp, LOCATION_HAND, 0, 1, 1, nil)
-    local pos = Duel.SelectPosition(tp, g:GetFirst(), POS_FACEUP)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, nil)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, nil, tp, 1)
-    -- 这个效果能不能召唤自己？这个效果特招的怪物要选择表示形式吗？
-    -- 不能。要。
-    Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+    local g = Duel.SelectMatchingCard(tp, c284130838.ignitionFilter, tp, LOCATION_HAND, 0, 1, 1, nil)
+    if g:GetCount() > 0 then
+        local pos = Duel.SelectPosition(tp, g:GetFirst(), POS_FACEUP)
+        -- 这个效果能不能召唤自己？这个效果特招的怪物要选择表示形式吗？
+        -- 不能。要。
+        Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+        Duel.Draw(tp, 1, REASON_EFFECT)
+    end
 end
 
 function c284130838.actionCost(e, tp, eg, ep, ev, re, r, rp, chk)

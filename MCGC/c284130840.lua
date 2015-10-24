@@ -3,7 +3,7 @@
 function c284130840.initial_effect(c)
 	-- 同调
 	c:EnableReviveLimit()
-	aux.AddSynchroProcedure(c, aux.TRUE, c284130840.filter, 1)
+	aux.AddSynchroProcedure2(c, aux.TRUE, c284130840.filter)
 	
 	-- 同调召唤成功选发
 	local e1 = Effect.CreateEffect(c)
@@ -113,7 +113,7 @@ end
 
 function c284130840.spsummon2Operation(e, tp, eg, ep, ev, re, r, rp)
 	local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-	if Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEDOWN_DEFENCE)
+	if Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEDOWN_DEFENCE) then
 		Duel.SendtoGrave(c:GetHandler(), REASON_EFFECT)
 	end
 end

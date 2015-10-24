@@ -551,7 +551,7 @@ EVENT_PRE_BATTLE_DAMAGE = 1136	-- 即将产生战斗伤害(只能使用EFFECT_TY
 EVENT_BATTLE_END = 1137	-- (N/A)
 EVENT_BATTLED = 1138	-- 伤害计算后（异女、同反转效果时点）
 EVENT_BATTLE_DESTROYING = 1139	-- 战斗破坏送去墓地时（BF-苍炎之修罗）
-EVENT_BATTLE_DESTROYED = 1140	-- 战斗破坏送去墓地时（杀人番茄等）
+EVENT_BATTLE_DESTROYED = 1140	-- 战斗破坏送去墓地后（杀人番茄等）
 EVENT_DAMAGE_STEP_END = 1141	-- 伤害步骤结束时
 EVENT_ATTACK_DISABLED = 1142	-- 攻击无效时（翻倍机会）
 EVENT_BATTLE_DAMAGE = 1143	-- 造成战斗伤害时
@@ -701,7 +701,7 @@ GLOBALFLAG_SPSUMMON_ONCE = 0x200		--
 -- 用于Effect.SetCountLimit，意味着code不能超过0x10000000 - 1 = 268435455
 EFFECT_COUNT_CODE_OATH = 0x10000000 -- 使用次数限制(誓约效果)
 EFFECT_COUNT_CODE_DUEL = 0x20000000 -- 决斗中使用次数
-EFFECT_COUNT_CODE_SINGLE = 0x1		-- 多个效果公共使用次数
+EFFECT_COUNT_CODE_SINGLE = 0x1		-- 一张卡片的多个效果公共使用次数，不与其它code叠加使用
 -- 灵摆召唤使用 code = 10000000, 请勿占用
 
 -- 特殊选项
