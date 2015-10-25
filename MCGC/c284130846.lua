@@ -22,7 +22,12 @@ function c284130846.initial_effect(c)
 	c:RegisterEffect(e2)
 	
 	-- 维持代价
-	
+	local e3 = Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_CONTINUOUS)
+	e3:SetCode(EVENT_PHASE + PHASE_STANDBY)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetOperation(c284130846.keepOperation)
+	c:RegisterEffect(e3)
 end
 
 function c284130846.filter(c)
@@ -31,4 +36,16 @@ end
 
 function c284130846.ovfilter(c)
 	return c284130846.filter(c) and c:IsFaceup() and (c:GetLevel() <= 2 or c:GetRank() >= 3)
+end
+
+function c284130846.keepOperation(e, tp, eg, ep, ev, re, r, rp)
+	local c = e:GetHandler()
+	if c:CheckRemoveOverlayCard(tp, 1, REASON_DISCARD) then
+		local sel = Duel.SelectYesNo(tp, aux.Stringid(284130846, 1))
+		if sel then
+			c:RemoveOverlayCard(tp, 1, 1, REASON_DISCARD)
+			return
+		end
+	end
+	Duel.Destroy(c, REASON_EFFECT, LOCATION_GRAVE)
 end
