@@ -2,7 +2,7 @@
 
 function c284130838.initial_effect(c)
     -- 同调召唤
-    aux.AddSynchroProcedure(c, c284130838.filter, c284130838.filter, 1)
+    aux.AddSynchroProcedure(c, c284130838.filter, c284130838.filter2, 1)
     c:EnableReviveLimit()
 
     -- 召唤限制
@@ -59,6 +59,10 @@ function c284130838.filter(c)
     return c:IsSetCard(0x2222)
 end
 
+function c284130838.filter2(c)
+    return c:IsSetCard(0x2222) and c:IsNotTuner
+end
+
 function c284130838.summonLimit(e, se, sp, st)
     -- 检查是不是同调召唤是这么写的么，检查是不是由自己的效果召唤是这么写的么
     -- 原来是不管有没有这个效果一律禁止，然后自己效果的特招时不检查第一个条件即可
@@ -74,19 +78,18 @@ function c284130838.synchroSuccessTriggerTarget(e, tp, eg, ep, ev, re, r, rp, ch
         return Duel.IsExistingMatchingCard(c284130838.filter, tp, LOCATION_EXTRA, 0 , 1, nil)
     end
     local g = Duel.GetMatchingGroup(c284130838.filter, tp, LOCATION_EXTRA, 0, nil)
-    if g:GetCount() > 0 then
+    if g then
         Duel.SetTargetPlayer(tp)
         Duel.SetTargetParam(g:GetCount() * 500)
-        Duel.SetOperationInfo(0, CATEGORY_RECOVER, g, g:GetCount(), tp, g:GetCount() * 500)
+        Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, nil, tp, g:GetCount() * 500)
+        e:SetLabelObject(g)
     end
 end
 
 function c284130838.synchroSuccessTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(c284130838.filter, tp, LOCATION_EXTRA, 0, nil)
     local player, value = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
-    if g:GetCount() > 0 then
-        Duel.SendtoGrave(g, REASON_EFFECT + REASON_RETURN)
-    end
+    local g = e:GetLabelObject()
+    Duel.SendtoGrave(g, REASON_EFFECT + REASON_RETURN)
     -- 参考[48976825]来自异次元的埋葬
     Duel.Recover(player, value, REASON_EFFECT)
 end
@@ -102,12 +105,13 @@ end
 
 function c284130838.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, c284130838.ignitionFilter, tp, LOCATION_HAND, 0, 1, 1, nil)
-    if g:GetCount() > 0 then
+    if g then
         local pos = Duel.SelectPosition(tp, g:GetFirst(), POS_FACEUP)
+        Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, nil)
+        Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, nil, tp, 1)
         -- 这个效果能不能召唤自己？这个效果特招的怪物要选择表示形式吗？
         -- 不能。要。
         Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
-        Duel.Draw(tp, 1, REASON_EFFECT)
     end
 end
 
