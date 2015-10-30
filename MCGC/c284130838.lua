@@ -71,7 +71,7 @@ end
 
 function c284130838.synchroSuccessTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(c284130838.filter, tp, LOCATION_EXTRA, 0 , 1, nil)
+        return Duel.IsExistingMatchingCard(c284130838.filter, tp, LOCATION_EXTRA, 0, 1, nil)
     end
     local g = Duel.GetMatchingGroup(c284130838.filter, tp, LOCATION_EXTRA, 0, nil)
     if g:GetCount() > 0 then
@@ -119,16 +119,16 @@ function c284130838.actionCost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function c284130838.actionOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.SelectMatchingCard(tp, c284130838.filter,tp, LOCATION_DECK, 0, 1, 1, nil)
+    local g = Duel.SelectMatchingCard(tp, c284130838.filter, tp, LOCATION_DECK, 0, 1, 1, nil)
     if g:GetFirst() and Duel.SendtoHand(g, tp, REASON_EFFECT) and g:GetFirst():IsLocation(LOCATION_HAND) then
-        Duel.ConfirmCards(1- tp, g)
+        Duel.ConfirmCards(1 - tp, g)
         -- 这里要不要给对方展示这张卡？
         local e1 = Effect.CreateEffect(e:GetHandler())
         e1:SetType(EFFECT_TYPE_FIELD)
         e1:SetCode(EFFECT_CANNOT_ACTIVATE)
         e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
         e1:SetTargetRange(1, 0)
---        e1:SetTarget(c284130838.action_summonLimit)
+        --        e1:SetTarget(c284130838.action_summonLimit)
         e1:SetValue(c284130838.action_activateLimit)
         e1:SetLabel(g:GetFirst():GetCode())
         e1:SetReset(RESET_PHASE + RESET_END)

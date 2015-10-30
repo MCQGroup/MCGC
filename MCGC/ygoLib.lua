@@ -1,5 +1,5 @@
 -- =====debug类=====
-Debug = {}
+Debug = { }
 
 function Debug.Message(any)
     -- 输出调试信息
@@ -10,7 +10,7 @@ function Debug.ShowHint(str)
 end
 
 -- =====bit类=====
-bit = {}
+bit = { }
 
 function bit.band(a, b)
     -- a与b的位与
@@ -33,7 +33,7 @@ function bit.rshift(a, b)
 end
 
 -- =====Card类=====
-Card = {}
+Card = { }
 
 -- 属性
 Card.material_count = 0     -- 融合素材的数量
@@ -876,7 +876,7 @@ function Card.SetSPSummonOnce(c, spsummon_code)
 end
 
 -- =====Effect类=====
-Effect = {}
+Effect = { }
 
 function Effect.CreateEffect(c)
     -- 新建一个空效果,并且效果的拥有者为c
@@ -1070,7 +1070,7 @@ function Effect.GetActivateLocation(e)
 end
 
 -- =====Group类=====
-Group = {}
+Group = { }
 
 function Group.CreateGroup()
     -- 新建一个空的卡片组
@@ -1207,7 +1207,7 @@ end
 
 
 -- =====Duel类=====
-Duel = {}
+Duel = { }
 
 function Duel.EnableGlobalFlag(global_flag)
     -- 设置全局标记global_flag

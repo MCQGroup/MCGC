@@ -46,7 +46,8 @@ function c284130844.mttg(e, tp, eg, ep, ev, re, r, rp, chk)
         e:SetLabel(0)
     end
     if e:GetLabel() == 0 then
-        Duel.IsExistingMatchingCard(c284130844.mtfilter, tp, LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil)  -- 这行代码没有用啊
+        Duel.IsExistingMatchingCard(c284130844.mtfilter, tp, LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil)
+        -- 这行代码没有用啊
     end
     if e:GetLabel() == 1 then
         local g = e:GetHandler():GetOverlayGroup()

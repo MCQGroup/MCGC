@@ -1,17 +1,17 @@
 -- MC群的现充拍档 玲音&手滑
 
 function c284130841.initial_effect(c)
-	-- 次元融合
+    -- 次元融合
     -- 参考[56655675]圣灵兽骑 地火狮
     c:EnableReviveLimit()
     -- 因为是族融合所以不填融合素材
-    
+
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SPSUMMON_CONDITION)
     c:RegisterEffect(e1)
-    
+
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetCode(EFFECT_SPSUMMON_PROC)
@@ -21,10 +21,10 @@ function c284130841.initial_effect(c)
     e2:SetCondition(c284130841.fusionCondition)
     e2:SetOperation(c56655675.fusionOperation)
     c:RegisterEffect(e2)
-	
-	-- 攻击聚焦
+
+    -- 攻击聚焦
     -- 参考[50449881]鲨鱼要塞
-	local e3 = Effect.CreateEffect(c)
+    local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
     e3:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
     e3:SetRange(LOCATION_MZONE)
@@ -32,15 +32,15 @@ function c284130841.initial_effect(c)
     -- e3:SetCondition(c284130841.atkFocusCondition)
     -- [66865880]棉花糖的眼镜有正面表示检查而鲨鱼要塞没有，因此这里注释，测试后视情况更改
     e3:SetValue(c284130841.atkFocus)
-    c:RegisterEffect(e3) 
-	
-	-- 攻守上升
+    c:RegisterEffect(e3)
+
+    -- 攻守上升
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE)
     e4:SetCode(EFFECT_UPDATE_ATTACK)
     e4:SetValue(c284130841.update)
     c:RegisterEffect(e4)
-    
+
     local e5 = e4:Clone()
     e5:SetCode(EFFECT_UPDATE_DEFENCE)
     c:RegisterEffect(e5)
@@ -89,7 +89,7 @@ function c284130841.atkFocus(e, c)
 end
 
 function c284130841.updateFilter(c)
-    return c:IsFaceup() and c:IsType(TYPE_PENDULUM) and (c284130841.lainFilter(c) or c284130841.shouhuaFilter(c))
+    return c:IsFaceup() and c:IsType(TYPE_PENDULUM) and(c284130841.lainFilter(c) or c284130841.shouhuaFilter(c))
 end
 
 function c284130841.update(e, c)
