@@ -3,7 +3,7 @@
 function c284130840.initial_effect(c)
     -- 同调
     c:EnableReviveLimit()
-    aux.AddSynchroProcedure2(c, aux.TRUE, c284130840.filter)
+    aux.AddSynchroProcedure2(c, aux.NonTuner, c284130840.filter)
 
     -- 同调召唤成功选发
     local e1 = Effect.CreateEffect(c)
@@ -36,7 +36,7 @@ function c284130840.initial_effect(c)
     e4:SetCode(EVENT_TO_GRAVE)
     e4:SetOperation(c284130840.toGraveOperation)
     c:RegisterEffect(e4)
-end	
+end
 
 function c284130840.filter(c)
     return c:IsSetCard(0x2222)
