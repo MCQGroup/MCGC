@@ -1,7 +1,6 @@
 -- MC群服务器OP 无情
 
 function c284130839.initial_effect(c)
-<<<<<<< HEAD
     -- 同调召唤
     c:EnableReviveLimit()
     aux.AddSynchroProcedure(c, c284130839.filter, aux.NonTuner, 1)
