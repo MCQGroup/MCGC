@@ -58,7 +58,7 @@ function c284130840.syncSummonSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130840.spsummonFilter(c)
-    return c284130840.filter(c) and c:IsTypeTYPE_MONSTER()
+    return c284130840.filter(c) and c:IsType(TYPE_MONSTER)
 end
 
 function c284130840.spsummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
