@@ -34,4 +34,24 @@ end
 function c284130848.ovfilter(c)
     return c:IsCode(284130831)
 end
+
+function c284130848.xyzSuccessCondition(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return bit.band(c:GetSummonType(), SUMMON_TYPE_XYZ) == SUMMON_TYPE_XYZ and c:GetMaterial():IsExists(Card.IsCode, 1, nil, 284130831)
+end
+
+function c284130848.xyzSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToGrave, tp, LOCATION_DECK, 0, 1, 3, nil)
+    Duel.SendtoGrave(g, REASON_EFFECT)
+    local val = 100 * g:GetCount()
+
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_UPDATE_ATTACK)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetValue(val)
+    c:RegisterEffect(e1)
+end
+
 --endregion
