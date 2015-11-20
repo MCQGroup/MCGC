@@ -62,7 +62,7 @@ function c284130847.costOperation(e, tp, eg, ep, ev, re, r, rp)
     if count < 1 then
         count = count + 1
     else
-        Duel.SpecialSummon(e:Gethandler(), SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_DEFENCE)
+        Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_DEFENCE)
         e:Reset()
     end
 end
