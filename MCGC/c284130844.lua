@@ -39,16 +39,14 @@ function c284130844.mttg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return true
     end
+
     if e:GetHandler():GetOverlayCount() > 0 then
         opt = Duel.SelectOption(tp, aux.Stringid(284130844, 1), aux.Stringid(284130844, 2))
         e:SetLabel(opt)
     else
         e:SetLabel(0)
     end
-    if e:GetLabel() == 0 then
-        Duel.IsExistingMatchingCard(c284130844.mtfilter, tp, LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil)
-        -- 这行代码没有用啊
-    end
+
     if e:GetLabel() == 1 then
         local g = e:GetHandler():GetOverlayGroup()
         Duel.SendtoGrave(g, REASON_EFFECT)
