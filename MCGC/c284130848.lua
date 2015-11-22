@@ -1,6 +1,6 @@
---region *.lua
---Date
---此文件由[BabeLua]插件自动生成
+-- region *.lua
+-- Date
+-- 此文件由[BabeLua]插件自动生成
 
 -- MC群的大小姐 木头
 function c284130848.initial_effect(c)
@@ -21,9 +21,9 @@ function c284130848.initial_effect(c)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCountLimit(1)
-    e1:SetCondition()
-    e1:SetCost()
-    e1:SetOperation()
+    e1:SetCondition(c284130848.ignitionCondition)
+    e1:SetCost(c284130848.ignitionCost)
+    e1:SetOperation(c284130848.ignitionOperation)
     c:RegisterEffect(e2)
 
 end
@@ -55,4 +55,37 @@ function c284130848.xyzSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(e1)
 end
 
---endregion
+function c284130848.ignitionFilter(c)
+    return c284130848.filter(c) and c:IsType(TYPE_MONSTER)
+end
+
+function c284130848.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(c284130848.ignitionFilter, tp, LOCATION_ONFIELD, 0, nil)
+end
+
+function c284130848.ignitionCost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:GetOverlayCount() > 0
+    end
+    c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
+end
+
+function c284130848.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_DIRECT_ATTACK)
+    e1:SetReset(RESET_PHASE + PHASE_END)
+    c:RegisterEffect(e1)
+
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_CHANGE_DAMAGE)
+    e2:SetValue()
+    e2:SetReset(RESET_PHASE + PHASE_END)
+    c:RegisterEffect(e2)
+end
+
+-- endregion
