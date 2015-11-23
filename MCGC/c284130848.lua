@@ -83,9 +83,13 @@ function c284130848.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetCode(EFFECT_CHANGE_DAMAGE)
-    e2:SetValue()
+    e2:SetValue(c284130848.halfVal)
     e2:SetReset(RESET_PHASE + PHASE_END)
     c:RegisterEffect(e2)
+end
+
+function c284130848.halfVal(e, re, val, r, rp, rc)
+    return val / 2
 end
 
 -- endregion
