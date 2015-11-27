@@ -12,8 +12,8 @@ function c284130848.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetCondition()
-    e1:SetOperation()
+    e1:SetCondition(c284130848.xyzSuccessCondition)
+    e1:SetOperation(c284130848.xyzSuccessOperation)
     c:RegisterEffect(e1)
 
     -- 一回合一次
