@@ -3,8 +3,6 @@
 -- e2 参考[10736540]湖中少女 薇薇安
 -- e3 参考[40640059]栗子球
 
--- [整理一下目前的问题：e1除外延迟特招，除外正常，但是无法返场，推测是返场效果的问题，有待更改和测试]
--- 问题：能回手牌吗？
 function c284130831.initial_effect(c)
     -- 不能通常召唤
     c:EnableReviveLimit()
@@ -40,7 +38,7 @@ function c284130831.removeForSpSummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return true
     end
-    Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_COST)
+    Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_COST + REASON_TEMPORARY)
 end
 
 function c284130831.removeForSpSummonOperation(e, tp, eg, ep, ev, re, r, rp)
@@ -52,14 +50,13 @@ function c284130831.removeForSpSummonOperation(e, tp, eg, ep, ev, re, r, rp)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e1:SetRange(LOCATION_REMOVED)
-    e1:SetReset(RESET_EVENT + RESET_TOHAND + RESET_TOFIELD)
     e1:SetCondition(c284130831.delayTriggerCondition)
     e1:SetOperation(c284130831.delayTriggerOperation)
     c:RegisterEffect(e1)
 end
 
 function c284130831.delayTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer == tp
+    return Duel.GetTurnPlayer() == tp
 end
 
 function c284130831.delayTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
@@ -73,6 +70,7 @@ function c284130831.delayTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     else
         Duel.SendtoHand(c, tp, REASON_EFFECT)
     end
+    e:Reset()
 end
 
 
