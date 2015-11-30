@@ -24,17 +24,20 @@ end
 
 function c284130834.operation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
+    local c1 = g:GetFirst()
 
     -- 除外并且三回合回手
-    local c1 = g:GetFirst()
+    Duel.Remove(c1, POS_FACEUP, REASON_EFFECT + REASON_TEMPORARY)
+
     local e1 = Effect.CreateEffect(c1)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
+    e1:SetRange(LOCATION_REMOVED)
     e1:SetLabel(0)
+    e1:SetCountLimit(1)
     e1:SetCondition(c284130834.thirdTriggerCondition)
     e1:SetOperation(c284130834.thirdTriggerOperation)
     c1:RegisterEffect(e1)
-    Duel.Remove(c1, POS_FACEUP, REASON_EFFECT)
 
     -- 战破免疫三回合（参考棉花糖31305911)
     local c2 = e:GetHandler()
@@ -62,7 +65,7 @@ end
 
 function c284130834.thirdTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     local count = e:GetLabel()
-    if count == 3 then
+    if count == 2 then
         Duel.SendtoHand(e:GetHandler(), tp, REASON_EFFECT)
         e:Reset()
     else
