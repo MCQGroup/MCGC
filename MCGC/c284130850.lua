@@ -4,6 +4,9 @@
 
 -- MC群融合
 function c284130850.initial_effect(c)
+    -- 发动
+    local e1 = Effect.CreateEffect(c)
+    c:RegisterEffect(e1)
 end
 
 --endregion
