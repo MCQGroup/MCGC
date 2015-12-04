@@ -10,9 +10,9 @@ function c284130835.initial_effect(c)
 
     -- 昆虫
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetCode(EFFECT_FORBIDDEN)
-    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_SET_AVAILABLE)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_SET_AVAILABLE + EFFECT_FLAG_SINGLE_RANGE)
     e2:SetTarget(c284130835.banTarget)
     c:RegisterEffect(e2)
 
