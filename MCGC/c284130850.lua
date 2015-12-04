@@ -5,6 +5,7 @@
 -- MC群融合
 function c284130850.initial_effect(c)
     -- 发动
+    -- 参考[65331686]毛绒动物·猫头鹰
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCondition()
@@ -16,6 +17,7 @@ function c284130850.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_GRAVE)
+    e2:SetCost()
     e2:SetCondition()
     e2:SetTarget()
     e2:SetOperation()
