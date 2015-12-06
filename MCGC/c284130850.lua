@@ -29,18 +29,31 @@ function c284130850.filter(c)
 end
 
 function c284130850.activateCost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return
+    end
 end
 
 function c284130850.activateTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chkc then
+        return
+    end
+    if chk == 0 then
+        return
+    end
 end
 
 function c284130850.activateOperation(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130850.graveCondition(e, tp, eg, ep, ev, re, r, rp)
+    return 
 end
 
 function c284130850.graveCost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return
+    end
 end
 
 function c284130850.graveOperation(e, tp, eg, ep, ev, re, r, rp)
