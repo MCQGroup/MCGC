@@ -58,7 +58,7 @@ function Debug.ReloadFieldBegin(flag)
     -- 【必须】
     --[[
         int flag
-            flag of 残局：DUEL_ATTACK_FIRST_TURN+DUEL_SIMPLE_AI
+            flag of 残局：DUEL_ATTACK_FIRST_TURN + DUEL_SIMPLE_AI
     --]]
 end
 
@@ -68,14 +68,30 @@ end
 
 function Debug.SetAIName(name)
     -- 设置AI的名字
-    --【必须】
+    -- 【必须】
     --[[
         string name
     --]]
 end
 
-function Debug.ShowHint(str)
+function Debug.SetPlayerInfo(playerid, lp, startcount, drawcount)
+    -- 设置玩家信息，基本分为lp，初始手卡为startcount张，每回合抽drawcount张
+    -- 【必须】
+    --[[
+        int playerid
+            playerid 下方 0,上方 1
+        int lp
+        int startcount
+        int drawcount
+--]]
+end
+
+function Debug.ShowHint(msg)
     -- 显示提示窗口
+    -- 【必须】
+    --[[
+        string msg
+    --]]
 end
 
 -- =====bit类=====
