@@ -1,8 +1,77 @@
 -- =====debug类=====
 Debug = { }
 
+function Debug.AddCard(code, owner, player, location, seq, pos, proc)
+    -- 添加卡片，将卡号为code的卡片的持有者设置为owner，以表示形式pos放置在player的场上位于location上序号为seq的格子处
+    -- 【必须】
+    --[[
+        int code
+        int owner
+        int player
+        int location
+        int seq
+        int pos
+    --]]
+    -- 【可选】
+    --[[
+        bool proc = false
+            proc = true则解除苏生限制
+    --]]
+    -- 【返回】添加的Card对象
+end
+
 function Debug.Message(any)
     -- 输出调试信息
+end
+
+function Debug.PreAddCounter(c, counter_type, count)
+    -- 为c添加count个counter_type的指示物
+    -- 【必须】
+    --[[
+        Card c
+        int counter_type
+        int count
+    --]]
+end
+
+function Debug.PreEquip(equip_card, target)
+    -- 为target添加装备equip_card
+    -- 【必须】
+    --[[
+        Card equip_card
+        Card target
+    --]]
+    -- 【返回】bool类型（？）
+end
+
+function Debug.PreSetTarget(c, target)
+    -- 把target选为c的永续对象
+    -- 【必须】
+    --[[
+        Card c
+        Card target
+    --]]
+end
+
+function Debug.ReloadFieldBegin(flag)
+    -- 以选项flag开始布局
+    -- 【必须】
+    --[[
+        int flag
+            flag of 残局：DUEL_ATTACK_FIRST_TURN+DUEL_SIMPLE_AI
+    --]]
+end
+
+function Debug.ReloadFieldEnd()
+    -- 布局结束
+end
+
+function Debug.SetAIName(name)
+    -- 设置AI的名字
+    --【必须】
+    --[[
+        string name
+    --]]
 end
 
 function Debug.ShowHint(str)
