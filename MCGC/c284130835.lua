@@ -12,9 +12,15 @@ function c284130835.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetCode(EFFECT_FORBIDDEN)
-    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_SET_AVAILABLE + EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_SET_AVAILABLE)
+    e2:SetRange(0x7f)
+    e2:SetTargetRange(0x7f, 0)
     e2:SetTarget(c284130835.banTarget)
     c:RegisterEffect(e2)
+
+    local e2_2 = e2:Clone()
+    e2_2:SetCode(EFFECT_DISABLE)
+    c:RegisterEffect(e2_2)
 
     -- 攻击力上升场上的卡的数量
     local e3 = Effect.CreateEffect(c)
@@ -40,11 +46,11 @@ function c284130835.banFilter(c)
 end
 
 function c284130835.banTarget(e, c)
-    return Duel.IsExistingMatchingCard(c284130835.banFilter, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, nil)
+    return c == e:GetHandler() and Duel.IsExistingMatchingCard(c284130835.banFilter, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, nil)
 end
 
 function c284130835.updateAtk(e, c)
-    return Duel.GetFieldGroupCount(PLAYER_ALL, LOCATION_ONFIELD, LOCATION_ONFIELD)
+    return Duel.GetFieldGroupCount(0, LOCATION_ONFIELD, LOCATION_ONFIELD) * 200
 end
 
 function c284130835.destroyTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
