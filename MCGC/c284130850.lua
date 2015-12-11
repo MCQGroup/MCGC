@@ -28,7 +28,7 @@ function c284130850.filter(c)
 end
 
 function c284130850.filter2(c, e)
-    return c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
+    return c284130850.filter(c) and c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
 end
 
 function c284130850.filter3(c, e, tp, m, f, chkf)
@@ -38,7 +38,19 @@ end
 
 function c284130850.activateTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return
+        local chkf = Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and PLAYER_NONE or tp
+        local mg1 = Duel.GetMatchingGroup(c284130850.filter2, tp, LOCATION_HAND + LOCATION_MZONE, 0, nil, e)
+        local res = Duel.IsExistingMatchingCard(c284130850.filter3, tp, LOCATION_EXTRA, 0, 1, nil, e, tp, mg1, nil, chkf)
+        if not res then
+            local ce = Duel.GetChainMaterial(tp)
+            if ce ~= nil then
+                local fgroup = ce:GetTarget()
+                local mg2 = fgroup(ce, e, tp)
+                local mf = ce:GetValue()
+                res = Duel.IsExistingMatchingCard(c284130850.filter3, tp, LOCATION_EXTRA, 0, 1, nil, e, tp, mg2, mf, chkf)
+            end
+        end
+        return res
     end
 end
 
