@@ -1361,6 +1361,18 @@ function Duel.SendtoDeck(targets, player, seq, reason)
     -- 如果seq=0，则是返回卡组最顶端；seq=1则是返回卡组最低端；其余情况则是返回最顶端并且标记需要洗卡组。
 end
 
+function Duel.PSendtoExtra(targets, player, reason)
+    -- 以reason原因把灵摆卡targets送去玩家player的额外卡组
+    -- 【必须】
+    --[[
+        Card/Group targets
+        int player
+        int reason
+    --]]
+    -- 如果player是nil则返回卡的持有者的额外卡组
+    -- 【返回】实际被操作的数量
+end
+
 function Duel.GetOperatedGroup()
     -- 此函数返回之前一次卡片操作实际操作的卡片组。包括Duel.Destroy, Duel.Remove, Duel.SendtoGrave, Duel.SendtoHand, Duel.SendtoDeck, Duel.Release, Duel.ChangePosition, Duel.SpecialSummon
 end
