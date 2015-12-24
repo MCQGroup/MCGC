@@ -23,14 +23,30 @@ function c284130851.operation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_CONTINUOUS)
+    e1:SetLabel(count)
     e1:SetCondition(EVENT_PHASE + PHASE_STANDBY)
     e1:SetCondition(c284130851.delayCondition)
     e1:SetOperation(c284130851.delayOperation)
+    c:RegisterEffect(e1)
 end
 
 function c284130851.delayCondition(e, tp, eg, ep, ev, re, r, rp)
-    
+    return Duel.GetTurnPlayer() == tp
 end
 
 function c284130851.delayOperation(e, tp, eg, ep, ev, re, r, rp)
+    local count = e:GetLabel()
+    local g = Duel.SelectMatchingCard(tp, c284130851.filter, tp, LOCATION_GRAVE, 0, 0, count, nil)
+    local c = g:GetFirst()
+    while Duel.SpecialSummonStep(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos) do
+        local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
+        local e1 = Effect.CreateEffect(c)
+        e1:SetType(EFFECT_TYPE_SINGLE)
+        e1:SetCode(EFFECT_DISABLE)
+        e1:SetReset(RESET_EVENT + RESET_TURN_SET + RESET_TOGRAVE + RESET_REMOVE + RESET_TEMP_REMOVE + RESET_TOHAND + RESET_TODECK + RESET_LEAVE)
+        c:RegisterEffect(e1)
+
+        c = g:GetNext()
+    end
+    e:Reset()
 end
