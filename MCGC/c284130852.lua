@@ -4,6 +4,9 @@
 
 -- MC群服务器商讨
 function c284130852.initial_effect(c)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    c:RegisterEffect(e1)
 end
 
 --endregion
