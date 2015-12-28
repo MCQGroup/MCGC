@@ -34,5 +34,12 @@ function c284130852.delayCondition(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130852.delayOperation(e, tp, eg, ep, ev, re, r, rp)
+    local count = e:GetLabel()
+    local g = Duel.SelectMatchingCard(tp, Card.IsType, tp, LOCATION_GRAVE, 0, count, count, nil, TYPE_SPELL + TYPE_TRAP)
+    g:ForEach( function(c)
+        Duel.MoveToField(c, tp, tp, LOCATION_SZONE, POS_FACEDOWN, true)
+    end
+    -- 不能发动没有写
+    )
 end
 -- endregion
