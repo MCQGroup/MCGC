@@ -19,7 +19,7 @@ function c284130841.initial_effect(c)
     e2:SetRange(LOCATION_EXTRA)
     e2:SetValue(SUMMON_TYPE_FUSION)
     e2:SetCondition(c284130841.fusionCondition)
-    e2:SetOperation(c56655675.fusionOperation)
+    e2:SetOperation(c284130841.fusionOperation)
     c:RegisterEffect(e2)
 
     -- 攻击聚焦
