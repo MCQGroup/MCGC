@@ -38,8 +38,11 @@ function c284130852.delayOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, Card.IsType, tp, LOCATION_GRAVE, 0, count, count, nil, TYPE_SPELL + TYPE_TRAP)
     g:ForEach( function(c)
         Duel.MoveToField(c, tp, tp, LOCATION_SZONE, POS_FACEDOWN, true)
-    end
-    -- 不能发动没有写
-    )
+        local e1 = Effect.CreateEffect(c)
+        e1:SetType(EFFECT_TYPE_SINGLE)
+        e1:SetCode(EFFECT_CANNOT_ACTIVATE)
+        e1:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN)
+        c:RegisterEffect(e1)
+    end )
 end
 -- endregion
