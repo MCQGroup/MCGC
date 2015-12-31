@@ -40,23 +40,23 @@ function c284130834.operation(e, tp, eg, ep, ev, re, r, rp)
     c1:RegisterEffect(e1)
 
     -- 战破免疫三回合（参考棉花糖31305911)
-    local c2 = e:GetHandler()
-    local e2 = Effect.CreateEffect(c2)
+    local c = e:GetHandler()
+    local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e2:SetValue(1)
     -- 并不知道这里的数值是什么意思，但是棉花糖里有
     e2:SetReset(RESET_STANDBY + RESET_SELF_TURN, 3)
-    c2:RegisterEffect(e2)
+    c:RegisterEffect(e2)
 
     -- 送墓触发
-    local e3 = Effect.CreateEffect(c2)
+    local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e3:SetCode(EVENT_TO_GRAVE)
     e3:SetReset(RESET_STANDBY + RESET_SELF_TURN, 3)
     e3:SetLabelObject(e1)
     e3:SetOperation(c284130834.toGraveTriggerOperation)
-    c2:RegisterEffect(e3)
+    c:RegisterEffect(e3)
 end
 
 function c284130834.thirdTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
