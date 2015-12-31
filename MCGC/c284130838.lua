@@ -71,9 +71,9 @@ end
 
 function c284130838.synchroSuccessTriggerTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(c284130838.filter, tp, LOCATION_EXTRA, 0, 1, nil)
+        return Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_REMOVED, 0, 1, nil)
     end
-    local g = Duel.GetMatchingGroup(c284130838.filter, tp, LOCATION_EXTRA, 0, nil)
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_REMOVED, 0, nil)
     if g:GetCount() > 0 then
         Duel.SetTargetPlayer(tp)
         Duel.SetTargetParam(g:GetCount() * 500)
@@ -82,7 +82,7 @@ function c284130838.synchroSuccessTriggerTarget(e, tp, eg, ep, ev, re, r, rp, ch
 end
 
 function c284130838.synchroSuccessTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(c284130838.filter, tp, LOCATION_EXTRA, 0, nil)
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_REMOVED, 0, nil)
     local player, value = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
     if g:GetCount() > 0 then
         Duel.SendtoGrave(g, REASON_EFFECT + REASON_RETURN)
@@ -92,6 +92,7 @@ function c284130838.synchroSuccessTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130838.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
+    -- 【【【【【Debug 到这儿】】】】
     local phase = Duel.GetCurrentPhase()
     return Duel.GetTurnPlayer() == tp and(phase == PHASE_MAIN1 or phase == PHASE_MAIN2)
 end
