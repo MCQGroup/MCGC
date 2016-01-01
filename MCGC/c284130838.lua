@@ -24,6 +24,8 @@ function c284130838.initial_effect(c)
     e2:SetOperation(c284130838.synchroSuccessTriggerOperation)
     c:RegisterEffect(e2)
 
+    -- 【【【需要大改，e3和e4需要合并】】】
+
     -- 一回合一次从手卡特招
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DRAW)
@@ -37,7 +39,7 @@ function c284130838.initial_effect(c)
     -- 除外并卡组检索
     local e4 = Effect.CreateEffect(c)
     e4:SetCategory(CATEGORY_SEARCH)
-    e4:SetType(EFFECT_TYPE_ACTIONS)
+    e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetRange(LOCATION_ONFIELD + LOCATION_GRAVE)
     e4:SetCost(c284130838.actionCost)
     e4:SetOperation(c284130838.actionOperation)
@@ -91,23 +93,23 @@ function c284130838.synchroSuccessTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.Recover(player, value, REASON_EFFECT)
 end
 
-function c284130838.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
-    -- 【【【【【Debug 到这儿】】】】
-    local phase = Duel.GetCurrentPhase()
-    return Duel.GetTurnPlayer() == tp and(phase == PHASE_MAIN1 or phase == PHASE_MAIN2)
+function c284130838.ignitionFilter(c, e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
+    return c284130838.filter(c) and c:IsCanBeSpecialSummoned(e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
 end
 
-function c284130838.ignitionFilter(c)
-    return c284130838.filter(c) and c:IsSpecialSummonable()
+function c284130838.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
+    local phase = Duel.GetCurrentPhase()
+    return Duel.GetTurnPlayer() == tp and(phase == PHASE_MAIN1 or phase == PHASE_MAIN2) and Duel.IsExistingMatchingCard(c284130838.ignitionFilter, tp, LOCATION_HAND, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
 end
 
 function c284130838.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.SelectMatchingCard(tp, c284130838.ignitionFilter, tp, LOCATION_HAND, 0, 1, 1, nil)
+    local g = Duel.SelectMatchingCard(tp, c284130838.ignitionFilter, tp, LOCATION_HAND, 0, 1, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
     if g:GetCount() > 0 then
         local pos = Duel.SelectPosition(tp, g:GetFirst(), POS_FACEUP)
         -- 这个效果能不能召唤自己？这个效果特招的怪物要选择表示形式吗？
         -- 不能。要。
         Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
+        Duel.BreakEffect()  -- 要求错时点
         Duel.Draw(tp, 1, REASON_EFFECT)
     end
 end
