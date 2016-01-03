@@ -24,36 +24,33 @@ function c284130838.initial_effect(c)
     e2:SetOperation(c284130838.synchroSuccessTriggerOperation)
     c:RegisterEffect(e2)
 
-    -- 【【【需要大改，e3和e4需要合并】】】
-
-    -- 一回合一次从手卡特招
+    -- 一回合一次从手卡特招 或 除外并从卡组检索
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DRAW)
     e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetRange(LOCATION_ONFIELD)
-    e3:SetCountLimit(1)
+    e3:SetRange(LOCATION_MZONE + LOCATION_GRAVE)
     e3:SetCondition(c284130838.ignitionCondition)
+    e3:SetCost(c284130838.ignitionCost)
     e3:SetOperation(c284130838.ignitionOperation)
-    c:RegisterEffect(e3)
 
-    -- 除外并卡组检索
     local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_SEARCH)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetRange(LOCATION_ONFIELD + LOCATION_GRAVE)
-    e4:SetCost(c284130838.actionCost)
-    e4:SetOperation(c284130838.actionOperation)
+    e4:SetType(EFFECT_TYPE_CONTINUOUS)
+    e4:SetCode(EVENT_PHASE_START + PHASE_STANDBY)
+    e4:SetCondition(c284130838.refreshCondition)
+    e4:SetOperation(c284130838.refreshOperation)
     c:RegisterEffect(e4)
+
+    e3:SetLabelObject(e4)
+    c:RegisterEffect(e3)
 
     -- 破坏支付特招
     local e5 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     -- 参考[23015896]炎王神兽 大鹏不死鸟
-    e4:SetCode(EVENT_TO_GRAVE)
-    e4:SetCondition(c284130838.destroyTriggerCondition)
-    e4:SetCost(c284130838.destroyTriggerCost)
-    e4:SetOperation(destroyTriggerOperation)
+    e5:SetCode(EVENT_TO_GRAVE)
+    e5:SetCondition(c284130838.destroyTriggerCondition)
+    e5:SetCost(c284130838.destroyTriggerCost)
+    e5:SetOperation(c284130838.destroyTriggerOperation)
     c:RegisterEffect(e5)
 end
 
@@ -93,54 +90,84 @@ function c284130838.synchroSuccessTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.Recover(player, value, REASON_EFFECT)
 end
 
-function c284130838.ignitionFilter(c, e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
+function c284130838.spsummonFilter(c, e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
     return c284130838.filter(c) and c:IsCanBeSpecialSummoned(e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
 end
 
+function c284130838.searchFilter(c)
+    return c284130838.filter(c) and c:IsAbleToHand()
+end
+
 function c284130838.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
+    local isRightTurn = Duel.GetTurnPlayer() == tp
     local phase = Duel.GetCurrentPhase()
-    return Duel.GetTurnPlayer() == tp and(phase == PHASE_MAIN1 or phase == PHASE_MAIN2) and Duel.IsExistingMatchingCard(c284130838.ignitionFilter, tp, LOCATION_HAND, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
+    local isRightPhase = phase == PHASE_MAIN1 or phase == PHASE_MAIN2
+    local isAbleToSpSummon = e:GetLabelObject():GetLabel() == 0 and e:GetHandler():IsLocation(LOCATION_MZONE) and Duel.IsExistingMatchingCard(c284130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
+    local isAbleToSearch = Duel.IsExistingMatchingCard(c284130838.searchFilter, tp, LOCATION_DECK, 0, 1, nil)
+    return isRightTurn and isRightPhase and(isAbleToSpSummon or isAbleToSpSummon)
+end
+
+function c284130838.ignitionCost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
+    local isAbleToSpSummon = e:GetLabelObject():GetLabel() == 0 and e:GetHandler():IsLocation(LOCATION_MZONE) and Duel.IsExistingMatchingCard(c284130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
+    local isAbleToSearch = Duel.IsExistingMatchingCard(c284130838.searchFilter, tp, LOCATION_DECK, 0, 1, nil)
+    local option = -1
+    if isAbleToSpSummon and isAbleToSearch then
+        option = Duel.SelectOption(tp, aux.Stringid(284130838, 0), aux.Stringid(284130838, 1))
+    elseif isAbleToSpSummon then
+        option = 0
+    elseif isAbleToSearch then
+        option = 1
+    end
+    if option == 1 then
+        Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_COST)
+    end
+    e:SetLabel(option)
 end
 
 function c284130838.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.SelectMatchingCard(tp, c284130838.ignitionFilter, tp, LOCATION_HAND, 0, 1, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
-    if g:GetCount() > 0 then
-        local pos = Duel.SelectPosition(tp, g:GetFirst(), POS_FACEUP)
-        -- 这个效果能不能召唤自己？这个效果特招的怪物要选择表示形式吗？
-        -- 不能。要。
-        Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)
-        Duel.BreakEffect()  -- 要求错时点
-        Duel.Draw(tp, 1, REASON_EFFECT)
+    local option = e:GetLabel()
+
+    if option == 0 then
+        local g = Duel.SelectMatchingCard(tp, c284130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
+        if g:GetCount() > 0 then
+            local pos = Duel.SelectPosition(tp, g:GetFirst(), POS_FACEUP)
+            -- 这个效果能不能召唤自己？这个效果特招的怪物要选择表示形式吗？
+            -- 不能。要。
+            if Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos) > 0 then
+                e:GetLabelObject():SetLabel(1)
+            end
+            Duel.BreakEffect()
+            -- 要求错时点
+            Duel.Draw(tp, 1, REASON_EFFECT)
+        end
+    elseif option == 1 then
+        local g = Duel.SelectMatchingCard(tp, c284130838.searchFilter, tp, LOCATION_DECK, 0, 1, 1, nil)
+        local c = g:GetFirst()
+        if c and Duel.SendtoHand(c, tp, REASON_EFFECT) and c:IsLocation(LOCATION_HAND) then
+            Duel.ConfirmCards(1 - tp, c)
+            -- 这里要不要给对方展示这张卡？
+            local e1 = Effect.CreateEffect(e:GetHandler())
+            e1:SetType(EFFECT_TYPE_FIELD)
+            e1:SetCode(EFFECT_CANNOT_ACTIVATE)
+            e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+            e1:SetTargetRange(1, 0)
+            e1:SetValue(c284130838.action_activateLimit)
+            e1:SetLabel(c:GetCode())
+            e1:SetReset(RESET_PHASE + PHASE_END)
+            Duel.RegisterEffect(e1, tp)
+        end
     end
 end
 
-function c284130838.actionCost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return e:GetHandler():IsLocation(LOCATION_ONFIELD + LOCATION_GRAVE)
-    end
-    Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_COST)
+function c284130838.refreshCondition(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() == tp
 end
 
-function c284130838.actionOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.SelectMatchingCard(tp, c284130838.filter, tp, LOCATION_DECK, 0, 1, 1, nil)
-    if g:GetFirst() and Duel.SendtoHand(g, tp, REASON_EFFECT) and g:GetFirst():IsLocation(LOCATION_HAND) then
-        Duel.ConfirmCards(1 - tp, g)
-        -- 这里要不要给对方展示这张卡？
-        local e1 = Effect.CreateEffect(e:GetHandler())
-        e1:SetType(EFFECT_TYPE_FIELD)
-        e1:SetCode(EFFECT_CANNOT_ACTIVATE)
-        e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-        e1:SetTargetRange(1, 0)
-        --        e1:SetTarget(c284130838.action_summonLimit)
-        e1:SetValue(c284130838.action_activateLimit)
-        e1:SetLabel(g:GetFirst():GetCode())
-        e1:SetReset(RESET_PHASE + RESET_END)
-        Duel.RegisterEffect(e1, tp)
-    end
-end
-
-function c284130838.action_summonLimit(e, c)
-    return c:IsCode(e:GetLabel())
+function c284130838.refreshOperation(e, tp, eg, ep, ev, re, r, rp)
+    e:SetLabel(0)
 end
 
 function c284130838.action_activateLimit(e, re, rp)
