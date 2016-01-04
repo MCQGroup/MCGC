@@ -27,17 +27,18 @@ function c284130839.initial_effect(c)
     -- 结束阶段必定发动
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
-    e3:SetCode(EVENT_TURN_END)
+    e3:SetCode(EVENT_PHASE + PHASE_END)
+    e3:SetRange(LOCATION_MZONE)
     e3:SetCondition(c284130839.turnEndCondition)
     e3:SetOperation(c284130839.turnEndOperation)
     c:RegisterEffect(e3)
 
     -- 因效果破坏必定发动
     local e4 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    e3:SetCode(EVENT_TO_GRAVE)
-    e3:SetCondition(c284130839.destroyCondition)
-    e3:SetOperation(c284130839.destroyOperation)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e4:SetCode(EVENT_TO_GRAVE)
+    e4:SetCondition(c284130839.destroyCondition)
+    e4:SetOperation(c284130839.destroyOperation)
     -- 参考[70054514]暗海救生圈
     c:RegisterEffect(e4)
 end 
@@ -104,11 +105,12 @@ end
 
 function c284130839.destroyCondition(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return c:IsReason(REASON_DESTROY) and c:IsReason(REASON_EFFECT) and c:IsPreviousLocation(LOCATION_ONFIELD)
+    return bit.band(r, REASON_DESTROY + REASON_EFFECT) == REASON_DESTROY + REASON_EFFECT and c:IsPreviousLocation(LOCATION_MZONE)
 end
 
 function c284130839.destroyOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(Card.IsDestructable, tp, 0, LOCATION_ONFIELD, nil)
     Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
-    Duel.Damage(PLAYER_ALL, g:GetCount() * 300, REASON_EFFECT)
+    Duel.Damage(tp, g:GetCount() * 300, REASON_EFFECT)
+    Duel.Damage(1 - tp, g:GetCount() * 300, REASON_EFFECT)
 end
