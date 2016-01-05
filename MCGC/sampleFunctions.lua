@@ -10,16 +10,16 @@
     re      Effect      Reason Effect   因……效果
     r       REASON_     Reason          因……原因
     rp      PLAYER_     Reason Player   因……玩家
-    
+
     gc      Card        Group Card      融合材料所涉及的卡片
     chkf    PLAYER_     Check Player    似乎用于强制检测该怪兽是否属于某个玩家
-    
+
     c       Card        Card            将要被特殊召唤的卡片
-    
+
     syncard Card        Synchro Card    将要被同调召唤的卡片
     f       function    Function        卡片过滤函数
     minc    int         Min Count       最小数量
-    maxc    int         Max Count       最大数量    
+    maxc    int         Max Count       最大数量
 ]]
 
 -- Operation
@@ -31,7 +31,7 @@ function common_operation2(e, tp, eg, ep, ev, re, r, rp, gc, chkf)
     -- 已知用于EFFECT_FUSION_MATERIAL
 end
 
-function common_operation3(e, tp, eg, ep, ev, re, r, rp, c)
+function common_operation3(e, tp, eg, ep, ev, re, r, rp, c, smat, mg)
     -- 已知用于EFFECT_SPSUMMON_PROC
 end
 
@@ -55,7 +55,7 @@ end
     se      Effect          Summon Effect   进行召唤的效果（？）
     sp      PLAYER_         Summon Player   进行召唤的玩家
     st      SUMMON_TYPE_    Summon Type     召唤类型
-    
+
     tp      PLAYER_         Target Player   发发动效果的玩家
 ]]
 function common_value1(e, re, val, r, rp, rc)
@@ -107,7 +107,7 @@ end
     g       Group       Group           要检查的卡片组，与gc成对出现
     gc      int         Group Count     要检查的卡片组中的数目
     te      Effect      Test Effect     要检查的效果
-    
+
     syncard Card        Synchro Card    将要被同调召唤的卡片
     f       function    Function        卡片过滤函数
     minc    int         Min Count       最小数量
@@ -119,6 +119,13 @@ function influence_condition1(e, c)
 end
 
 function influence_condition2(e, g, gc)
+end
+
+function influence_condition3(e, c, smat, mg)
+    -- 已知用于EFFECT_SPSUMMON_PROC
+    if c == nil then
+        return true
+    end
 end
 
 -- Cost
@@ -137,4 +144,8 @@ end
 
 function influence_target3(e, syncard, f, minc, maxc)
     -- 已知用于EFFECT_SYNCHRO_MATERIAL_CUSTOM
+end
+
+function influence_target4(e, tp, eg, ep, ev, re, r, rp, chk, chkc, smat, mg)
+    -- 已知用于EFFECT_SPSUMMON_PROC
 end

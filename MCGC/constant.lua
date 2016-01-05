@@ -214,14 +214,14 @@ CHAININFO_TYPE = 0x1000	-- 连锁类型
 CHAININFO_EXTTYPE = 0x2000	-- 连锁额外类型
 
 -- ========== Reset ==========	--重置条件（注意：重置条件可以多个相加，例如0x000c0000=0x00040000+0x00080000=RESET_TOGRAVE+RESET_REMOVE）
-RESET_DRAW = PHASE_DRAW			-- 抽卡阶段重置
-RESET_STANDBY = PHASE_STANDBY		-- 准备阶段重置
-RESET_MAIN1 = PHASE_MAIN1		-- 主要阶段1重置
-RESET_BATTLE = PHASE_BATTLE		-- 战斗阶段重置
-RESET_DAMAGE = PHASE_DAMAGE		-- 伤害计算前重置
-RESET_DAMAGE_CAL = PHASE_DAMAGE_CAL	-- 伤害计算时重置
-RESET_MAIN2 = PHASE_MAIN2		-- 主要阶段2重置
-RESET_END = PHASE_END			-- 结束阶段重置
+PHASE_DRAW			-- 抽卡阶段重置
+PHASE_STANDBY		-- 准备阶段重置
+PHASE_MAIN1		-- 主要阶段1重置
+PHASE_BATTLE		-- 战斗阶段重置
+PHASE_DAMAGE		-- 伤害计算前重置
+PHASE_DAMAGE_CAL	-- 伤害计算时重置
+PHASE_MAIN2		-- 主要阶段2重置
+PHASE_END			-- 结束阶段重置
 
 RESET_SELF_TURN = 0x0100				-- 自己回合结束重置
 RESET_OPPO_TURN = 0x0200				-- 对方回合结束重置
@@ -621,70 +621,72 @@ CHINT_NUMBER = 5
 CHINT_DESC = 6
 
 -- Hint Message	--提示消息，显示在窗口的上面
-HINTMSG_RELEASE			=500	--请选择要解放的卡
-HINTMSG_DISCARD			=501	--请选择要丢弃的手牌
-HINTMSG_DESTROY			=502	--请选择要破坏的卡
-HINTMSG_REMOVE			=503	--请选择要除外的卡
-HINTMSG_TOGRAVE			=504	--请选择要送去墓地的卡
-HINTMSG_RTOHAND			=505	--请选择要返回手牌的卡
-HINTMSG_ATOHAND			=506	--请选择要加入手牌的卡
-HINTMSG_TODECK			=507	--请选择要返回卡组的卡
-HINTMSG_SUMMON			=508	--请选择要召唤的卡
-HINTMSG_SPSUMMON		=509	--请选择要特殊召唤的卡
-HINTMSG_SET				=510	--请选择要盖放的卡
-HINTMSG_FMATERIAL		=511	--请选择融合召唤的素材
-HINTMSG_SMATERIAL		=512	--请选择同调召唤的素材
-HINTMSG_XMATERIAL		=513	--请选择超量召唤的素材
-HINTMSG_FACEUP			=514	--请选择表侧表示的卡
-HINTMSG_FACEDOWN		=515	--请选择里侧表示的卡
-HINTMSG_ATTACK			=516	--请选择攻击表示的怪兽
-HINTMSG_DEFENCE			=517	--请选择守备表示的怪兽
-HINTMSG_EQUIP			=518	--请选择要装备的卡
-HINTMSG_REMOVEXYZ		=519	--请选择要取除的超量素材
-HINTMSG_CONTROL			=520	--请选择要改变控制权的怪兽
-HINTMSG_DESREPLACE		=521	--请选择要代替破坏的卡
-HINTMSG_FACEUPATTACK	=522	--请选择表侧攻击表示的怪兽
-HINTMSG_FACEUPDEFENCE	=523	--请选择表侧守备表示的怪兽
-HINTMSG_FACEDOWNATTACK	=524	--请选择里侧攻击表示的怪兽
-HINTMSG_FACEDOWNDEFENCE	=525	--请选择里侧守备表示的怪兽
-HINTMSG_CONFIRM			=526	--请选择给对方确认的卡
-HINTMSG_TOFIELD			=527	--请选择要放置到场上的卡
-HINTMSG_POSCHANGE		=528	--请选择要改变表示形式的怪兽
-HINTMSG_SELF			=529	--请选择自己的卡
-HINTMSG_OPPO			=530	--请选择对方的卡
-HINTMSG_EFFECT			=550	--请选择要发动的效果
-HINTMSG_TARGET			=551	--请选择效果的对象
-HINTMSG_COIN			=552	--请选择硬币的正反面
-HINTMSG_DICE			=553	--请选择骰子的结果
-HINTMSG_CARDTYPE		=554	--请选择一个种类
+HINTMSG_RELEASE = 500	-- 请选择要解放的卡
+HINTMSG_DISCARD = 501	-- 请选择要丢弃的手牌
+HINTMSG_DESTROY = 502	-- 请选择要破坏的卡
+HINTMSG_REMOVE = 503	-- 请选择要除外的卡
+HINTMSG_TOGRAVE = 504	-- 请选择要送去墓地的卡
+HINTMSG_RTOHAND = 505	-- 请选择要返回手牌的卡
+HINTMSG_ATOHAND = 506	-- 请选择要加入手牌的卡
+HINTMSG_TODECK = 507	-- 请选择要返回卡组的卡
+HINTMSG_SUMMON = 508	-- 请选择要召唤的卡
+HINTMSG_SPSUMMON = 509	-- 请选择要特殊召唤的卡
+HINTMSG_SET = 510	-- 请选择要盖放的卡
+HINTMSG_FMATERIAL = 511	-- 请选择融合召唤的素材
+HINTMSG_SMATERIAL = 512	-- 请选择同调召唤的素材
+HINTMSG_XMATERIAL = 513	-- 请选择超量召唤的素材
+HINTMSG_FACEUP = 514	-- 请选择表侧表示的卡
+HINTMSG_FACEDOWN = 515	-- 请选择里侧表示的卡
+HINTMSG_ATTACK = 516	-- 请选择攻击表示的怪兽
+HINTMSG_DEFENCE = 517	-- 请选择守备表示的怪兽
+HINTMSG_EQUIP = 518	-- 请选择要装备的卡
+HINTMSG_REMOVEXYZ = 519	-- 请选择要取除的超量素材
+HINTMSG_CONTROL = 520	-- 请选择要改变控制权的怪兽
+HINTMSG_DESREPLACE = 521	-- 请选择要代替破坏的卡
+HINTMSG_FACEUPATTACK = 522	-- 请选择表侧攻击表示的怪兽
+HINTMSG_FACEUPDEFENCE = 523	-- 请选择表侧守备表示的怪兽
+HINTMSG_FACEDOWNATTACK = 524	-- 请选择里侧攻击表示的怪兽
+HINTMSG_FACEDOWNDEFENCE = 525	-- 请选择里侧守备表示的怪兽
+HINTMSG_CONFIRM = 526	-- 请选择给对方确认的卡
+HINTMSG_TOFIELD = 527	-- 请选择要放置到场上的卡
+HINTMSG_POSCHANGE = 528	-- 请选择要改变表示形式的怪兽
+HINTMSG_SELF = 529	-- 请选择自己的卡
+HINTMSG_OPPO = 530	-- 请选择对方的卡
+HINTMSG_EFFECT = 550	-- 请选择要发动的效果
+HINTMSG_TARGET = 551	-- 请选择效果的对象
+HINTMSG_COIN = 552	-- 请选择硬币的正反面
+HINTMSG_DICE = 553	-- 请选择骰子的结果
+HINTMSG_CARDTYPE = 554	-- 请选择一个种类
+
+567 -- 请宣言一个等级
 
 -- Timing	--提示时点，可以给freechain卡片增加自动提示时点
-TIMING_DRAW_PHASE			=0x1			--抽卡阶段时点
-TIMING_STANDBY_PHASE		=0x2        	--准备阶段时点
-TIMING_MAIN_END				=0x4        	--主要阶段结束时点
-TIMING_BATTLE_START			=0x8        	--战斗阶段开始时点
-TIMING_BATTLE_END			=0x10       	--战斗阶段结束时点
-TIMING_END_PHASE			=0x20       	--结束阶段时点
-TIMING_SUMMON				=0x40       	--召唤时点
-TIMING_SPSUMMON				=0x80       	--特殊召唤时点
-TIMING_FLIPSUMMON			=0x100      	--翻转召唤时点
-TIMING_MSET					=0x200			--放置怪兽时点
-TIMING_SSET					=0x400      	--放置魔陷时点
-TIMING_POS_CHANGE			=0x800      	--表示形式变更时点
-TIMING_ATTACK				=0x1000     	--攻击宣言时点
-TIMING_DAMAGE_STEP			=0x2000     	--伤害步骤时点
-TIMING_DAMAGE_CAL			=0x4000     	--伤害计算时点
-TIMING_CHAIN_END			=0x8000     	--连锁结束时点
-TIMING_DRAW					=0x10000    	--抽卡时点（不是抽卡阶段
-TIMING_DAMAGE				=0x20000    	--造成伤害时点
-TIMING_RECOVER				=0x40000		--回复时点
-TIMING_DESTROY				=0x80000    	--破坏时点
-TIMING_REMOVE				=0x100000   	--除外时点
-TIMING_TOHAND				=0x200000   	--加入手牌时点（检索、回收等）
-TIMING_TODECK				=0x400000   	--回卡组时点
-TIMING_TOGRAVE				=0x800000   	--进墓地时点
-TIMING_BATTLE_PHASE			=0x1000000  	--战斗阶段时点
-TIMING_EQUIP				=0x2000000  	--装备时点
+TIMING_DRAW_PHASE = 0x1			-- 抽卡阶段时点
+TIMING_STANDBY_PHASE = 0x2        	-- 准备阶段时点
+TIMING_MAIN_END = 0x4        	-- 主要阶段结束时点
+TIMING_BATTLE_START = 0x8        	-- 战斗阶段开始时点
+TIMING_BATTLE_END = 0x10       	-- 战斗阶段结束时点
+TIMING_END_PHASE = 0x20       	-- 结束阶段时点
+TIMING_SUMMON = 0x40       	-- 召唤时点
+TIMING_SPSUMMON = 0x80       	-- 特殊召唤时点
+TIMING_FLIPSUMMON = 0x100      	-- 翻转召唤时点
+TIMING_MSET = 0x200			-- 放置怪兽时点
+TIMING_SSET = 0x400      	-- 放置魔陷时点
+TIMING_POS_CHANGE = 0x800      	-- 表示形式变更时点
+TIMING_ATTACK = 0x1000     	-- 攻击宣言时点
+TIMING_DAMAGE_STEP = 0x2000     	-- 伤害步骤时点
+TIMING_DAMAGE_CAL = 0x4000     	-- 伤害计算时点
+TIMING_CHAIN_END = 0x8000     	-- 连锁结束时点
+TIMING_DRAW = 0x10000    	-- 抽卡时点（不是抽卡阶段
+TIMING_DAMAGE = 0x20000    	-- 造成伤害时点
+TIMING_RECOVER = 0x40000		-- 回复时点
+TIMING_DESTROY = 0x80000    	-- 破坏时点
+TIMING_REMOVE = 0x100000   	-- 除外时点
+TIMING_TOHAND = 0x200000   	-- 加入手牌时点（检索、回收等）
+TIMING_TODECK = 0x400000   	-- 回卡组时点
+TIMING_TOGRAVE = 0x800000   	-- 进墓地时点
+TIMING_BATTLE_PHASE = 0x1000000  	-- 战斗阶段时点
+TIMING_EQUIP = 0x2000000  	-- 装备时点
 
 -- Global flag	--特殊标记
 GLOBALFLAG_DECK_REVERSE_CHECK = 0x1		-- 卡组翻转标记
@@ -716,10 +718,10 @@ DUEL_SIMPLE_AI = 0x40		-- AI
 -- Activity counter
 -- global: 1-6 (binary: 5,6)
 -- custom: 1-5,7 (binary: 1-5)
-ACTIVITY_SUMMON			=1		--
-ACTIVITY_NORMALSUMMON	=2		--
-ACTIVITY_SPSUMMON		=3		--
-ACTIVITY_FLIPSUMMON		=4		--
-ACTIVITY_ATTACK			=5		--
-ACTIVITY_BATTLE_PHASE	=6		-- not available in custom counter
-ACTIVITY_CHAIN			=7		-- only available in custom counter
+ACTIVITY_SUMMON = 1		--
+ACTIVITY_NORMALSUMMON = 2		--
+ACTIVITY_SPSUMMON = 3		--
+ACTIVITY_FLIPSUMMON = 4		--
+ACTIVITY_ATTACK = 5		--
+ACTIVITY_BATTLE_PHASE = 6		-- not available in custom counter
+ACTIVITY_CHAIN = 7		-- only available in custom counter

@@ -2009,9 +2009,10 @@ function Duel.AnnounceAttribute(player, count, available)
     -- 让玩家player从可选的属性中宣言count个属性。available是所有可选属性的组合值。
 end
 
-function Duel.AnnounceLevel(player)
+--function Duel.AnnounceLevel(player)
+    -- 【废弃】已经不能正常使用
     -- 让玩家player宣言一个等级
-end
+--end
 
 function Duel.AnnounceCard(player)
     -- 让玩家player宣言一个卡片代号。
