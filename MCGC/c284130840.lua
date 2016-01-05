@@ -13,18 +13,23 @@ function c284130840.initial_effect(c)
     e1:SetOperation(c284130840.syncSummonSuccessOperation)
     c:RegisterEffect(e1)
 
-    -- 自身从墓地特招
+    -- 自身特招
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetDescription(aux.Stringid(284130840, 0))
+    e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetCode(EFFECT_SPSUMMON_PROC)
-    e2:SetCost(c284130840.spsummonCost)
+    e2:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_IGNORE_IMMUNE)
+    e2:SetRange(LOCATION_EXTRA)
+    e2:SetCondition(c284130840.spsummonCondition)
+    e2:SetTarget(c284130840.spsummonTarget)
     e2:SetOperation(c284130840.spsummonOperation)
     c:RegisterEffect(e2)
 
-    -- 从墓地特招
+    -- 墓地特招
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_ACTIONS)
+    e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetRange(LOCATION_MZONE)
     e3:SetCost(c284130840.spsummon2Cost)
     e3:SetTarget(c284130840.spsummon2Target)
     e3:SetOperation(c284130840.spsummon2Operation)
@@ -47,7 +52,14 @@ function c284130840.syncSummonSuccessCondition(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130840.syncSummonSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
-    local lv = Duel.AnnounceLevel(tp)
+    -- 参考[19808608]DD 巴风特
+    levels = { }
+    for i = 1, 12 do
+        levels[i] = i
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, 567)
+    local lv = Duel.AnnounceNumber(tp, table.unpack(levels))
     local c = e:GetHandler()
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
@@ -61,18 +73,26 @@ function c284130840.spsummonFilter(c)
     return c284130840.filter(c) and c:IsType(TYPE_MONSTER)
 end
 
-function c284130840.spsummonCost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetMatchingGroup(c284130840.spsummonFilter, tp, LOCATION_GRAVE, 0, nil)
-    if chk == 0 then
-        return g:CheckWithSumEqual(Card.GetLevel, 5)
-        -- g:CheckWithSumEqual(Card.GetLevel, 5, 1, g:GetCount())
+function c284130840.spsummonCondition(e, c, smat, mg)
+    if c == nil then
+        return true
     end
-    local sg = g:SelectWithSumEqual(tp, Card.GetLevel, 5)
-    -- g:SelectWithSumEqual(tp, Card.GetLevel, 5, 1, g:GetCount()
-    Duel.Remove(sg, POS_FACEUP, REASON_COST)
+    local g = Duel.GetMatchingGroup(c284130840.spsummonFilter, tp, LOCATION_GRAVE, 0, nil)
+    return g:CheckWithSumEqual(Card.GetLevel, 5, 1, g:GetCount())
 end
 
-function c284130840.spsummonOperation(e, tp, eg, ep, ev, re, r, rp)
+function c284130840.spsummonTarget(e, tp, eg, ep, ev, re, r, rp, chk, c, smat, mg)
+    local g = Duel.GetMatchingGroup(c284130840.spsummonFilter, tp, LOCATION_GRAVE, 0, nil)
+    if g:CheckWithSumEqual(Card.GetLevel, 5, 1, g:GetCount()) then
+        local sg = g:SelectWithSumEqual(tp, Card.GetLevel, 5, 1, g:GetCount())
+        Duel.Remove(sg, POS_FACEUP, REASON_COST)
+        return true
+    else
+        return false
+    end
+end
+
+function c284130840.spsummonOperation(e, tp, eg, ep, ev, re, r, rp, c, smat, mg)
     local c = e:GetHandler()
 
     local e1 = Effect.CreateEffect(c)
@@ -83,9 +103,10 @@ function c284130840.spsummonOperation(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(e1)
 
     local e2 = Effect.CreateEffect(c)
-    e2:SetTarget(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetCode(EVENT_PHASE_START + PHASE_END)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_PHASE + PHASE_END)
     e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e2:SetRange(LOCATION_MZONE)
     e2:SetReset(RESET_EVENT + RESET_LEAVE)
     e2:SetOperation(c284130840.destroyOperation)
     c:RegisterEffect(e2)
@@ -102,19 +123,23 @@ function c284130840.spsummon2Cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.PayLPCost(tp, 1000)
 end
 
+function c284130840.spsummon2Filter(c, e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
+    return c284130840.filter(c) and c:IsCanBeSpecialSummoned(e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
+end
+
 function c284130840.spsummon2Target(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(c284130840.spsummonFilter, tp, LOCATION_GRAVE, 0, 1, nil)
+        return Duel.IsExistingMatchingCard(c284130840.spsummon2Filter, tp, LOCATION_GRAVE, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEDOWN_DEFENCE, tp)
     end
-    local g = Duel.SelectMatchingCard(tp, c284130840.spsummonFilter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
-    Duel.SetTarget(g)
+    local g = Duel.SelectMatchingCard(tp, c284130840.spsummon2Filter, tp, LOCATION_GRAVE, 0, 1, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEDOWN_DEFENCE, tp)
+    Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, nil)
 end
 
 function c284130840.spsummon2Operation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEDOWN_DEFENCE) then
-        Duel.SendtoGrave(c:GetHandler(), REASON_EFFECT)
+        Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
     end
 end
 
