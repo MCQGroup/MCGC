@@ -59,7 +59,7 @@ function c284130839.syncSummonSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
     e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e1:SetTarget(c284130839.syncSS_Target)
     e1:SetTargetRange(LOCATION_MZONE, 0)
-    e1:SetReset(RESET_SELF_TURN + RESET_PHASE + RESET_END, 2)
+    e1:SetReset(RESET_SELF_TURN + RESET_PHASE + PHASE_END, 2)
     Duel.RegisterEffect(e1, tp)
 
     local e2 = e1:Clone()
