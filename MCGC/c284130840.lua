@@ -1,9 +1,9 @@
 -- MC群服务器炮灰 DZ
 
 function c284130840.initial_effect(c)
-    -- 同调
+    -- 同调召唤
     c:EnableReviveLimit()
-    aux.AddSynchroProcedure2(c, aux.NonTuner, c284130840.filter)
+    aux.AddSynchroProcedure2(c, nil, aux.NonTuner(c284130840.filter))
 
     -- 同调召唤成功选发
     local e1 = Effect.CreateEffect(c)
