@@ -2,7 +2,7 @@
 
 function c284130838.initial_effect(c)
     -- 同调召唤
-    aux.AddSynchroProcedure(c, c284130838.filter, c284130838.filter, 1)
+    aux.AddSynchroProcedure(c, c284130838.filter, aux.NonTuner(c284130838.filter), 1)
     c:EnableReviveLimit()
 
     -- 召唤限制
