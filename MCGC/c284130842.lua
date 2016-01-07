@@ -18,6 +18,7 @@ function c284130842.initial_effect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e2:SetRange(LOCATION_MZONE)
     e2:SetValue(c284130842.indestructableValue)
     c:RegisterEffect(e2)
 
@@ -26,7 +27,7 @@ function c284130842.initial_effect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e3:SetCode(EVENT_BATTLE_START)
     e3:SetCondition(c284130842.atkUpCondition)
-    e3:SetOperation(cc284130842.atkUpOperation)
+    e3:SetOperation(c284130842.atkUpOperation)
     c:RegisterEffect(e3)
 
     -- 防御穿透
