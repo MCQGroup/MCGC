@@ -21,7 +21,7 @@
     minc    int         Min Count           最小数量
     maxc    int         Max Count           最大数量
 
-    smat    Card        Synchro Material    同调召唤所用的调整怪兽
+    smat    Card        Synchro Material    同调召唤所用的素材
     mg      Group       Material Group      同调召唤的素材卡片组
 ]]
 
