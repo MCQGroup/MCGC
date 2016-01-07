@@ -214,14 +214,14 @@ CHAININFO_TYPE = 0x1000	-- 连锁类型
 CHAININFO_EXTTYPE = 0x2000	-- 连锁额外类型
 
 -- ========== Reset ==========	--重置条件（注意：重置条件可以多个相加，例如0x000c0000=0x00040000+0x00080000=RESET_TOGRAVE+RESET_REMOVE）
-PHASE_DRAW			-- 抽卡阶段重置
-PHASE_STANDBY		-- 准备阶段重置
-PHASE_MAIN1		-- 主要阶段1重置
-PHASE_BATTLE		-- 战斗阶段重置
-PHASE_DAMAGE		-- 伤害计算前重置
-PHASE_DAMAGE_CAL	-- 伤害计算时重置
-PHASE_MAIN2		-- 主要阶段2重置
-PHASE_END			-- 结束阶段重置
+--PHASE_DRAW			-- 抽卡阶段重置
+--PHASE_STANDBY		-- 准备阶段重置
+--PHASE_MAIN1		-- 主要阶段1重置
+--PHASE_BATTLE		-- 战斗阶段重置
+--PHASE_DAMAGE		-- 伤害计算前重置
+--PHASE_DAMAGE_CAL	-- 伤害计算时重置
+--PHASE_MAIN2		-- 主要阶段2重置
+--PHASE_END			-- 结束阶段重置
 
 RESET_SELF_TURN = 0x0100				-- 自己回合结束重置
 RESET_OPPO_TURN = 0x0200				-- 对方回合结束重置
@@ -658,7 +658,7 @@ HINTMSG_COIN = 552	-- 请选择硬币的正反面
 HINTMSG_DICE = 553	-- 请选择骰子的结果
 HINTMSG_CARDTYPE = 554	-- 请选择一个种类
 
-567 -- 请宣言一个等级
+--567 -- 请宣言一个等级
 
 -- Timing	--提示时点，可以给freechain卡片增加自动提示时点
 TIMING_DRAW_PHASE = 0x1			-- 抽卡阶段时点
