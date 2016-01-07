@@ -1,14 +1,29 @@
 -- MC群的最终领袖 纸睡前辈
 
-function c284130843.intial_effect(c)
+function c284130843.initial_effect(c)
     -- 同调召唤
     c:EnableReviveLimit()
-    aux.AddSynchroProcedure(c, c284130843.synchroFilter1, c284130843.synchroFilter2, 2)
+    aux.AddSynchroProcedure(c, c284130843.synchroFilter1, aux.NonTuner(c284130843.synchroFilter2), 2)
+    -- 因为要使用超量怪兽的阶级进行同调召唤，而ygopro将超量怪兽的同调用等级视为0；
+    -- 因此这不是真正的同调召唤，而是个扩展的版本。
+    -- 暂定名为[好热闹啊]同调
+
+    local e0 = Effect.CreateEffect(c)
+    e0:SetType(EFFECT_TYPE_FIELD)
+    e0:SetCode(EFFECT_SPSUMMON_PROC)
+    e0:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_IGNORE_IMMUNE)
+    e0:SetRange(LOCATION_EXTRA)
+    e0:SetCondition(c284130843.synCondition)
+    e0:SetTarget(c284130843.synTarget)
+    e0:SetOperation(c284130843.synOperation)
+    e0:SetValue(SUMMON_TYPE_SYNCHRO)
+    c:RegisterEffect(e0)
 
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SPSUMMON_CONDITION)
+    e1:SetRange(LOCATION_EXTRA)
     c:RegisterEffect(e1)
 
     -- 展示
@@ -69,8 +84,9 @@ function c284130843.intial_effect(c)
 
     -- 每回合重置e6
     local e8 = Effect.CreateEffect(c)
-    e8:SetTarget(EFFECT_TYPE_CONTINUOUS)
+    e8:SetType(EFFECT_TYPE_CONTINUOUS)
     e8:SetCode(EVENT_TURN_END)
+    e8:SetRange(LOCATION_MZONE)
     e8:SetLabelObject(e6)
     e8:SetOperation(c284130843.resetOperation)
     c:RegisterEffect(e8)
@@ -81,15 +97,132 @@ function c284130843.filter(c)
 end
 
 function c284130843.synchroFilter1(c)
-    return c:IsType(TYPE_TUNER) and c:IsType(TYPE_SYNCHRO)
+    return c:IsType(TYPE_SYNCHRO)
 end
 
 function c284130843.synchroFilter2(c)
     return(c:IsType(TYPE_FUSION) or c:IsType(TYPE_XYZ) or c:IsType(TYPE_PENDULUM))
 end
 
+function c284130843.synchroLevel(c)
+    if c:IsType(TYPE_XYZ) then
+        return c:GetRank()
+    else
+        return c:GetSynchroLevel()
+    end
+end
+
+function c284130843.checkTunerMaterial(c, tuner, minc, maxc, mg)
+    -- 检查以tuner作为调整[在mg中]是否存在一组满足条件的min-max张卡作为同调召唤c的素材
+    -- f1是调整需要满足的过滤条件，f2是调整以外的部分需要满足的过滤条件
+    local g = nil
+    local c_lv = c:GetLevel()
+    local tuner_lv = tuner:GetSynchroLevel()
+
+    if c284130843.synchroFilter1(tuner) then
+        if mg then
+            g = mg:Filter(c284130843.synchroFilter2, nil)
+        else
+            g = Duel.GetMatchingGroup(c284130843.synchroFilter2, c:GetControler(), LOCATION_MZONE, 0, nil)
+        end
+        return g:CheckWithSumEqual(c284130843.synchroLevel, c_lv - tuner_lv, minc, maxc)
+    else
+        return false
+    end
+end
+
+function c284130843.checkSynchroMaterial(c, minc, maxc, smat, mg)
+    -- 检查[mg中]是否存在一组[必须包括smat在内的]满足条件的min-max张卡作为同调召唤c的素材
+    -- f1是调整需要满足的过滤条件，f2是调整以外的部分需要满足的过滤条件
+    local g = nil
+    local lv = nil
+    local c_lv = c:GetLevel()
+
+    if smat and mg then
+        if smat:IsType(TYPE_TUNER) and c284130843.synchroFilter1(smat) then
+            g = mg:Filter(c284130843.synchroFilter2, nil)
+            lv = c_lv - c284130843.synchroLevel(smat)
+        elseif smat:IsType(TYPE_SYNCHRO) and c284130843.synchroFilter2(smat) then
+            -- 需要从mg中找到一个合适的tuner
+            lv = c_lv - c284130843.synchroLevel(smat)
+        else
+            return false
+        end
+    elseif smat and not mg then
+        local temp_g = Duel.GetMatchingGroup(aux.OR(c284130843.synchroFilter1, c284130843.synchroFilter2), c:GetControler(), LOCATION_MZONE, 0, smat)
+
+    elseif not smat and mg then
+    else
+    end
+    return g:CheckWithSumEqual(c284130843.synchroLevel, lv, minc, maxc)
+end
+
+function c284130843.selectTunerMaterial(player, c, tuner, min, max, mg)
+    -- 让玩家[从mg中]选择用于同调c需要的满足条件的以tuner作为调整的min-max张卡的一组素材
+    -- f1是调整需要满足的过滤条件，f2是调整以外的部分需要满足的过滤条件
+end
+
+function c284130843.selectSynchroMaterial(player, c, min, max, smat, mg)
+    -- 让玩家player[从mg中]选择用于同调c需要的[必须包含smat在内（如果有mg~=nil则忽略此参数）]满足条件的数量为min-max的一组素材。
+    -- f1是调整需要满足的过滤条件。f2是调整以外的部分需要满足的过滤条件。
+end
+
+function c284130843.synCondition(e, c, smat, mg)
+    if c == nil then
+        return true
+    end
+    if c:IsType(TYPE_PENDULUM) and c:IsFaceup() then
+        return false
+    end
+    local ft = Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE)
+    local ct = - ft
+    local minc = minct
+    local maxc = 99
+    if minc < ct then
+        minc = ct
+    end
+    if maxc < minc then
+        return false
+    end
+    if smat and smat:IsType(TYPE_TUNER) and c284130843.synchroFilter1(smat) then
+        return c284130843.checkTunerMaterial(c, smat, minc, maxc, mg)
+    else
+        return c284130843.checkSynchroMaterial(c, minc, maxc, smat, mg)
+    end
+end
+
+function c284130843.synTarget(e, tp, eg, ep, ev, re, r, rp, chk, c, smat, mg)
+    local g = nil
+    local ft = Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE)
+    local ct = - ft
+    local minc = minct
+    local maxc = 99
+    if minc < ct then
+        minc = ct
+    end
+    if smat and smat:IsType(TYPE_TUNER) and c284130843.synchroFilter1(smat) then
+        g = c284130843.selectTunerMaterial(c:GetControler(), c, smat, minc, maxc, mg)
+    else
+        g = c284130843.selectSynchroMaterial(c:GetControler(), c, minc, maxc, smat, mg)
+    end
+    if g then
+        g:KeepAlive()
+        e:SetLabelObject(g)
+        return true
+    else
+        return false
+    end
+end
+
+function c284130843.synOperation(e, tp, eg, ep, ev, re, r, rp, c, smat, mg)
+    local g = e:GetLabelObject()
+    c:SetMaterial(g)
+    Duel.SendtoGrave(g, REASON_MATERIAL + REASON_SYNCHRO)
+    g:DeleteGroup()
+end
+
 function c284130843.showCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp and bit.band(Duel.GetCurrentPhase(), PHASE_MAIN1 + PHASE_MAIN2)
+    return Duel.GetTurnPlayer() == tp and bit.band(Duel.GetCurrentPhase(), PHASE_MAIN1 + PHASE_MAIN2) > 0
 end
 
 function c284130843.showCost(e, tp, eg, ep, ev, re, r, rp, chk)
