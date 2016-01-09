@@ -153,8 +153,8 @@ function Card.GetRank(c)
     -- 返回c的当前阶级
 end
 
-function Card.GetSynchroLevel(c)
-    -- 返回c的同调用等级。此函数除了某些特定卡如调节支援士，返回值与Card.GetLevel(c)相同
+function Card.GetSynchroLevel(c, syncard)
+    -- 返回c在用于同调召唤syncard时的同调用等级。此函数除了某些特定卡如调节支援士，返回值与Card.GetLevel(c)相同
 end
 
 function Card.GetRitualLevel(c)
