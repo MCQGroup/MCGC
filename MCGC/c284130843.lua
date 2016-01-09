@@ -140,11 +140,21 @@ function c284130843.checkSynchroMaterial(c, minc, maxc, smat, mg)
 
     if smat and mg then
         if smat:IsType(TYPE_TUNER) and c284130843.synchroFilter1(smat) then
-            g = mg:Filter(c284130843.synchroFilter2, nil)
-            lv = c_lv - c284130843.synchroLevel(smat)
+            return c284130843.checkTunerMaterial(c, smat, minc, maxc, mg)
         elseif smat:IsType(TYPE_SYNCHRO) and c284130843.synchroFilter2(smat) then
-            -- 需要从mg中找到一个合适的tuner
-            lv = c_lv - c284130843.synchroLevel(smat)
+            local tuner_g = mg:Filter(c284130843.synchroFilter1, nil)
+            if tuner_g:GetCount() > 0 then
+                local tuner = tuner_g:GetFirst()
+                while tuner do
+                    if c284130843.checkTunerMaterial(c, tuner, minc, maxc, mg) then
+                        return true
+                    end
+                    tuner = g:GetNext()
+                end
+                lv = c_lv - c284130843.synchroLevel(smat)
+            else
+                return false
+            end
         else
             return false
         end
