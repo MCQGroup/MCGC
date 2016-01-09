@@ -104,11 +104,11 @@ function c284130843.synchroFilter2(c)
     return(c:IsType(TYPE_FUSION) or c:IsType(TYPE_XYZ) or c:IsType(TYPE_PENDULUM))
 end
 
-function c284130843.synchroLevel(c)
+function c284130843.synchroLevel(c, sc)
     if c:IsType(TYPE_XYZ) then
         return c:GetRank()
     else
-        return c:GetSynchroLevel()
+        return c:GetSynchroLevel(sc)
     end
 end
 
@@ -117,15 +117,16 @@ function c284130843.checkTunerMaterial(c, tuner, minc, maxc, mg)
     -- f1是调整需要满足的过滤条件，f2是调整以外的部分需要满足的过滤条件
     local g = nil
     local c_lv = c:GetLevel()
-    local tuner_lv = tuner:GetSynchroLevel()
+    local tuner_lv = tuner:GetSynchroLevel(c)
 
     if c284130843.synchroFilter1(tuner) then
         if mg then
-            g = mg:Filter(c284130843.synchroFilter2, nil):RemoveCard(tuner)
+            g = mg:Filter(c284130843.synchroFilter2, nil)
+            g:RemoveCard(tuner)
         else
             g = Duel.GetMatchingGroup(c284130843.synchroFilter2, c:GetControler(), LOCATION_MZONE, 0, tuner)
         end
-        return g:CheckWithSumEqual(c284130843.synchroLevel, c_lv - tuner_lv, minc, maxc)
+        return g:CheckWithSumEqual(c284130843.synchroLevel, c_lv - tuner_lv, minc, maxc, c)
     else
         return false
     end
@@ -149,10 +150,10 @@ function c284130843.checkSynchroMaterial(c, minc, maxc, smat, mg)
             if tuner_g:GetCount() > 0 then
                 local tuner = tuner_g:GetFirst()
                 while tuner do
-                    local tuner_lv = c284130843.synchroLevel(tuner)
-                    local smat_lv = c284130843.synchroLevel(smat)
+                    local tuner_lv = c284130843.synchroLevel(tuner, c)
+                    local smat_lv = c284130843.synchroLevel(smat, c)
                     local tuner_smat = Group.FromCards(tuner, smat)
-                    if mg:Clone():Sub(tuner_smat):checkWithSumEqual(c284130843.synchroLevel, c_lv - tuner_lv - smat_lv, minc - 2, maxc - 2) then
+                    if mg:Clone():Sub(tuner_smat):checkWithSumEqual(c284130843.synchroLevel, c_lv - tuner_lv - smat_lv, minc - 2, maxc - 2, c) then
                         return true
                     end
                     tuner = g:GetNext()
@@ -168,7 +169,7 @@ function c284130843.checkSynchroMaterial(c, minc, maxc, smat, mg)
         if tuner_g:GetCount() > 0 then
             local tuner = tuner_g:GetFirst()
             while tuner do
-                local tuner_lv = c284130843.synchroLevel(tuner)
+                local tuner_lv = c284130843.synchroLevel(tuner, c)
                 if c284130843.checkTunerMaterial(c, tuner, minc - 1, maxc - 1, mg) then
                     return true
                 end
@@ -200,7 +201,7 @@ function c284130843.synCondition(e, c, smat, mg)
     end
     local ft = Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE)
     local ct = - ft
-    local minc = minct
+    local minc = 2
     local maxc = 99
     if minc < ct then
         minc = ct
@@ -219,7 +220,7 @@ function c284130843.synTarget(e, tp, eg, ep, ev, re, r, rp, chk, c, smat, mg)
     local g = nil
     local ft = Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE)
     local ct = - ft
-    local minc = minct
+    local minc = 2
     local maxc = 99
     if minc < ct then
         minc = ct
@@ -260,11 +261,11 @@ function c284130843.showSynchroFilter(c, syncard, tuner, f)
     return c:IsFaceup() and c:IsNotTuner() and c:IsCanBeSynchroMaterial(syncard, tuner) and(f == nil or f(c))
 end
 
-function c284130843.showSynchroCheck(c)
+function c284130843.showSynchroCheck(c, syncard)
     if Duel.GetFlagEffect(tp, 284130843) and c:IsType(TYPE_XYZ) then
         return c:GetRank()
     else
-        return c:GetSynchroLevel()
+        return c:GetSynchroLevel(syncard)
     end
 end
 
