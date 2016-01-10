@@ -42,10 +42,12 @@ function c284130843.initial_effect(c)
     e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e4:SetRange(LOCATION_MZONE)
     e4:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e4:SetValue(aux.tgval)
     c:RegisterEffect(e4)
 
     local e5 = e4:Clone()
     e5:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e5:SetValue(1)
     c:RegisterEffect(e5)
 
     -- 控制权
@@ -347,7 +349,10 @@ function c284130843.negateOperation(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130843.tograveCondition(e, tp, eg, ep, ev, re, r, rp)
-    return bit.band(e:GetHandler():GetPreviousLocation(), LOCATION_MZONE) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and Duel.IsExistingMatchingCard(c284130843.tograveFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, nil)
+    local test1 = bit.band(e:GetHandler():GetPreviousLocation(), LOCATION_MZONE)
+    local test2 = Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+    local test3 = Duel.IsExistingMatchingCard(c284130843.tograveFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, nil)
+    return test1 and test2 and test3
 end
 
 function c284130843.tograveFilter(c)
