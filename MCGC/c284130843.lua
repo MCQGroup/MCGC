@@ -3,86 +3,76 @@
 function c284130843.initial_effect(c)
     -- 同调召唤
     c:EnableReviveLimit()
-    aux.AddSynchroProcedure(c, c284130843.synchroFilter1, aux.NonTuner(c284130843.synchroFilter2), 2)
     -- 因为要使用超量怪兽的阶级进行同调召唤，而ygopro将超量怪兽的同调用等级视为0；
     -- 因此这不是真正的同调召唤，而是个扩展的版本。
     -- 暂定名为[好热闹啊]同调
 
-    local e0 = Effect.CreateEffect(c)
-    e0:SetType(EFFECT_TYPE_FIELD)
-    e0:SetCode(EFFECT_SPSUMMON_PROC)
-    e0:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_IGNORE_IMMUNE)
-    e0:SetRange(LOCATION_EXTRA)
-    e0:SetCondition(c284130843.synCondition)
-    e0:SetTarget(c284130843.synTarget)
-    e0:SetOperation(c284130843.synOperation)
-    e0:SetValue(SUMMON_TYPE_SYNCHRO)
-    c:RegisterEffect(e0)
-
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_SPSUMMON_CONDITION)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetCode(EFFECT_SPSUMMON_PROC)
+    e1:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_IGNORE_IMMUNE)
     e1:SetRange(LOCATION_EXTRA)
+    e1:SetCondition(c284130843.synCondition)
+    e1:SetTarget(c284130843.synTarget)
+    e1:SetOperation(c284130843.synOperation)
+    e1:SetValue(SUMMON_TYPE_SYNCHRO)
     c:RegisterEffect(e1)
 
-    -- 展示
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_IGNITION)
-    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e2:SetCode(EFFECT_SPSUMMON_CONDITION)
     e2:SetRange(LOCATION_EXTRA)
-    e2:SetCondition(c284130843.showCondition)
-    e2:SetCost(c284130843.showCost)
-    e2:SetOperation(c284130843.showOperation)
     c:RegisterEffect(e2)
+
+    -- 展示
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_EXTRA)
+    e3:SetCountLimit(1, 84130843)
+    e3:SetCondition(c284130843.showCondition)
+    e3:SetCost(c284130843.showCost)
+    e3:SetOperation(c284130843.showOperation)
+    c:RegisterEffect(e3)
 
     -- 魔免
     -- 参考[94784213]威风妖怪·狐
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    c:RegisterEffect(e3)
-
-    local e4 = e3:Clone()
-    e4:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     c:RegisterEffect(e4)
+
+    local e5 = e4:Clone()
+    e5:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    c:RegisterEffect(e5)
 
     -- 控制权
     -- 参考[75830094]荷鲁斯之黑炎龙 LV4
-    local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE)
-    e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e5:SetRange(LOCATION_MZONE)
-    e5:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    c:RegisterEffect(e5)
+    local e6 = Effect.CreateEffect(c)
+    e6:SetType(EFFECT_TYPE_SINGLE)
+    e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e6:SetRange(LOCATION_MZONE)
+    e6:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    c:RegisterEffect(e6)
 
     -- 无效效果
     -- 参考[35952884]流天类星龙
-    local e6 = Effect.CreateEffect(c)
-    e6:SetCategory(CATEGORY_NEGATE)
-    e6:SetType(EFFECT_TYPE_QUICK_O)
-    e6:SetCode(EVENT_CHAINING)
-    e6:SetLabel(0)
-    -- 因为SetCountLimit不能传函数所以用Label来实现
-    e6:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
-    e6:SetRange(LOCATION_MZONE)
-    e6:SetCondition(c284130843.negateCondition)
-    e6:SetTarget(c284130843.negateTarget)
-    e6:SetOperation(c284130843.negateOperation)
-    c:RegisterEffect(e6)
-
-    -- 亡语
     local e7 = Effect.CreateEffect(c)
-    e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e6:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e6:SetCode(EVENT_TO_GRAVE)
-    e6:SetCondition(c284130843.tograveCondition)
-    e6:SetOperation(c284130843.tograveOperation)
+    e7:SetCategory(CATEGORY_NEGATE)
+    e7:SetType(EFFECT_TYPE_QUICK_O)
+    e7:SetCode(EVENT_CHAINING)
+    e7:SetLabel(0)
+    -- 因为SetCountLimit不能传函数所以用Label来实现
+    e7:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e7:SetRange(LOCATION_MZONE)
+    e7:SetCondition(c284130843.negateCondition)
+    e7:SetTarget(c284130843.negateTarget)
+    e7:SetOperation(c284130843.negateOperation)
     c:RegisterEffect(e7)
 
-    -- 每回合重置e6
+    -- 每回合重置e7
     local e8 = Effect.CreateEffect(c)
     e8:SetType(EFFECT_TYPE_CONTINUOUS)
     e8:SetCode(EVENT_TURN_END)
@@ -90,6 +80,15 @@ function c284130843.initial_effect(c)
     e8:SetLabelObject(e6)
     e8:SetOperation(c284130843.resetOperation)
     c:RegisterEffect(e8)
+
+    -- 亡语
+    local e9 = Effect.CreateEffect(c)
+    e9:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e9:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e9:SetCode(EVENT_TO_GRAVE)
+    e9:SetCondition(c284130843.tograveCondition)
+    e9:SetOperation(c284130843.tograveOperation)
+    c:RegisterEffect(e9)
 end	
 
 function c284130843.filter(c)
@@ -101,7 +100,11 @@ function c284130843.synchroFilter1(c)
 end
 
 function c284130843.synchroFilter2(c)
-    return(c:IsType(TYPE_FUSION) or c:IsType(TYPE_XYZ) or c:IsType(TYPE_PENDULUM))
+    if Duel.GetFlagEffect(c:GetControler(), 284130843) > 0 then
+        return(c:IsType(TYPE_FUSION) or c:IsType(TYPE_XYZ) or c:IsType(TYPE_PENDULUM))
+    else
+        return(c:IsType(TYPE_FUSION) or c:IsType(TYPE_PENDULUM))
+    end
 end
 
 function c284130843.synchroLevel(c, sc)
@@ -173,7 +176,7 @@ function c284130843.checkSynchroMaterial(c, minc, maxc, smat, mg)
             return false
         end
     end
-    Debug.Message("impossible!")
+    return false
 end
 
 function c284130843.selectTunerMaterial(player, c, tuner, min, max, mg)
@@ -319,53 +322,8 @@ function c284130843.showCost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ConfirmCards(1 - tp, e:GetHandler())
 end
 
-function c284130843.showSynchroFilter(c, syncard, tuner, f)
-    return c:IsFaceup() and c:IsNotTuner() and c:IsCanBeSynchroMaterial(syncard, tuner) and(f == nil or f(c))
-end
-
-function c284130843.showSynchroCheck(c, syncard)
-    if Duel.GetFlagEffect(tp, 284130843) and c:IsType(TYPE_XYZ) then
-        return c:GetRank()
-    else
-        return c:GetSynchroLevel(syncard)
-    end
-end
-
 function c284130843.showOperation(e, tp, eg, ep, ev, re, r, rp)
-    -- 参考EFFECT_SYNCHRO_MATERIAL_CUSTOM
-    Duel.RegisterFlagEffect(tp, 284130843, RESET_PHASE + RESET_END, nil, 1)
-
-    local tg = Duel.GetMatchingGroup(Card.IsType, tp, LOCATION_MZONE, 0, nil, TYPE_XYZ)
-    local tc = tg:GetFirst()
-    while tc do
-        local te = Effect.CreateEffect(tc)
-        te:SetType(EFFECT_TYPE_FIELD)
-        te:SetCode(EFFECT_SYNCHRO_MATERIAL_CUSTOM)
-        te:SetCondition( function(ein, tpin, egin, epin, evin, rein, rin, rpin)
-            return Duel.GetFlagEffect(tp, 284130843)
-        end )
-        te:SetTarget( function(ein, syncard, f, minc, maxc)
-            local c = ein:GetHandler()
-            local lv = syncard:GetLevel() - c:GetRank()
-            if lv <= 0 then
-                return false
-            end
-            local g = Duel.GetMatchingGroup(c284130843.showSynchroFilter, tp, LOCATION_MZONE, 0, c, syncard, c, f)
-            return g:CheckWithSumEqual(c284130843.showSynchroCheck, lv, minc, maxc, syncard)
-        end )
-        te:SetValue(1)
-        te:SetOperation( function(ein, tpin, egin, epin, evin, rein, rin, rpin, syncard, f, minc, maxc)
-            local c = ein:GetHandler()
-            local lv = syncard:GetLevel() - c:GetRank()
-            local g = Duel.GetMatchingGroup(c284130843.showSynchroFilter, tp, LOCATION_MZONE, 0, c, syncard, c, f)
-            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SMATERIAL)
-            local sg = g:SelectWithSumEqual(tp, c284130843.showSynchroCheck, lv, minc, maxc, syncard)
-            Duel.SetSynchroMaterial(sg)
-        end )
-        tc:RegisterEffect(te)
-
-        tc = tg:GetNext()
-    end
+    Duel.RegisterFlagEffect(tp, 284130843, RESET_PHASE + PHASE_END, nil, 1)
 end
 
 function c284130843.negateFilter(c)
