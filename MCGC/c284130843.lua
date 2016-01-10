@@ -76,10 +76,10 @@ function c284130843.initial_effect(c)
 
     -- 每回合重置e7
     local e8 = Effect.CreateEffect(c)
-    e8:SetType(EFFECT_TYPE_CONTINUOUS)
+    e8:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e8:SetCode(EVENT_TURN_END)
     e8:SetRange(LOCATION_MZONE)
-    e8:SetLabelObject(e6)
+    e8:SetLabelObject(e7)
     e8:SetOperation(c284130843.resetOperation)
     c:RegisterEffect(e8)
 
@@ -103,9 +103,9 @@ end
 
 function c284130843.synchroFilter2(c)
     if Duel.GetFlagEffect(c:GetControler(), 284130843) > 0 then
-        return(c:IsType(TYPE_FUSION) or c:IsType(TYPE_XYZ) or c:IsType(TYPE_PENDULUM))
+        return c:IsType(TYPE_FUSION) or c:IsType(TYPE_XYZ) or c:IsType(TYPE_PENDULUM)
     else
-        return(c:IsType(TYPE_FUSION) or c:IsType(TYPE_PENDULUM))
+        return c:IsType(TYPE_FUSION) or c:IsType(TYPE_PENDULUM)
     end
 end
 
@@ -329,11 +329,12 @@ function c284130843.showOperation(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c284130843.negateFilter(c)
-    return c284130843.filter(c) and c284130843.synchroFilter2(c)
+    return c284130843.filter(c) and(c:IsType(TYPE_FUSION) or c:IsType(TYPE_SYNCHRO) or c:IsType(TYPE_XYZ))
 end
 
 function c284130843.negateCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsChainNegatable(ev) and Duel.GetMatchingGroupCount(c284130843.negateFilter, tp, LOCATION_MZONE, 0, nil) > e:GetLabel()
+    local test = Duel.GetMatchingGroupCount(c284130843.negateFilter, tp, LOCATION_MZONE, 0, nil) > e:GetLabel()
+    return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and ep ~= tp and Duel.IsChainNegatable(ev) and test
 end
 
 function c284130843.negateTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -348,19 +349,23 @@ function c284130843.negateOperation(e, tp, eg, ep, ev, re, r, rp)
     e:SetLabel(e:GetLabel() + 1)
 end
 
+function c284130843.resetOperation(e, tp, eg, ep, ev, re, r, rp)
+    e:GetLabelObject():SetLabel(0)
+end
+
+function c284130843.tograveFilter(c, e, sumtype, sumplayer, nocheck, nolimit)
+    return c284130843.filter(c) and c:IsCanBeSpecialSummoned(e, sumtype, sumplayer, nocheck, nolimit)
+end
+
 function c284130843.tograveCondition(e, tp, eg, ep, ev, re, r, rp)
     local test1 = bit.band(e:GetHandler():GetPreviousLocation(), LOCATION_MZONE)
     local test2 = Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    local test3 = Duel.IsExistingMatchingCard(c284130843.tograveFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, nil)
+    local test3 = Duel.IsExistingMatchingCard(c284130843.tograveFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false)
     return test1 and test2 and test3
 end
 
-function c284130843.tograveFilter(c)
-    return c284130843.filter(c) and c:IsSpecialSummonable()
-end
-
 function c284130843.tograveOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.SelectMatchingCard(tp, c284130843.tograveFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, Duel.GetLocationCount(tp, LOCATION_MZONE), nil)
+    local g = Duel.SelectMatchingCard(tp, c284130843.tograveFilter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, Duel.GetLocationCount(tp, LOCATION_MZONE), nil, e, SUMMON_TYPE_SPECIAL, tp, false, false)
     local c = g:GetFirst()
     while c do
         local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
@@ -383,8 +388,4 @@ function c284130843.tograveOperation(e, tp, eg, ep, ev, re, r, rp)
     -- 参考[54447022]灵魂补充
     e2:SetCode(EFFECT_CANNOT_BP)
     Duel.RegisterEffect(e2, tp)
-end
-
-function c284130843.resetOperation(e, tp, eg, ep, ev, re, r, rp)
-    e:GetLabelObject():SetLabel(0)
 end
