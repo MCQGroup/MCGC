@@ -113,20 +113,16 @@ function c284130843.synchroLevel(c, sc)
 end
 
 function c284130843.checkTunerMaterial(c, tuner, minc, maxc, mg)
-    -- 检查以tuner作为调整[在mg中]是否存在一组满足条件的min-max张卡作为同调召唤c的素材
-    -- f1是调整需要满足的过滤条件，f2是调整以外的部分需要满足的过滤条件
-    local g = nil
-    local c_lv = c:GetLevel()
-    local tuner_lv = tuner:GetSynchroLevel(c)
-
+    -- 检查以tuner作为调整，[在mg中]是否存在一组满足条件的min-max张卡作为同调召唤c的素材
     if c284130843.synchroFilter1(tuner) then
+        local g = nil
         if mg then
             g = mg:Filter(c284130843.synchroFilter2, nil)
             g:RemoveCard(tuner)
         else
             g = Duel.GetMatchingGroup(c284130843.synchroFilter2, c:GetControler(), LOCATION_MZONE, 0, tuner)
         end
-        return g:CheckWithSumEqual(c284130843.synchroLevel, c_lv - tuner_lv, minc, maxc, c)
+        return g:CheckWithSumEqual(c284130843.synchroLevel, c:GetLevel() - tuner:GetSynchroLevel(c), minc, maxc, c)
     else
         return false
     end
@@ -134,17 +130,15 @@ end
 
 function c284130843.checkSynchroMaterial(c, minc, maxc, smat, mg)
     -- 检查[mg中]是否存在一组[必须包括smat在内的]满足条件的min-max张卡作为同调召唤c的素材
-    -- f1是调整需要满足的过滤条件，f2是调整以外的部分需要满足的过滤条件
-    local c_lv = c:GetLevel()
-
     if not mg then
+        smat = nil
         mg = Duel.GetMatchingGroup(aux.OR(c284130843.synchroFilter1, c284130843.synchroFilter2), tp, LOCATION_MZONE, 0, nil)
     end
 
     if smat then
         if smat:IsType(TYPE_TUNER) and c284130843.synchroFilter1(smat) then
             return c284130843.checkTunerMaterial(c, smat, minc - 1, maxc - 1, mg)
-        elseif smat:IsType(TYPE_SYNCHRO) and c284130843.synchroFilter2(smat) then
+        elseif c284130843.synchroFilter2(smat) then
             -- 如果smat不是tuner，那么需要先从mg中找出tuner，然后对每个tuner测试等级和
             local tuner_g = mg:Filter(c284130843.synchroFilter1, nil)
             if tuner_g:GetCount() > 0 then
@@ -153,7 +147,7 @@ function c284130843.checkSynchroMaterial(c, minc, maxc, smat, mg)
                     local tuner_lv = c284130843.synchroLevel(tuner, c)
                     local smat_lv = c284130843.synchroLevel(smat, c)
                     local tuner_smat = Group.FromCards(tuner, smat)
-                    if mg:Clone():Sub(tuner_smat):checkWithSumEqual(c284130843.synchroLevel, c_lv - tuner_lv - smat_lv, minc - 2, maxc - 2, c) then
+                    if mg:Clone():Sub(tuner_smat):checkWithSumEqual(c284130843.synchroLevel, c:GetLevel() - tuner_lv - smat_lv, minc - 2, maxc - 2, c) then
                         return true
                     end
                     tuner = g:GetNext()
@@ -173,7 +167,7 @@ function c284130843.checkSynchroMaterial(c, minc, maxc, smat, mg)
                 if c284130843.checkTunerMaterial(c, tuner, minc - 1, maxc - 1, mg) then
                     return true
                 end
-                tuner = g:GetNext()
+                tuner = tuner_g:GetNext()
             end
         else
             return false
@@ -184,12 +178,80 @@ end
 
 function c284130843.selectTunerMaterial(player, c, tuner, min, max, mg)
     -- 让玩家[从mg中]选择用于同调c需要的满足条件的以tuner作为调整的min-max张卡的一组素材
-    -- f1是调整需要满足的过滤条件，f2是调整以外的部分需要满足的过滤条件
+
+    --    if Duel.IsPlayerAffectedByEffect(player, EFFECT_MUST_BE_SMATERIAL) then
+    -- 额外处理，暂时不写
+    --    end
+
+    local g = Group.FromCards(tuner)
+
+    if mg then
+        mg:RemoveCard(tuner)
+    else
+        mg = Duel.GetMatchingGroup(c284130843.synchroFilter2, player, LOCATION_MZONE, 0, tuner)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, player, HINTMSG_SMATERIAL)
+    local material_g = mg:SelectWithSumEqual(player, c284130843.synchroLevel, c:GetLevel() - c284130843.synchroLevel(tuner, c), min, max, c)
+
+    g:Merge(material_g)
+    return g
 end
 
 function c284130843.selectSynchroMaterial(player, c, min, max, smat, mg)
     -- 让玩家player[从mg中]选择用于同调c需要的[必须包含smat在内（如果有mg~=nil则忽略此参数）]满足条件的数量为min-max的一组素材。
-    -- f1是调整需要满足的过滤条件。f2是调整以外的部分需要满足的过滤条件。
+    if not mg then
+        smat = nil
+        mg = Duel.GetMatchingGroup(aux.OR(c284130843.synchroFilter1, c284130843.synchroFilter2), tp, LOCATION_MZONE, 0, nil)
+    end
+
+    local g = Group.CreateGroup()
+    if smat then
+        if smat:IsType(TYPE_TUNER) and c284130843.synchroFilter1(smat) then
+            return c284130843.selectTunerMaterial(player, c, smat, minc - 1, maxc - 1, mg)
+        elseif c284130843.synchroFilter2(smat) then
+            g:AddCard(smat)
+            local tuner_g_temp = mg:Filter(c284130843.synchroFilter1, nil)
+            local tuner_g = Group.CreateGroup()
+            if tuner_g_temp:GetCount() > 0 then
+                local tuner = tuner_g_temp:GetFirst()
+                while tuner do
+                    local tuner_lv = c284130843.synchroLevel(tuner, c)
+                    local smat_lv = c284130843.synchroLevel(smat, c)
+                    local tuner_smat = Group.FromCards(tuner, smat)
+                    if mg:Clone():Sub(tuner_smat):checkWithSumEqual(c284130843.synchroLevel, c:GetLevel() - tuner_lv - smat_lv, minc - 2, maxc - 2, c) then
+                        tuner_g:AddCard(tuner)
+                    end
+                    tuner = tuner_g_temp:GetNext()
+                end
+                Duel.Hint(HINT_SELECTMSG, player, HINTMSG_SMATERIAL)
+                tuner = tuner_g:Select(player, 1, 1, nil)
+            end
+            g:AddCard(tuner)
+            local tuner_lv = c284130843.synchroLevel(tuner, c)
+            local smat_lv = c284130843.synchroLevel(smat, c)
+            local tuner_smat = Group.FromCards(tuner, smat)
+            Duel.Hint(HINT_SELECTMSG, player, HINTMSG_SMATERIAL)
+            return g:Merge(mg:Clone():Sub(tuner_smat):SelectWithSumEqual(player, c284130843.synchroLevel, c:GetLevel() - tuner_lv - smat_lv, min - 2, min - 2, c))
+        end
+    else
+        local tuner_g_temp = mg:Filter(c284130843.synchroFilter1, nil)
+        local tuner_g = Group.CreateGroup()
+        if tuner_g_temp:GetCount() > 0 then
+            local tuner = tuner_g_temp:GetFirst()
+            while tuner do
+                local tuner_lv = c284130843.synchroLevel(tuner, c)
+                if c284130843.checkTunerMaterial(c, tuner, min - 1, max - 1, mg) then
+                    tuner_g:AddCard(tuner)
+                end
+                tuner = tuner_g_temp:GetNext()
+            end
+            Duel.Hint(HINT_SELECTMSG, player, HINTMSG_SMATERIAL)
+            tuner = tuner_g:Select(player, 1, 1, nil):GetFirst()
+            return c284130843.selectTunerMaterial(player, c, tuner, min - 1, max - 1, mg)
+        end
+    end
+    Debug.Message("impossible!")
 end
 
 function c284130843.synCondition(e, c, smat, mg)
