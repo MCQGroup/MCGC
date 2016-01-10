@@ -1664,7 +1664,7 @@ function Duel.ShuffleSetCard(g)
     -- 洗切覆盖在怪兽区域的卡（魔术礼帽）
 end
 
-function Duel.ChaingeAttacker(c)
+function Duel.ChangeAttacker(c)
     -- 把当前的攻击卡替换成c进行攻击
     -- 注：此函数会使原来的攻击怪兽视为攻击过
 end
