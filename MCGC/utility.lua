@@ -2,12 +2,12 @@ Auxiliary = { }
 aux = Auxiliary
 
 function Auxiliary.Stringid(code, id)
-    -- ¼ÆËãÊı¾İ¿âËù´æµÄ×Ö·û´®ID
+    -- è®¡ç®—æ•°æ®åº“æ‰€å­˜çš„å­—ç¬¦ä¸²ID
     return code * 16 + id
 end
 
 function Auxiliary.Next(g)
-    -- ·µ»Ø£¨·µ»ØgÖĞÏÂÒ»ÕÅ¿¨Æ¬µÄ£©º¯Êı
+    -- è¿”å›ï¼ˆè¿”å›gä¸­ä¸‹ä¸€å¼ å¡ç‰‡çš„ï¼‰å‡½æ•°
     local first = true
     return function()
         if first then
@@ -19,35 +19,35 @@ function Auxiliary.Next(g)
 end
 
 function Auxiliary.NULL()
-    -- ·µ»ØNULL
+    -- è¿”å›NULL
 end
 
 function Auxiliary.TRUE()
-    -- ·µ»ØTrue
+    -- è¿”å›True
     return true
 end
 
 function Auxiliary.FALSE()
-    -- ·µ»ØFalse
+    -- è¿”å›False
     return false
 end
 
 function Auxiliary.AND(f1, f2)
-    -- ½«Á½¸öº¯Êı°´Âß¼­Óë×éºÏ
+    -- å°†ä¸¤ä¸ªå‡½æ•°æŒ‰é€»è¾‘ä¸ç»„åˆ
     return function(a, b, c)
         return f1(a, b, c) and f2(a, b, c)
     end
 end
 
 function Auxiliary.OR(f1, f2)
-    -- ½«Á½¸öº¯Êı°´Âß¼­»ò×éºÏ
+    -- å°†ä¸¤ä¸ªå‡½æ•°æŒ‰é€»è¾‘æˆ–ç»„åˆ
     return function(a, b, c)
         return f1(a, b, c) or f2(a, b, c)
     end
 end
 
 function Auxiliary.NOT(f)
-    -- ·µ»Ø£¨º¯ÊıfµÄ·ÇµÄ£©º¯Êı
+    -- è¿”å›ï¼ˆå‡½æ•°fçš„éçš„ï¼‰å‡½æ•°
     return function(a, b, c)
         return not f(a, b, c)
     end
@@ -1473,4 +1473,9 @@ function Auxiliary.qlifilter(e, te)
     else
         return false
     end
+end
+
+function Auxiliary.nvfilter(c)
+    -- filter for necro_valley test
+    return not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
