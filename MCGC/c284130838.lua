@@ -90,7 +90,7 @@ function c284130838.synchroSuccessTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.Recover(player, value, REASON_EFFECT)
 end
 
-function c284130838.spsummonFilter(c, e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
+function c284130838.spsummonFilter(c, e, sumtype, sumplayer, nocheck, nolimit)
     return c284130838.filter(c) and c:IsCanBeSpecialSummoned(e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
 end
 
@@ -102,7 +102,7 @@ function c284130838.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
     local isRightTurn = Duel.GetTurnPlayer() == tp
     local phase = Duel.GetCurrentPhase()
     local isRightPhase = phase == PHASE_MAIN1 or phase == PHASE_MAIN2
-    local isAbleToSpSummon = e:GetLabelObject():GetLabel() == 0 and e:GetHandler():IsLocation(LOCATION_MZONE) and Duel.IsExistingMatchingCard(c284130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
+    local isAbleToSpSummon = e:GetLabelObject():GetLabel() == 0 and e:GetHandler():IsLocation(LOCATION_MZONE) and Duel.IsExistingMatchingCard(c284130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false)
     local isAbleToSearch = Duel.IsExistingMatchingCard(c284130838.searchFilter, tp, LOCATION_DECK, 0, 1, nil)
     return isRightTurn and isRightPhase and(isAbleToSpSummon or isAbleToSpSummon)
 end
@@ -111,7 +111,7 @@ function c284130838.ignitionCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return true
     end
-    local isAbleToSpSummon = e:GetLabelObject():GetLabel() == 0 and e:GetHandler():IsLocation(LOCATION_MZONE) and Duel.IsExistingMatchingCard(c284130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
+    local isAbleToSpSummon = e:GetLabelObject():GetLabel() == 0 and e:GetHandler():IsLocation(LOCATION_MZONE) and Duel.IsExistingMatchingCard(c284130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false)
     local isAbleToSearch = Duel.IsExistingMatchingCard(c284130838.searchFilter, tp, LOCATION_DECK, 0, 1, nil)
     local option = -1
     if isAbleToSpSummon and isAbleToSearch then
@@ -131,7 +131,7 @@ function c284130838.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
     local option = e:GetLabel()
 
     if option == 0 then
-        local g = Duel.SelectMatchingCard(tp, c284130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
+        local g = Duel.SelectMatchingCard(tp, c284130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false)
         if g:GetCount() > 0 then
             local pos = Duel.SelectPosition(tp, g:GetFirst(), POS_FACEUP)
             -- 这个效果能不能召唤自己？这个效果特招的怪物要选择表示形式吗？
