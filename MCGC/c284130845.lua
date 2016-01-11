@@ -10,6 +10,7 @@ function c284130845.initial_effect(c)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetCategory(CATEGORY_DISABLE)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e1:SetRange(LOCATION_MZONE)
     e1:SetCost(c284130845.negateCost)
     e1:SetTarget(c284130845.negateTarget)
     e1:SetOperation(c284130845.negateOperation)
@@ -18,11 +19,11 @@ function c284130845.initial_effect(c)
     -- 转防御
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_NEGATE)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_QUICK_O)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetCode(EVENT_BECOME_TARGET)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1, EFFECT_COUNT_CODE_SINGLE)
-    e2:SetCondition(c284130845.defCondition)
+    e2:SetCondition(c284130845.defCondition1)
     e2:SetOperation(c284130845.defOperation1)
     c:RegisterEffect(e2)
 
@@ -32,7 +33,7 @@ function c284130845.initial_effect(c)
     e3:SetCode(EVENT_BE_BATTLE_TARGET)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1, EFFECT_COUNT_CODE_SINGLE)
-    e3:SetCondition(c284130845.defCondition)
+    e3:SetCondition(c284130845.defCondition2)
     e3:SetOperation(c284130845.defOperation2)
     c:RegisterEffect(e3)
 end
@@ -67,31 +68,40 @@ end
 
 function c284130845.negateOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = Duel.GetFirstTarget()
+
     local e1 = Effect.CreateEffect(e:GetHandler())
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_DISABLE)
     e1:SetReset(RESET_EVENT + 0x1fe0000)
     c:RegisterEffect(e1)
+
     local e2 = Effect.CreateEffect(e:GetHandler())
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetCode(EFFECT_DISABLE_EFFECT)
     e2:SetReset(RESET_EVENT + 0x1fe0000)
     c:RegisterEffect(e2)
+
     Duel.MajesticCopy(e:GetHandler(), c)
+
+    Duel.PayLPCost(tp, 900)
 end
 
-function c284130845.defCondition(e, tp, eg, ep, ev, re, r, rp)
+function c284130845.defCondition1(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsAttackPos() and Duel.IsChainDisablable(ev) and eg:IsContains(e:GetHandler())
+end
+
+function c284130845.defCondition2(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():IsAttackPos()
 end
 
 function c284130845.defOperation1(e, tp, eg, ep, ev, re, r, rp)
     -- 效果对象
+    Duel.NegateEffect(ev)
     Duel.ChangePosition(e:GetHandler(), POS_FACEUP_DEFENCE)
-    Duel.NegateActivation(ev)
 end
 
 function c284130845.defOperation2(e, tp, eg, ep, ev, re, r, rp)
     -- 攻击对象
-    Duel.ChangePosition(e:GetHandler(), POS_FACEUP_DEFENCE)
     Duel.NegateAttack()
+    Duel.ChangePosition(e:GetHandler(), POS_FACEUP_DEFENCE)
 end
