@@ -788,7 +788,7 @@ function Card.IsAttackPos(c)
 end
 
 function Card.IsFacedown(c)
-    -- 检查c是否是里侧测表示
+    -- 检查c是否是里侧表示
 end
 
 function Card.IsDefencePos(c)
@@ -1673,7 +1673,7 @@ function Duel.ReplaceAttacker(c)
     -- 用c代替当前攻击的卡进行伤害阶段
 end
 
-function Duel.ChaingeAttackTarget(c)
+function Duel.ChangeAttackTarget(c)
     -- 把当前的攻击目标替换成c。如果c=nil则变成直接攻击。
 end
 
