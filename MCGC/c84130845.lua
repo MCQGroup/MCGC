@@ -7,6 +7,7 @@ function c84130845.initial_effect(c)
 
     -- 无效并获得效果
     local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(84130845, 0))
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetCategory(CATEGORY_DISABLE)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
