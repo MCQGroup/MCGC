@@ -29,7 +29,6 @@ function c84130845.initial_effect(c)
     c:RegisterEffect(e2)
 
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_NEGATE)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetCode(EVENT_BE_BATTLE_TARGET)
     e3:SetRange(LOCATION_MZONE)
