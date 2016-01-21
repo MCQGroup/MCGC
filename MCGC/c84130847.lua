@@ -10,15 +10,17 @@ function c84130847.initial_effect(c)
 
     -- 对象触发
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetType(EFFECT_TYPE_QUICK_O)
     e1:SetCode(EVENT_BECOME_TARGET)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCountLimit(1, EFFECT_COUNT_CODE_SINGLE)
+    e1:SetCondition(c84130847.targetCondition)
     e1:SetCost(c84130847.targetCost)
     e1:SetOperation(c84130847.targetOperation)
     c:RegisterEffect(e1)
 
     local e2 = e1:Clone()
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetCode(EVENT_BE_BATTLE_TARGET)
     c:RegisterEffect(e2)
 end 
@@ -35,6 +37,10 @@ function c84130847.fusionFilter2(c)
     return c:IsAttribute(ATTRIBUTE_DARK) and c:IsType(TYPE_MONSTER)
 end
 
+function c84130847.targetCondition(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsFaceup()
+end
+
 function c84130847.targetCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return true
@@ -48,12 +54,12 @@ function c84130847.targetCost(e, tp, eg, ep, ev, re, r, rp, chk)
     e1:SetRange(LOCATION_REMOVED)
     e1:SetLabel(0)
     e1:SetLabelObject(e)
-    e1:SetCondition(c84130847.costCondtion)
+    e1:SetCondition(c84130847.costCondition)
     e1:SetOperation(c84130847.costOperation)
     c:RegisterEffect(e1)
 end
 
-function c84130847.costCondtion(e, tp, eg, ep, ev, re, r, rp)
+function c84130847.costCondition(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == tp and e:GetHandler():IsRelateToEffect(e:GetLabelObject())
 end
 
