@@ -19,9 +19,14 @@ function c84130847.initial_effect(c)
     e1:SetOperation(c84130847.targetOperation)
     c:RegisterEffect(e1)
 
-    local e2 = e1:Clone()
+    local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetCode(EVENT_BE_BATTLE_TARGET)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1, EFFECT_COUNT_CODE_SINGLE)
+    e2:SetCondition(c84130847.targetCondition)
+    e2:SetCost(c84130847.targetCost)
+    e2:SetOperation(c84130847.targetOperation)
     c:RegisterEffect(e2)
 end 
 
@@ -43,30 +48,31 @@ end
 
 function c84130847.targetCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return true
+        return e:GetHandler():IsAbleToRemoveAsCost()
     end
     local c = e:GetHandler()
-    Duel.Remove(c, POS_FACEUP, REASON_COST)
+    Duel.Remove(c, POS_FACEUP, REASON_COST + REASON_TEMPORARY)
 
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_CONTINUOUS)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e1:SetRange(LOCATION_REMOVED)
     e1:SetLabel(0)
     e1:SetLabelObject(e)
+    e1:SetCountLimit(1)
     e1:SetCondition(c84130847.costCondition)
     e1:SetOperation(c84130847.costOperation)
     c:RegisterEffect(e1)
 end
 
 function c84130847.costCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp and e:GetHandler():IsRelateToEffect(e:GetLabelObject())
+    return Duel.GetTurnPlayer() == tp
 end
 
 function c84130847.costOperation(e, tp, eg, ep, ev, re, r, rp)
     local count = e:GetLabel()
     if count < 1 then
-        count = count + 1
+        e:SetLabel(count + 1)
     else
         Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_DEFENCE)
         e:Reset()
