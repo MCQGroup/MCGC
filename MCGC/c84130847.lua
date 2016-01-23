@@ -10,6 +10,7 @@ function c84130847.initial_effect(c)
 
     -- 对象触发
     local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(84130847, 0))
     e1:SetType(EFFECT_TYPE_QUICK_O)
     e1:SetCode(EVENT_BECOME_TARGET)
     e1:SetRange(LOCATION_MZONE)
@@ -20,6 +21,7 @@ function c84130847.initial_effect(c)
     c:RegisterEffect(e1)
 
     local e2 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(84130847, 1))
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetCode(EVENT_BE_BATTLE_TARGET)
     e2:SetRange(LOCATION_MZONE)
