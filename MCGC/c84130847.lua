@@ -43,7 +43,7 @@ function c84130847.fusionFilter2(c)
 end
 
 function c84130847.targetCondition(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsFaceup()
+    return e:GetHandler():IsFaceup() and Duel.IsExistingMatchingCard(c84130847.targetFilter, tp, LOCATION_HAND, 0, 1, nil)
 end
 
 function c84130847.targetCost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -84,6 +84,7 @@ function c84130847.targetFilter(c)
 end
 
 function c84130847.targetOperation(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local g = Duel.SelectMatchingCard(tp, c84130847.targetFilter, tp, LOCATION_HAND, 0, 1, 1, nil)
     local c = g:GetFirst()
     local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
