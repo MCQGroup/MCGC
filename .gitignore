@@ -9,6 +9,7 @@
 *.luaproj
 *.sln
 .*
+*.xlsx
 
 # Build results
 [Dd]ebug/

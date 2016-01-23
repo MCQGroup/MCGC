@@ -2,9 +2,12 @@ Auxiliary = { }
 aux = Auxiliary
 
 function Auxiliary.Stringid(code, id)
+    -- 计算数据库所存的字符串ID
     return code * 16 + id
 end
+
 function Auxiliary.Next(g)
+    -- 返回（返回g中下一张卡片的）函数
     local first = true
     return function()
         if first then
@@ -14,41 +17,57 @@ function Auxiliary.Next(g)
         end
     end
 end
+
 function Auxiliary.NULL()
+    -- 返回NULL
 end
+
 function Auxiliary.TRUE()
+    -- 返回True
     return true
 end
+
 function Auxiliary.FALSE()
+    -- 返回False
     return false
 end
+
 function Auxiliary.AND(f1, f2)
+    -- 将两个函数按逻辑与组合
     return function(a, b, c)
         return f1(a, b, c) and f2(a, b, c)
     end
 end
+
 function Auxiliary.OR(f1, f2)
+    -- 将两个函数按逻辑或组合
     return function(a, b, c)
         return f1(a, b, c) or f2(a, b, c)
     end
 end
+
 function Auxiliary.NOT(f)
+    -- 返回（函数f的非的）函数
     return function(a, b, c)
         return not f(a, b, c)
     end
 end
+
 function Auxiliary.IsDualState(effect)
     local c = effect:GetHandler()
     return not c:IsDisabled() and c:IsDualState()
 end
+
 function Auxiliary.IsNotDualState(effect)
     local c = effect:GetHandle()
     return c:IsDisabled() or not c:IsDualState()
 end
+
 function Auxiliary.DualNormalCondition(effect)
     local c = effect:GetHandler()
     return c:IsFaceup() and not c:IsDualState()
 end
+
 function Auxiliary.BeginPuzzle(effect)
     local e1 = Effect.GlobalEffect()
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -56,12 +75,14 @@ function Auxiliary.BeginPuzzle(effect)
     e1:SetCountLimit(1)
     e1:SetOperation(Auxiliary.PuzzleOp)
     Duel.RegisterEffect(e1, 0)
+
     local e2 = Effect.GlobalEffect()
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e2:SetCode(EFFECT_SKIP_DP)
     e2:SetTargetRange(1, 0)
     Duel.RegisterEffect(e2, 0)
+
     local e3 = Effect.GlobalEffect()
     e3:SetType(EFFECT_TYPE_FIELD)
     e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -69,9 +90,11 @@ function Auxiliary.BeginPuzzle(effect)
     e3:SetTargetRange(1, 0)
     Duel.RegisterEffect(e3, 0)
 end
+
 function Auxiliary.PuzzleOp(e, tp)
     Duel.SetLP(0, 0)
 end
+
 function Auxiliary.EnableDualAttribute(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
@@ -90,33 +113,39 @@ function Auxiliary.EnableDualAttribute(c)
     e3:SetValue(TYPE_EFFECT)
     c:RegisterEffect(e3)
 end
+
 function Auxiliary.TargetEqualFunction(f, value, a, b, c)
     return function(effect, target)
         return f(target, a, b, c) == value
     end
 end
+
 function Auxiliary.TargetBoolFunction(f, a, b, c)
     return function(effect, target)
         return f(target, a, b, c)
     end
 end
+
 function Auxiliary.FilterEqualFunction(f, value, a, b, c)
     return function(target)
         return f(target, a, b, c) == value
     end
 end
+
 function Auxiliary.FilterBoolFunction(f, a, b, c)
     return function(target)
         return f(target, a, b, c)
     end
 end
+
 function Auxiliary.NonTuner(f, a, b, c)
     return function(target)
         return target:IsNotTuner() and(not f or f(target, a, b, c))
     end
 end
--- Synchro monster, 1 tuner + n or more monsters
+
 function Auxiliary.AddSynchroProcedure(c, f1, f2, ct)
+    -- Synchro monster, 1 tuner + n or more monsters
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
     e1:SetCode(EFFECT_SPSUMMON_PROC)
@@ -128,6 +157,7 @@ function Auxiliary.AddSynchroProcedure(c, f1, f2, ct)
     e1:SetValue(SUMMON_TYPE_SYNCHRO)
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.SynCondition(f1, f2, minct, maxc)
     return function(e, c, smat, mg)
         if c == nil then return true end
@@ -143,6 +173,7 @@ function Auxiliary.SynCondition(f1, f2, minct, maxc)
         return Duel.CheckSynchroMaterial(c, f1, f2, minc, maxc, smat, mg)
     end
 end
+
 function Auxiliary.SynTarget(f1, f2, minct, maxc)
     return function(e, tp, eg, ep, ev, re, r, rp, chk, c, smat, mg)
         local g = nil
@@ -164,6 +195,7 @@ function Auxiliary.SynTarget(f1, f2, minct, maxc)
         end
     end
 end
+
 function Auxiliary.SynOperation(f1, f2, minct, maxc)
     return function(e, tp, eg, ep, ev, re, r, rp, c, smat, mg)
         local g = e:GetLabelObject()
@@ -172,8 +204,9 @@ function Auxiliary.SynOperation(f1, f2, minct, maxc)
         g:DeleteGroup()
     end
 end
--- Synchro monster, 1 tuner + 1 monster
+
 function Auxiliary.AddSynchroProcedure2(c, f1, f2)
+    -- Synchro monster, 1 tuner + 1 monster
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
     e1:SetCode(EFFECT_SPSUMMON_PROC)
@@ -185,12 +218,13 @@ function Auxiliary.AddSynchroProcedure2(c, f1, f2)
     e1:SetValue(SUMMON_TYPE_SYNCHRO)
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.XyzAlterFilter(c, alterf, xyzc)
     return alterf(c) and c:IsCanBeXyzMaterial(xyzc)
 end
--- Xyz monster, lv k*n
--- set c.xyz_filter, c.xyz_count
 function Auxiliary.AddXyzProcedure(c, f, lv, ct, alterf, desc, maxct, op)
+    -- Xyz monster, lv k*n
+    -- set c.xyz_filter, c.xyz_count
     if c.xyz_filter == nil then
         local code = c:GetOriginalCode()
         local mt = _G["c" .. code]
@@ -219,8 +253,9 @@ function Auxiliary.AddXyzProcedure(c, f, lv, ct, alterf, desc, maxct, op)
     e1:SetValue(SUMMON_TYPE_XYZ)
     c:RegisterEffect(e1)
 end
--- Xyz Summon(normnal)
+
 function Auxiliary.XyzCondition(f, lv, minc, maxc)
+    -- Xyz Summon(normnal)
     -- og: use special material
     return function(e, c, og)
         if c == nil then return true end
@@ -231,6 +266,7 @@ function Auxiliary.XyzCondition(f, lv, minc, maxc)
         return Duel.CheckXyzMaterial(c, f, lv, minc, maxc, og)
     end
 end
+
 function Auxiliary.XyzTarget(f, lv, minc, maxc)
     return function(e, tp, eg, ep, ev, re, r, rp, chk, c, og)
         if og then
@@ -247,6 +283,7 @@ function Auxiliary.XyzTarget(f, lv, minc, maxc)
         end
     end
 end
+
 function Auxiliary.XyzOperation(f, lv, minc, maxc)
     return function(e, tp, eg, ep, ev, re, r, rp, c, og)
         if og then
@@ -276,8 +313,9 @@ function Auxiliary.XyzOperation(f, lv, minc, maxc)
         end
     end
 end
--- Xyz summon(alterf)
+
 function Auxiliary.XyzCondition2(f, lv, minc, maxc, alterf, desc, op)
+    -- Xyz summon(alterf)
     return function(e, c, og)
         if c == nil then return true end
         if c:IsType(TYPE_PENDULUM) and c:IsFaceup() then return false end
@@ -292,6 +330,7 @@ function Auxiliary.XyzCondition2(f, lv, minc, maxc, alterf, desc, op)
         return Duel.CheckXyzMaterial(c, f, lv, minc, maxc, og)
     end
 end
+
 function Auxiliary.XyzTarget2(f, lv, minc, maxc, alterf, desc, op)
     return function(e, tp, eg, ep, ev, re, r, rp, chk, c, og)
         if og then
@@ -319,6 +358,7 @@ function Auxiliary.XyzTarget2(f, lv, minc, maxc, alterf, desc, op)
         end
     end
 end
+
 function Auxiliary.XyzOperation2(f, lv, minc, maxc, alterf, desc, op)
     return function(e, tp, eg, ep, ev, re, r, rp, c, og)
         if og then
@@ -360,13 +400,15 @@ function Auxiliary.XyzOperation2(f, lv, minc, maxc, alterf, desc, op)
         end
     end
 end
+
 function Auxiliary.FConditionCheckF(c, chkf)
     return c:IsOnField() and c:IsControler(chkf)
 end
--- Fusion monster, name + name
--- material_count: number of different names in material list
--- material: names in material list
+
 function Auxiliary.AddFusionProcCode2(c, code1, code2, sub, insf)
+    -- Fusion monster, name + name
+    -- material_count: number of different names in material list
+    -- material: names in material list
     if c.material_count == nil then
         local code = c:GetOriginalCode()
         local mt = _G["c" .. code]
@@ -381,14 +423,17 @@ function Auxiliary.AddFusionProcCode2(c, code1, code2, sub, insf)
     e1:SetOperation(Auxiliary.FOperationCode2(code1, code2, sub, insf))
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.FConditionFilter21(c, code1, code2)
     local code = c:GetCode()
     return code == code1 or code == code2
 end
+
 function Auxiliary.FConditionFilter22(c, code1, code2, sub)
     local code = c:GetCode()
     return code == code1 or code == code2 or(sub and c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE))
 end
+
 function Auxiliary.FConditionCode2(code1, code2, sub, insf)
     -- g:Material group(nil for Instant Fusion)
     -- gc:Material already used
@@ -426,6 +471,7 @@ function Auxiliary.FConditionCode2(code1, code2, sub, insf)
         return b1 + b2 + bs >= 2 and(fs or chkf == PLAYER_NONE)
     end
 end
+
 function Auxiliary.FOperationCode2(code1, code2, sub, insf)
     return function(e, tp, eg, ep, ev, re, r, rp, gc, chkf)
         if gc then
@@ -460,8 +506,9 @@ function Auxiliary.FOperationCode2(code1, code2, sub, insf)
         Duel.SetFusionMaterial(g1)
     end
 end
--- Fusion monster, name + name + name
+
 function Auxiliary.AddFusionProcCode3(c, code1, code2, code3, sub, insf)
+    -- Fusion monster, name + name + name
     if c.material_count == nil then
         local code = c:GetOriginalCode()
         local mt = _G["c" .. code]
@@ -476,14 +523,17 @@ function Auxiliary.AddFusionProcCode3(c, code1, code2, code3, sub, insf)
     e1:SetOperation(Auxiliary.FOperationCode3(code1, code2, code3, sub, insf))
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.FConditionFilter31(c, code1, code2, code3)
     local code = c:GetCode()
     return code == code1 or code == code2 or code == code3
 end
+
 function Auxiliary.FConditionFilter32(c, code1, code2, code3, sub)
     local code = c:GetCode()
     return code == code1 or code == code2 or code == code3 or(sub and c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE))
 end
+
 function Auxiliary.FConditionCode3(code1, code2, code3, sub, insf)
     return function(e, g, gc, chkf)
         if g == nil then return insf end
@@ -540,6 +590,7 @@ function Auxiliary.FConditionCode3(code1, code2, code3, sub, insf)
         return b1 + b2 + b3 + bs >= 3 and(fs or chkf == PLAYER_NONE)
     end
 end
+
 function Auxiliary.FOperationCode3(code1, code2, code3, sub, insf)
     return function(e, tp, eg, ep, ev, re, r, rp, gc, chkf)
         if gc then
@@ -583,8 +634,9 @@ function Auxiliary.FOperationCode3(code1, code2, code3, sub, insf)
         Duel.SetFusionMaterial(g1)
     end
 end
--- Fusion monster, name + name + name + name
+
 function Auxiliary.AddFusionProcCode4(c, code1, code2, code3, code4, sub, insf)
+    -- Fusion monster, name + name + name + name
     if c.material_count == nil then
         local code = c:GetOriginalCode()
         local mt = _G["c" .. code]
@@ -599,14 +651,17 @@ function Auxiliary.AddFusionProcCode4(c, code1, code2, code3, code4, sub, insf)
     e1:SetOperation(Auxiliary.FOperationCode4(code1, code2, code3, code4, sub, insf))
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.FConditionFilter41(c, code1, code2, code3, code4)
     local code = c:GetCode()
     return code == code1 or code == code2 or code == code3 or code == code4
 end
+
 function Auxiliary.FConditionFilter42(c, code1, code2, code3, code4, sub)
     local code = c:GetCode()
     return code == code1 or code == code2 or code == code3 or code == code4 or(sub and c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE))
 end
+
 function Auxiliary.FConditionCode4(code1, code2, code3, code4, sub, insf)
     return function(e, g, gc, chkf)
         if g == nil then return insf end
@@ -670,6 +725,7 @@ function Auxiliary.FConditionCode4(code1, code2, code3, code4, sub, insf)
         return b1 + b2 + b3 + b4 + bs >= 4 and(fs or chkf == PLAYER_NONE)
     end
 end
+
 function Auxiliary.FOperationCode4(code1, code2, code3, code4, sub, insf)
     return function(e, tp, eg, ep, ev, re, r, rp, gc, chkf)
         if gc then
@@ -725,6 +781,7 @@ function Auxiliary.FOperationCode4(code1, code2, code3, code4, sub, insf)
         Duel.SetFusionMaterial(g1)
     end
 end
+
 -- Fusion monster, name + condition
 function Auxiliary.AddFusionProcCodeFun(c, code1, f, cc, sub, insf)
     if c.material_count == nil then
@@ -741,9 +798,11 @@ function Auxiliary.AddFusionProcCodeFun(c, code1, f, cc, sub, insf)
     e1:SetOperation(Auxiliary.FOperationCodeFun(code1, f, cc, sub, insf))
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.FConditionFilterCF(c, g2, cc)
     return g2:IsExists(aux.TRUE, cc, c)
 end
+
 function Auxiliary.FConditionCodeFun(code, f, cc, sub, insf)
     return function(e, g, gc, chkf)
         if g == nil then return insf end
@@ -794,6 +853,7 @@ function Auxiliary.FConditionCodeFun(code, f, cc, sub, insf)
         return b1 + b2 + bw >= 1 + cc and(fs or chkf == PLAYER_NONE)
     end
 end
+
 function Auxiliary.FOperationCodeFun(code, f, cc, sub, insf)
     return function(e, tp, eg, ep, ev, re, r, rp, gc, chkf)
         if gc then
@@ -876,8 +936,9 @@ function Auxiliary.FOperationCodeFun(code, f, cc, sub, insf)
         end
     end
 end
--- Fusion monster, condition + condition
+
 function Auxiliary.AddFusionProcFun2(c, f1, f2, insf)
+    -- Fusion monster, condition + condition
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
@@ -886,15 +947,19 @@ function Auxiliary.AddFusionProcFun2(c, f1, f2, insf)
     e1:SetOperation(Auxiliary.FOperationFun2(f1, f2, insf))
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.FConditionFilterF2(c, g2)
     return g2:IsExists(aux.TRUE, 1, c)
 end
+
 function Auxiliary.FConditionFilterF2c(c, f1, f2)
     return f1(c) or f2(c)
 end
+
 function Auxiliary.FConditionFilterF2r(c, f1, f2)
     return f1(c) and not f2(c)
 end
+
 function Auxiliary.FConditionFun2(f1, f2, insf)
     return function(e, g, gc, chkf)
         if g == nil then return insf end
@@ -916,6 +981,7 @@ function Auxiliary.FConditionFun2(f1, f2, insf)
         end
     end
 end
+
 function Auxiliary.FOperationFun2(f1, f2, insf)
     return function(e, tp, eg, ep, ev, re, r, rp, gc, chkf)
         if gc then
@@ -947,6 +1013,7 @@ function Auxiliary.FOperationFun2(f1, f2, insf)
         Duel.SetFusionMaterial(g1)
     end
 end
+
 -- Fusion monster, name * n
 function Auxiliary.AddFusionProcCodeRep(c, code1, cc, sub, insf)
     if c.material_count == nil then
@@ -963,9 +1030,11 @@ function Auxiliary.AddFusionProcCodeRep(c, code1, cc, sub, insf)
     e1:SetOperation(Auxiliary.FOperationCodeRep(code1, cc, sub, insf))
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.FConditionFilterCR(c, code, sub)
     return c:IsCode(code) or(sub and c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE))
 end
+
 function Auxiliary.FConditionCodeRep(code, cc, sub, insf)
     return function(e, g, gc, chkf)
         if g == nil then return insf end
@@ -987,6 +1056,7 @@ function Auxiliary.FConditionCodeRep(code, cc, sub, insf)
         end
     end
 end
+
 function Auxiliary.FOperationCodeRep(code, cc, sub, insf)
     return function(e, tp, eg, ep, ev, re, r, rp, gc, chkf)
         if gc then
@@ -1018,8 +1088,9 @@ function Auxiliary.FOperationCodeRep(code, cc, sub, insf)
         Duel.SetFusionMaterial(g1)
     end
 end
--- Fusion monster, condition * n
+
 function Auxiliary.AddFusionProcFunRep(c, f, cc, insf)
+    -- Fusion monster, condition * n
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
@@ -1028,6 +1099,7 @@ function Auxiliary.AddFusionProcFunRep(c, f, cc, insf)
     e1:SetOperation(Auxiliary.FOperationFunRep(f, cc, insf))
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.FConditionFunRep(f, cc, insf)
     return function(e, g, gc, chkf)
         if g == nil then return insf end
@@ -1040,6 +1112,7 @@ function Auxiliary.FConditionFunRep(f, cc, insf)
         end
     end
 end
+
 function Auxiliary.FOperationFunRep(f, cc, insf)
     return function(e, tp, eg, ep, ev, re, r, rp, gc, chkf)
         if gc then
@@ -1065,8 +1138,9 @@ function Auxiliary.FOperationFunRep(f, cc, insf)
         Duel.SetFusionMaterial(g1)
     end
 end
--- Ritual Summon, geq fixed lv
+
 function Auxiliary.AddRitualProcGreater(c, filter)
+    -- Ritual Summon, geq fixed lv
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -1075,11 +1149,13 @@ function Auxiliary.AddRitualProcGreater(c, filter)
     e1:SetOperation(Auxiliary.RPGOperation(filter))
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.RPGFilter(c, filter, e, tp, m)
     if (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_RITUAL, tp, false, true) then return false end
     local mg = m:Filter(Card.IsCanBeRitualMaterial, c, c)
     return mg:CheckWithSumGreater(Card.GetRitualLevel, c:GetOriginalLevel(), c)
 end
+
 function Auxiliary.RPGTarget(filter)
     return function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then
@@ -1089,6 +1165,7 @@ function Auxiliary.RPGTarget(filter)
         Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND)
     end
 end
+
 function Auxiliary.RPGOperation(filter)
     return function(e, tp, eg, ep, ev, re, r, rp)
         local mg = Duel.GetRitualMaterial(tp)
@@ -1107,8 +1184,9 @@ function Auxiliary.RPGOperation(filter)
         end
     end
 end
--- Ritual Summon, equal to fixed lv
+
 function Auxiliary.AddRitualProcEqual(c, filter)
+    -- Ritual Summon, equal to fixed lv
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -1117,11 +1195,13 @@ function Auxiliary.AddRitualProcEqual(c, filter)
     e1:SetOperation(Auxiliary.RPEOperation(filter))
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.RPEFilter(c, filter, e, tp, m)
     if (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_RITUAL, tp, false, true) then return false end
     local mg = m:Filter(Card.IsCanBeRitualMaterial, c, c)
     return mg:CheckWithSumEqual(Card.GetRitualLevel, c:GetOriginalLevel(), 1, 99, c)
 end
+
 function Auxiliary.RPETarget(filter)
     return function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then
@@ -1131,6 +1211,7 @@ function Auxiliary.RPETarget(filter)
         Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND)
     end
 end
+
 function Auxiliary.RPEOperation(filter)
     return function(e, tp, eg, ep, ev, re, r, rp)
         local mg = Duel.GetRitualMaterial(tp)
@@ -1149,8 +1230,9 @@ function Auxiliary.RPEOperation(filter)
         end
     end
 end
--- Ritual Summon, equal to monster lv
+
 function Auxiliary.AddRitualProcEqual2(c, filter)
+    -- Ritual Summon, equal to monster lv
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -1159,11 +1241,13 @@ function Auxiliary.AddRitualProcEqual2(c, filter)
     e1:SetOperation(Auxiliary.RPEOperation2(filter))
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.RPEFilter2(c, filter, e, tp, m)
     if (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_RITUAL, tp, false, true) then return false end
     local mg = m:Filter(Card.IsCanBeRitualMaterial, c, c)
     return mg:CheckWithSumEqual(Card.GetRitualLevel, c:GetLevel(), 1, 99, c)
 end
+
 function Auxiliary.RPETarget2(filter)
     return function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then
@@ -1173,6 +1257,7 @@ function Auxiliary.RPETarget2(filter)
         Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND)
     end
 end
+
 function Auxiliary.RPEOperation2(filter)
     return function(e, tp, eg, ep, ev, re, r, rp)
         local mg = Duel.GetRitualMaterial(tp)
@@ -1191,8 +1276,9 @@ function Auxiliary.RPEOperation2(filter)
         end
     end
 end
--- add procedure to Pendulum monster
+
 function Auxiliary.AddPendulumProcedure(c)
+    -- add procedure to Pendulum monster
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
     e1:SetCode(EFFECT_SPSUMMON_PROC_G)
@@ -1204,6 +1290,7 @@ function Auxiliary.AddPendulumProcedure(c)
     e1:SetValue(SUMMON_TYPE_PENDULUM)
     c:RegisterEffect(e1)
 end
+
 function Auxiliary.PConditionFilter(c, e, tp, lscale, rscale)
     local lv = 0
     if c.pendulum_level then
@@ -1215,6 +1302,7 @@ function Auxiliary.PConditionFilter(c, e, tp, lscale, rscale)
     and lv > lscale and lv < rscale and c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_PENDULUM, tp, false, false)
     and not c:IsForbidden()
 end
+
 function Auxiliary.PendCondition()
     return function(e, c, og)
         if c == nil then return true end
@@ -1234,6 +1322,7 @@ function Auxiliary.PendCondition()
         end
     end
 end
+
 function Auxiliary.PendOperation()
     return function(e, tp, eg, ep, ev, re, r, rp, c, sg, og)
         local rpz = Duel.GetFieldCard(tp, LOCATION_SZONE, 7)
@@ -1254,60 +1343,72 @@ function Auxiliary.PendOperation()
         Duel.HintSelection(Group.FromCards(rpz))
     end
 end
--- card effect disable filter(target)
+
 function Auxiliary.disfilter1(c)
+    -- card effect disable filter(target)
     return c:IsFaceup() and not c:IsDisabled() and(not c:IsType(TYPE_NORMAL) or bit.band(c:GetOriginalType(), TYPE_EFFECT) ~= 0)
 end
--- condition of EVENT_BATTLE_DESTROYING
+
 function Auxiliary.bdcon(e, tp, eg, ep, ev, re, r, rp)
+    -- condition of EVENT_BATTLE_DESTROYING
     local c = e:GetHandler()
     return c:IsRelateToBattle()
 end
--- condition of EVENT_BATTLE_DESTROYING + opponent monster
+
 function Auxiliary.bdocon(e, tp, eg, ep, ev, re, r, rp)
+    -- condition of EVENT_BATTLE_DESTROYING + opponent monster
     local c = e:GetHandler()
     return c:IsRelateToBattle() and c:IsStatus(STATUS_OPPO_BATTLE)
 end
--- condition of EVENT_BATTLE_DESTROYING + to_grave
+
 function Auxiliary.bdgcon(e, tp, eg, ep, ev, re, r, rp)
+    -- condition of EVENT_BATTLE_DESTROYING + to_grave
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
     return c:IsRelateToBattle() and bc:IsLocation(LOCATION_GRAVE) and bc:IsType(TYPE_MONSTER)
 end
--- condition of EVENT_BATTLE_DESTROYING + opponent monster + to_grave
+
 function Auxiliary.bdogcon(e, tp, eg, ep, ev, re, r, rp)
+    -- condition of EVENT_BATTLE_DESTROYING + opponent monster + to_grave
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
     return c:IsRelateToBattle() and c:IsStatus(STATUS_OPPO_BATTLE) and bc:IsLocation(LOCATION_GRAVE) and bc:IsType(TYPE_MONSTER)
 end
--- flag effect for spell counter
+
 function Auxiliary.chainreg(e, tp, eg, ep, ev, re, r, rp)
+    -- flag effect for spell counter
     if e:GetHandler():GetFlagEffect(1) == 0 then
         e:GetHandler():RegisterFlagEffect(1, RESET_EVENT + 0x1fc0000 + RESET_CHAIN, 0, 1)
     end
 end
--- default filter for EFFECT_CANNOT_BE_BATTLE_TARGET/EFFECT_MUST_BE_ATTACKED
+
 function Auxiliary.imval1(e, c)
+    -- default filter for EFFECT_CANNOT_BE_BATTLE_TARGET/EFFECT_MUST_BE_ATTACKED
     return not c:IsImmuneToEffect(e)
 end
--- default filter for EFFECT_CANNOT_BE_EFFECT_TARGET
+
 function Auxiliary.tgval(e, re, rp)
+    -- default filter for EFFECT_CANNOT_BE_EFFECT_TARGET
     return not re:GetHandler():IsImmuneToEffect(e)
 end
--- filter for EFFECT_CANNOT_BE_EFFECT_TARGET + opponent 
+
 function Auxiliary.tgoval(e, re, rp)
+    -- filter for EFFECT_CANNOT_BE_EFFECT_TARGET + opponent
     return rp ~= e:GetHandlerPlayer() and not re:GetHandler():IsImmuneToEffect(e)
 end
--- filter for non-zero ATK 
+
 function Auxiliary.nzatk(c)
+    -- filter for non-zero ATK
     return c:IsFaceup() and c:GetAttack() > 0
 end
--- filter for non-zero DEF
+
 function Auxiliary.nzdef(c)
+    -- filter for non-zero DEF
     return c:IsFaceup() and c:GetDefence() > 0
 end
--- flag effect for summon/sp_summon turn
+
 function Auxiliary.sumreg(e, tp, eg, ep, ev, re, r, rp)
+    -- flag effect for summon/sp_summon turn
     local tc = eg:GetFirst()
     local code = e:GetLabel()
     while tc do
@@ -1317,28 +1418,34 @@ function Auxiliary.sumreg(e, tp, eg, ep, ev, re, r, rp)
         tc = eg:GetNext()
     end
 end
--- sp_summon condition for fusion monster
+
 function Auxiliary.fuslimit(e, se, sp, st)
+    -- sp_summon condition for fusion monster
     return bit.band(st, SUMMON_TYPE_FUSION) == SUMMON_TYPE_FUSION
 end
--- sp_summon condition for ritual monster
+
 function Auxiliary.ritlimit(e, se, sp, st)
+    -- sp_summon condition for ritual monster
     return bit.band(st, SUMMON_TYPE_RITUAL) == SUMMON_TYPE_RITUAL
 end
--- sp_summon condition for synchro monster
+
 function Auxiliary.synlimit(e, se, sp, st)
+    -- sp_summon condition for synchro monster
     return bit.band(st, SUMMON_TYPE_SYNCHRO) == SUMMON_TYPE_SYNCHRO
 end
--- sp_summon condition for xyz monster
+
 function Auxiliary.xyzlimit(e, se, sp, st)
+    -- sp_summon condition for xyz monster
     return bit.band(st, SUMMON_TYPE_XYZ) == SUMMON_TYPE_XYZ
 end
--- sp_summon condition for pendulum monster
+
 function Auxiliary.penlimit(e, se, sp, st)
+    -- sp_summon condition for pendulum monster
     return bit.band(st, SUMMON_TYPE_PENDULUM) == SUMMON_TYPE_PENDULUM
 end
--- effects inflicting damage to tp
+
 function Auxiliary.damcon1(e, tp, eg, ep, ev, re, r, rp)
+    -- effects inflicting damage to tp
     local e1 = Duel.IsPlayerAffectedByEffect(tp, EFFECT_REVERSE_DAMAGE)
     local e2 = Duel.IsPlayerAffectedByEffect(tp, EFFECT_REVERSE_RECOVER)
     local rd = e1 and not e2
@@ -1350,8 +1457,9 @@ function Auxiliary.damcon1(e, tp, eg, ep, ev, re, r, rp)
     ex, cg, ct, cp, cv = Duel.GetOperationInfo(ev, CATEGORY_RECOVER)
     return ex and(cp == tp or cp == PLAYER_ALL) and rr and not Duel.IsPlayerAffectedByEffect(tp, EFFECT_NO_EFFECT_DAMAGE)
 end
--- filter for the immune effetc of qli monsters
+
 function Auxiliary.qlifilter(e, te)
+    -- filter for the immune effetc of qli monsters
     if te:IsActiveType(TYPE_MONSTER)
         and(te:IsHasType(0x7e0) or(te:IsHasProperty(EFFECT_FLAG_FIELD_ONLY) and not te:IsHasProperty(EFFECT_FLAG_CONTINUOUS))
         or te:IsHasProperty(EFFECT_FLAG_OWNER_RELATE)) then
@@ -1365,4 +1473,9 @@ function Auxiliary.qlifilter(e, te)
     else
         return false
     end
+end
+
+function Auxiliary.nvfilter(c)
+    -- filter for necro_valley test
+    return not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
