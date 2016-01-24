@@ -10,6 +10,7 @@ function c84130842.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SPSUMMON_CONDITION)
     e1:SetRange(LOCATION_EXTRA)
+    e1:SetValue(SUMMON_TYPE_FUSION)
     c:RegisterEffect(e1)
 
     -- 不被效果破坏
