@@ -44,11 +44,9 @@ end
 
 function c84130845.negateCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return e:GetHandler():GetOverlayCount()
+        return e:GetHandler():CheckRemoveOverlayCard(tp, 1, REASON_COST)
     end
-    local g = e:GetHandler():GetOverlayGroup()
-    local sg = g:Select(tp, 1, 1, nil)
-    Duel.SendtoGrave(sg, REASON_COST)
+    e:GetHandler():RemoveOverlayCard(tp, 1, 1, REASON_COST)
 end
 
 function c84130845.negateFilter(c, e)
