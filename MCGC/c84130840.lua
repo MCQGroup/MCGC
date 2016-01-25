@@ -65,7 +65,7 @@ function c84130840.syncSummonSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_CHANGE_LEVEL)
     e1:SetValue(lv)
-    e1:SetReset(RESET_SELF_TURN)
+    e1:SetReset(RESET_PHASE + PHASE_END + RESET_SELF_TURN)
     c:RegisterEffect(e1)
 end
 
