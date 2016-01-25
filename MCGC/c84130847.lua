@@ -45,7 +45,7 @@ function c84130847.fusionFilter2(c)
 end
 
 function c84130847.targetCondition(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsFaceup() and Duel.IsExistingMatchingCard(c84130847.targetFilter, tp, LOCATION_HAND, 0, 1, nil)
+    return e:GetHandler():IsFaceup() and Duel.IsExistingMatchingCard(c84130847.targetFilter, tp, LOCATION_HAND, 0, 1, nil) and eg:IsContains(e:GetHandler())
 end
 
 function c84130847.targetCost(e, tp, eg, ep, ev, re, r, rp, chk)
