@@ -25,7 +25,7 @@ function c84130831.initial_effect(c)
     -- 手卡丢弃免伤
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_PRE_BATTLE_DAMAGE)
+    e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
     e3:SetRange(LOCATION_HAND)
     e3:SetCondition(c84130831.preBattleTriggerCondition)
     e3:SetCost(c84130831.preBattleTriggerCost)
@@ -75,7 +75,7 @@ end
 
 
 function c84130831.preBattleTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() ~= tp and ep == tp
+    return Duel.GetTurnPlayer() ~= tp and Duel.GetBattleDamage(tp) > 0
 end
 
 function c84130831.preBattleTriggerCost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -86,5 +86,12 @@ function c84130831.preBattleTriggerCost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function c84130831.preBattleTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
-    Duel.ChangeBattleDamage(ep, 0)
+    local e1 = Effect.CreateEffect(e:GetHandler())
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e1:SetCode(EVENT_PRE_BATTLE_DAMAGE)
+    e1:SetOperation( function(e, tp, eg, ep, ev, re, r, rp)
+        Duel.ChangeBattleDamage(tp, 0)
+    end )
+    e1:SetReset(RESET_PHASE + PHASE_DAMAGE)
+    Duel.RegisterEffect(e1, tp)
 end

@@ -28,8 +28,8 @@ function c84130832.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function c84130832.filter(c)
-    return((c:IsCode(84130832)) or(c:IsCode(84130833))) and c:IsCanBeSpecialSummoned(e2, 0, tp, false, false, POS_FACEUP)
+function c84130832.filter(c, e)
+    return(c:IsCode(84130832) or c:IsCode(84130833)) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP)
 end
 
 function c84130832.condition(e, tp, eg, ep, ev, re, r, rp)
@@ -40,7 +40,7 @@ end
 function c84130832.regop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsPreviousLocation(LOCATION_SZONE) and c:IsPreviousPosition(POS_FACEDOWN) and c:IsReason(REASON_EFFECT) and c:IsReason(REASON_DESTROY) then
-        local g = Duel.SelectMatchingCard(tp, c84130832.filter, tp, LOCATION_DECK + LOCATION_HAND + LOCATION_GRAVE, 0, 1, 3, nil)
+        local g = Duel.SelectMatchingCard(tp, c84130832.filter, tp, LOCATION_DECK + LOCATION_HAND + LOCATION_GRAVE, 0, 1, 3, nil, e)
         local c = g:GetFirst()
         while c do
             local pos = Duel.SelectPosition(tp, c, POS_FACEUP)

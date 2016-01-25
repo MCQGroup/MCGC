@@ -10,6 +10,7 @@ function c84130847.initial_effect(c)
 
     -- 对象触发
     local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(84130847, 0))
     e1:SetType(EFFECT_TYPE_QUICK_O)
     e1:SetCode(EVENT_BECOME_TARGET)
     e1:SetRange(LOCATION_MZONE)
@@ -20,6 +21,7 @@ function c84130847.initial_effect(c)
     c:RegisterEffect(e1)
 
     local e2 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(84130847, 1))
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetCode(EVENT_BE_BATTLE_TARGET)
     e2:SetRange(LOCATION_MZONE)
@@ -43,7 +45,7 @@ function c84130847.fusionFilter2(c)
 end
 
 function c84130847.targetCondition(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsFaceup()
+    return e:GetHandler():IsFaceup() and Duel.IsExistingMatchingCard(c84130847.targetFilter, tp, LOCATION_HAND, 0, 1, nil)
 end
 
 function c84130847.targetCost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -84,6 +86,7 @@ function c84130847.targetFilter(c)
 end
 
 function c84130847.targetOperation(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local g = Duel.SelectMatchingCard(tp, c84130847.targetFilter, tp, LOCATION_HAND, 0, 1, 1, nil)
     local c = g:GetFirst()
     local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
