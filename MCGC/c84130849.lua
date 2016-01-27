@@ -32,7 +32,7 @@ function c84130849.initial_effect(c)
     e3:SetCode(EVENT_PHASE + PHASE_END)
     e3:SetOperation(c84130849.endTurnOperation)
     e3:SetCountLimit(1, 84130849)
-    c:RegisterEffect(c)
+    c:RegisterEffect(e3)
 end
 
 function c84130849.filter(c)

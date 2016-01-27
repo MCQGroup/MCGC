@@ -18,12 +18,12 @@ function c84130848.initial_effect(c)
 
     -- 一回合一次
     local e2 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_IGNITION)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetCountLimit(1)
-    e1:SetCondition(c84130848.ignitionCondition)
-    e1:SetCost(c84130848.ignitionCost)
-    e1:SetOperation(c84130848.ignitionOperation)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
+    e2:SetCondition(c84130848.ignitionCondition)
+    e2:SetCost(c84130848.ignitionCost)
+    e2:SetOperation(c84130848.ignitionOperation)
     c:RegisterEffect(e2)
 
 end
@@ -50,7 +50,6 @@ function c84130848.xyzSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_UPDATE_ATTACK)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetValue(val)
     c:RegisterEffect(e1)
 end
@@ -60,13 +59,13 @@ function c84130848.ignitionFilter(c)
 end
 
 function c84130848.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(c84130848.ignitionFilter, tp, LOCATION_ONFIELD, 0, nil)
+    return Duel.IsExistingMatchingCard(c84130848.ignitionFilter, tp, LOCATION_ONFIELD, 0, 1, nil)
 end
 
 function c84130848.ignitionCost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:GetOverlayCount() > 0
+        return c:CheckRemoveOverlayCard(tp, 1, REASON_COST)
     end
     c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
 end
@@ -81,11 +80,24 @@ function c84130848.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(e1)
 
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetCode(EFFECT_CHANGE_DAMAGE)
+    e2:SetCondition(c84130848.halfValCondition)
     e2:SetValue(c84130848.halfVal)
     e2:SetReset(RESET_PHASE + PHASE_END)
     c:RegisterEffect(e2)
+end
+
+function c84130848.halfValCondition(e, tp, eg, ep, ev, re, r, rp)
+    Debug.Message(e)
+    Debug.Message(tp)
+    Debug.Message(eg)
+    Debug.Message(ep)
+    Debug.Message(ev)
+    Debug.Message(re)
+    Debug.Message(r)
+    Debug.Message(rp)
+    return ep == 1 - tp
 end
 
 function c84130848.halfVal(e, re, val, r, rp, rc)
