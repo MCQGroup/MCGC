@@ -100,7 +100,7 @@ function c84130838.spsummonCondition(e, tp, eg, ep, ev, re, r, rp)
     local isRightTurn = Duel.GetTurnPlayer() == tp
     local phase = Duel.GetCurrentPhase()
     local isRightPhase = phase == PHASE_MAIN1 or phase == PHASE_MAIN2
-    local isAbleToSpSummon = e:GetHandler():IsLocation(LOCATION_MZONE) and Duel.IsExistingMatchingCard(c84130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false)
+    local isAbleToSpSummon = e:GetHandler():IsLocation(LOCATION_MZONE) and Duel.IsExistingMatchingCard(c84130838.spsummonFilter, tp, LOCATION_HAND, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false) and Duel.GetLocationCount(tp, LOCATION_MZONE, tp, LOCATION_REASON_TOFIELD) > 0
     return isRightTurn and isRightPhase and isAbleToSpSummon
 end
 
