@@ -59,7 +59,7 @@ function c84130848.ignitionFilter(c)
 end
 
 function c84130848.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(c84130848.ignitionFilter, tp, LOCATION_ONFIELD, 0, 1, nil)
+    return Duel.IsExistingMatchingCard(c84130848.ignitionFilter, tp, LOCATION_ONFIELD, 0, 1, e:GetHandler())
 end
 
 function c84130848.ignitionCost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -82,26 +82,20 @@ function c84130848.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetCode(EFFECT_CHANGE_DAMAGE)
-    e2:SetCondition(c84130848.halfValCondition)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(1, 1)
     e2:SetValue(c84130848.halfVal)
     e2:SetReset(RESET_PHASE + PHASE_END)
     c:RegisterEffect(e2)
 end
 
-function c84130848.halfValCondition(e, tp, eg, ep, ev, re, r, rp)
-    Debug.Message(e)
-    Debug.Message(tp)
-    Debug.Message(eg)
-    Debug.Message(ep)
-    Debug.Message(ev)
-    Debug.Message(re)
-    Debug.Message(r)
-    Debug.Message(rp)
-    return ep == 1 - tp
-end
-
 function c84130848.halfVal(e, re, val, r, rp, rc)
-    return val / 2
+    if rc == e:GetHandler() then
+        return val / 2
+    else
+        return val
+    end
 end
 
 -- endregion
