@@ -43,7 +43,8 @@ end
 
 function c84130848.xyzSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToGrave, tp, LOCATION_DECK, 0, 1, 3, nil)
+    local num, index = Duel.AnnounceNumber(tp, 1, 2, 3)
+    local g = Duel.GetDecktopGroup(tp, num)
     Duel.SendtoGrave(g, REASON_EFFECT)
     local val = 100 * g:GetCount()
 
