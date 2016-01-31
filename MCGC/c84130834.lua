@@ -46,14 +46,14 @@ function c84130834.operation(e, tp, eg, ep, ev, re, r, rp)
     e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e2:SetValue(1)
     -- 并不知道这里的数值是什么意思，但是棉花糖里有
-    e2:SetReset(RESET_STANDBY + RESET_SELF_TURN, 3)
+    e2:SetReset(RESET_PHASE + PHASE_STANDBY + RESET_SELF_TURN, 3)
     c:RegisterEffect(e2)
 
     -- 送墓触发
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e3:SetCode(EVENT_TO_GRAVE)
-    e3:SetReset(RESET_STANDBY + RESET_SELF_TURN, 3)
+    e3:SetReset(RESET_PHASE + PHASE_STANDBY + RESET_SELF_TURN, 3)
     e3:SetLabelObject(e1)
     e3:SetOperation(c84130834.toGraveTriggerOperation)
     c:RegisterEffect(e3)

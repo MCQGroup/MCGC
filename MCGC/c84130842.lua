@@ -10,7 +10,7 @@ function c84130842.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SPSUMMON_CONDITION)
     e1:SetRange(LOCATION_EXTRA)
-    e1:SetValue(SUMMON_TYPE_FUSION)
+    e1:SetValue(c84130842.summonLimit)
     c:RegisterEffect(e1)
 
     -- 不被效果破坏
@@ -44,6 +44,10 @@ end
 
 function c84130842.fusionFilter2(c)
     return c:IsAttribute(ATTRIBUTE_FIRE)
+end
+
+function c84130842.summonLimit(e, se, sp, st)
+    return bit.band(st, SUMMON_TYPE_FUSION) == SUMMON_TYPE_FUSION
 end
 
 function c84130842.indestructableValue(e, re, tp)

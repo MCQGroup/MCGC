@@ -18,12 +18,12 @@ function c84130848.initial_effect(c)
 
     -- 一回合一次
     local e2 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_IGNITION)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetCountLimit(1)
-    e1:SetCondition(c84130848.ignitionCondition)
-    e1:SetCost(c84130848.ignitionCost)
-    e1:SetOperation(c84130848.ignitionOperation)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
+    e2:SetCondition(c84130848.ignitionCondition)
+    e2:SetCost(c84130848.ignitionCost)
+    e2:SetOperation(c84130848.ignitionOperation)
     c:RegisterEffect(e2)
 
 end
@@ -43,14 +43,14 @@ end
 
 function c84130848.xyzSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToGrave, tp, LOCATION_DECK, 0, 1, 3, nil)
+    local num, index = Duel.AnnounceNumber(tp, 1, 2, 3)
+    local g = Duel.GetDecktopGroup(tp, num)
     Duel.SendtoGrave(g, REASON_EFFECT)
     local val = 100 * g:GetCount()
 
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_UPDATE_ATTACK)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetValue(val)
     c:RegisterEffect(e1)
 end
@@ -60,13 +60,13 @@ function c84130848.ignitionFilter(c)
 end
 
 function c84130848.ignitionCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(c84130848.ignitionFilter, tp, LOCATION_ONFIELD, 0, nil)
+    return Duel.IsExistingMatchingCard(c84130848.ignitionFilter, tp, LOCATION_ONFIELD, 0, 1, e:GetHandler())
 end
 
 function c84130848.ignitionCost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:GetOverlayCount() > 0
+        return c:CheckRemoveOverlayCard(tp, 1, REASON_COST)
     end
     c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
 end
@@ -81,15 +81,22 @@ function c84130848.ignitionOperation(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(e1)
 
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetCode(EFFECT_CHANGE_DAMAGE)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(1, 1)
     e2:SetValue(c84130848.halfVal)
     e2:SetReset(RESET_PHASE + PHASE_END)
     c:RegisterEffect(e2)
 end
 
 function c84130848.halfVal(e, re, val, r, rp, rc)
-    return val / 2
+    if rc == e:GetHandler() then
+        return val / 2
+    else
+        return val
+    end
 end
 
 -- endregion
