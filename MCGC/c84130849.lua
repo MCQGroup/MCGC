@@ -7,12 +7,12 @@
 function c84130849.initial_effect(c)
     -- 超量
     c:EnableReviveLimit()
-    aux.AddXyzProcedure(c, c84130849.xyzFilter, 6, 4, c84130849.ovFilter, false)
+    aux.AddXyzProcedure(c, c84130849.xyzFilter, 6, 4, c84130849.ovFilter, aux.Stringid(84130849, 0))
 
     -- 超量成功触发
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_REMOVE)
-    e1:SetType(EFFECT_TYPE_TRIGGER_O)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetCondition(c84130849.xyzSuccessCondition)
     e1:SetOperation(c84130849.xyzSuccessOperation)
@@ -28,8 +28,9 @@ function c84130849.initial_effect(c)
     -- 双方结束阶段必发
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_DICE)
-    e3:SetType(EFFECT_TYPE_TRIGGER_F)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
     e3:SetCode(EVENT_PHASE + PHASE_END)
+    e3:SetRange(LOCATION_MZONE)
     e3:SetOperation(c84130849.endTurnOperation)
     e3:SetCountLimit(1, 84130849)
     c:RegisterEffect(e3)
@@ -52,13 +53,13 @@ function c84130849.xyzSuccessCondition(e, tp, eg, ep, ev, re, r, rp)
     return bit.band(c:GetSummonType(), SUMMON_TYPE_XYZ) == SUMMON_TYPE_XYZ and c:GetMaterial():IsExists(Card.IsCode, 1, nil, 84130830)
 end
 
-function c84130849.xyzSuccessOperation()
+function c84130849.xyzSuccessOperation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, 2, 2, nil, tp)
     Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
 end
 
-function c84130849.endTurnOperation()
-    local dice = Duel.TossDice(tp, 1, 0)
+function c84130849.endTurnOperation(e, tp, eg, ep, ev, re, r, rp)
+    local dice = Duel.TossDice(tp, 1)
     if dice == 1 then
         Duel.Draw(tp, 1, REASON_EFFECT)
     elseif dice == 2 then
