@@ -9,6 +9,7 @@ function c84130850.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetTarget(c84130850.activateTarget)
     e1:SetOperation(c84130850.activateOperation)
     c:RegisterEffect(e1)
@@ -40,7 +41,6 @@ end
 
 function c84130850.activateTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        -- local chkf = Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and PLAYER_NONE or tp
         local chkf = Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
         local mg1 = Duel.GetMatchingGroup(c84130850.filter2, tp, LOCATION_MZONE, 0, nil, e)
         -- 场上可以用作融合素材的卡片
@@ -113,7 +113,7 @@ function c84130850.MCQFilter(c)
 end
 
 function c84130850.graveCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(c84130850.MCQFilter, tp, LOCATION_SZONE, 0, nil)
+    return Duel.IsExistingMatchingCard(c84130850.MCQFilter, tp, LOCATION_SZONE, 0, 1, nil)
 end
 
 function c84130850.graveCost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -128,8 +128,8 @@ function c84130850.graveFusionFilter(c)
 end
 
 function c84130850.graveOperation(e, tp, eg, ep, ev, re, r, rp)
+    -- 没有处理两个效果的发动条件判定
     local sel = Duel.SelectOption(tp, aux.Stringid(84130850, 0), aux.Stringid(84130850, 1))
-    Debug.Message(sel)
     if sel == 0 then
         local g = Duel.SelectMatchingCard(tp, c84130850.graveFusionFilter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
         local c = g:GetFirst()
