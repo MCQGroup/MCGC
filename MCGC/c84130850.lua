@@ -112,8 +112,17 @@ function c84130850.MCQFilter(c)
     return c:IsCode(84130814) and c:IsFaceup()
 end
 
+function c84130850.graveFilter(c)
+end
+
+function c84130850.extraFilter(c)
+end
+
 function c84130850.graveCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(c84130850.MCQFilter, tp, LOCATION_SZONE, 0, 1, nil)
+    local majorTest = Duel.IsExistingMatchingCard(c84130850.MCQFilter, tp, LOCATION_SZONE, 0, 1, nil)
+    local graveTest = Duel.IsExistingMatchingCard()
+    local extraTest = Duel.IsExistingMatchingCard()
+    return majorTest and (graveTest or extraTest) 
 end
 
 function c84130850.graveCost(e, tp, eg, ep, ev, re, r, rp, chk)
