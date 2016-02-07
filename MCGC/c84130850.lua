@@ -113,14 +113,12 @@ function c84130850.MCQFilter(c)
 end
 
 function c84130850.graveFilter(c)
-end
-
-function c84130850.extraFilter(c)
+    return c84130850.filter(c) and c:IsType(TYPE_FUSION)
 end
 
 function c84130850.graveCondition(e, tp, eg, ep, ev, re, r, rp)
     local majorTest = Duel.IsExistingMatchingCard(c84130850.MCQFilter, tp, LOCATION_SZONE, 0, 1, nil)
-    local graveTest = Duel.IsExistingMatchingCard()
+    local graveTest = Duel.IsExistingMatchingCard(c84130850.graveFilter, tp, LOCATION_GRAVE, 0, 1, nil)
     local extraTest = Duel.IsExistingMatchingCard()
     return majorTest and (graveTest or extraTest) 
 end
