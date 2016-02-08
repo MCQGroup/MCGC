@@ -119,8 +119,11 @@ end
 function c84130850.graveCondition(e, tp, eg, ep, ev, re, r, rp)
     local majorTest = Duel.IsExistingMatchingCard(c84130850.MCQFilter, tp, LOCATION_SZONE, 0, 1, nil)
     local graveTest = Duel.IsExistingMatchingCard(c84130850.graveFilter, tp, LOCATION_GRAVE, 0, 1, nil)
-    local extraTest = Duel.IsExistingMatchingCard()
+    local extraTest_field = Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
+    local extraTest_fusion= Duel.IsExistingMatchingCard(Card.IsType, tp, LOCATION_EXTRA, 0, 1, nil, TYPE_FUSION)
+    local extraTest = extraTest_field and extraTest_fusion
     return majorTest and (graveTest or extraTest) 
+
 end
 
 function c84130850.graveCost(e, tp, eg, ep, ev, re, r, rp, chk)
