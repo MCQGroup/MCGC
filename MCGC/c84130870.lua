@@ -10,6 +10,7 @@ function c84130870.initial_effect(c)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e1:SetRange(LOCATION_GRAVE)
+    e1:SetCondition(c84130870.removeCondition)
     e1:SetCost(c84130870.removeCost)
     e1:SetTarget(c84130870.removeTarget)
     e1:SetOperation(c84130870.removeOperation)
@@ -27,6 +28,10 @@ end
 
 function c84130870.removeFilter(c, e, tp)
     return c:GetCode() >= 84130816 and c:GetCode() <= 84130823 and c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SPECIAL, tp, false, false)
+end
+
+function c84130870.removeCondition(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetLocationCount(tp, LOCATION_MZONE, tp, LOCATION_REASON_TOFIELD) > 0
 end
 
 function c84130870.removeCost(e, tp, eg, ep, ev, re, r, rp, chk)
