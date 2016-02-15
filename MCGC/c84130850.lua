@@ -120,9 +120,9 @@ function c84130850.graveCondition(e, tp, eg, ep, ev, re, r, rp)
     local majorTest = Duel.IsExistingMatchingCard(c84130850.MCQFilter, tp, LOCATION_SZONE, 0, 1, nil)
     local graveTest = Duel.IsExistingMatchingCard(c84130850.graveFilter, tp, LOCATION_GRAVE, 0, 1, nil)
     local extraTest_field = Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
-    local extraTest_fusion= Duel.IsExistingMatchingCard(Card.IsType, tp, LOCATION_EXTRA, 0, 1, nil, TYPE_FUSION)
+    local extraTest_fusion = Duel.IsExistingMatchingCard(Card.IsType, tp, LOCATION_EXTRA, 0, 1, nil, TYPE_FUSION)
     local extraTest = extraTest_field and extraTest_fusion
-    return majorTest and (graveTest or extraTest) 
+    return majorTest and(graveTest or extraTest)
 
 end
 
@@ -138,14 +138,26 @@ function c84130850.graveFusionFilter(c)
 end
 
 function c84130850.graveOperation(e, tp, eg, ep, ev, re, r, rp)
-    -- 没有处理两个效果的发动条件判定
-    local sel = Duel.SelectOption(tp, aux.Stringid(84130850, 0), aux.Stringid(84130850, 1))
+    local majorTest = Duel.IsExistingMatchingCard(c84130850.MCQFilter, tp, LOCATION_SZONE, 0, 1, nil)
+    local graveTest = Duel.IsExistingMatchingCard(c84130850.graveFilter, tp, LOCATION_GRAVE, 0, 1, nil)
+    local extraTest_field = Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
+    local extraTest_fusion = Duel.IsExistingMatchingCard(Card.IsType, tp, LOCATION_EXTRA, 0, 1, nil, TYPE_FUSION)
+    local extraTest = extraTest_field and extraTest_fusion
+    local sel = nil
+    if majorTest and graveTest and extraTest then
+        sel = Duel.SelectOption(tp, aux.Stringid(84130850, 0), aux.Stringid(84130850, 1))
+    elseif majorTest and graveTest and not extraTest then
+        sel = 0
+    elseif majorTest and not graveTest and extraTest then
+        sel = 1
+    end
+
     if sel == 0 then
         local g = Duel.SelectMatchingCard(tp, c84130850.graveFusionFilter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
         local c = g:GetFirst()
         local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
         Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, pos)
-    else
+    elseif sel == 1 then
         local g1 = Duel.GetMatchingGroup(c84130850.MCQFilter, tp, LOCATION_SZONE, 0, nil)
         local g2 = Duel.SelectMatchingCard(tp, Card.IsType, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil, TYPE_MONSTER)
         Duel.SendtoGrave(g1, REASON_EFFECT)
