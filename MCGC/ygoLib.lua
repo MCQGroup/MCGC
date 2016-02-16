@@ -630,8 +630,12 @@ end
 
 function Card.IsRelateToEffect(c, e)
     -- 检查c是否和效果e有联系。
-    -- 注：每次发动进入连锁的效果时，发动效果的卡，以及发动效果时指定的对象（用Duel.SetTargetCard或者Duel.SelectTarget指定的，包括取对象和不取对象）
-    -- 会自动与那个效果建立联系。一旦离场，联系会重置。
+    -- 注：每次发动进入连锁的效果时，发动效果的卡，以及发动效果时指定的对象（用Duel.SetTargetCard或者Duel.SelectTarget指定的，包括取对象和不取对象）会自动与那个效果建立联系。一旦离场，联系会重置。
+end
+
+function Card.IsRelateToChain(c, chainc)
+    -- 检查c是否和连锁chainc有联系
+    -- 注：每次发动进入连锁的效果时，发动效果的卡，以及发动效果时指定的对象（用Duel.SetTargetCard或者Duel.SelectTarget指定的，包括取对象和不取对象）会自动与那个效果建立联系。一旦离场，联系会重置。
 end
 
 function Card.IsRelateToCard(c1, c2)
@@ -646,6 +650,11 @@ end
 function Card.CopyEffect(c, code, reset_flag, reset_count)
     -- 为c添加代号是code的卡的可复制的效果，并且添加额外的reset条件。
     -- 返回值是表示复制效果的代号id。
+end
+
+function Card.ReplaceEffect(c, code, reset_flag, reset_count)
+    -- 把c的效果替换为卡号是code的卡的效果，并且添加额外的reset条件
+    -- 返回值是表示替换效果的代号id
 end
 
 function Card.EnableUnsummonable(c)
@@ -922,7 +931,7 @@ end
 
 function Card.CheckFusionMaterial(c, g, gc, chkf)
     -- 检查g是否包含了c需要[必须包含gc在内]的一组融合素材
-    -- ##根据c的种类为EFFECT_FUSION_MATERIAL的效果的Condition函数检查
+    -- 根据c的种类为EFFECT_FUSION_MATERIAL的效果的Condition函数检查
 end
 
 function Card.IsImmuneToEffect(c, e)
@@ -1506,10 +1515,11 @@ function Duel.GetCounter(player, s, o, countertype)
     -- 返回场上存在的countertype类型的指示物的数量。s和o参数作用同上。
 end
 
-function Duel.ChangePosition(targets, au, ad, du, dd, noflip)
+function Duel.ChangePosition(targets, au, ad, du, dd, noflip, setavailable)
     -- 改变targets的表示形式并返回实际操作的数量。
-    -- 表侧攻击表示的变成au，里侧攻击表示的变成ad, 表侧守备表示变成du,里侧守备表示变成dd
-    -- 如果noflip=true则不触发翻转效果（但会触发翻转时的诱发效果）
+    -- 表侧攻击表示的变成au，里侧攻击表示的变成ad，表侧守备表示变成du，里侧守备表示变成dd
+    -- 如果noflip=true则不触发翻转效果（但会触发反转时的诱发效果）
+    -- 如果setavailable=true则对象之后变成里侧也发动反转效果
 end
 
 function Duel.Release(targets, reason)
@@ -1762,19 +1772,19 @@ function Duel.GetChainInfo(chainc, ...)
     --[[
     返回连锁chainc的信息。如果chainc=0，则返回当前正在处理的连锁的信息。
     此函数根据传入的参数个数按顺序返回相应数量的返回值。参数可以是:
-    CHAININFO_CHAIN_COUNT			连锁序号
-    CHAININFO_TRIGGERING_EFFECT		连锁的效果
-    CHAININFO_TRIGGERING_PLAYER		连锁的玩家
-    CHAININFO_TRIGGERING_CONTROLER		连锁发生位置所属玩家
-    CHAININFO_TRIGGERING_LOCATION		连锁发生位置
-    CHAININFO_TRIGGERING_SEQUENCE		连锁发生的位置的序号
-    CHAININFO_TARGET_CARDS			连锁的对象卡片组
-    CHAININFO_TARGET_PLAYER			连锁的对象玩家
-    CHAININFO_TARGET_PARAM			连锁的对象参数
-    CHAININFO_DISABLE_REASON		连锁被无效的原因效果
-    CHAININFO_DISABLE_PLAYER		连锁被无效的原因玩家
-    CHAININFO_CHAIN_ID			连锁的唯一标识
-    举例：Duel.GetChainInfo(0,CHAININFO_TRIGGERING_LOCATION,CHAININFO_TARGET_CARDS)
+    CHAININFO_CHAIN_COUNT           连锁序号
+    CHAININFO_TRIGGERING_EFFECT     连锁的效果
+    CHAININFO_TRIGGERING_PLAYER     连锁的玩家
+    CHAININFO_TRIGGERING_CONTROLER  连锁发生位置所属玩家
+    CHAININFO_TRIGGERING_LOCATION   连锁发生位置
+    CHAININFO_TRIGGERING_SEQUENCE   连锁发生的位置的序号
+    CHAININFO_TARGET_CARDS          连锁的对象卡片组
+    CHAININFO_TARGET_PLAYER         连锁的对象玩家
+    CHAININFO_TARGET_PARAM          连锁的对象参数
+    CHAININFO_DISABLE_REASON        连锁被无效的原因效果
+    CHAININFO_DISABLE_PLAYER        连锁被无效的原因玩家
+    CHAININFO_CHAIN_ID              连锁的唯一标识
+    举例：Duel.GetChainInfo(0, CHAININFO_TRIGGERING_LOCATION, CHAININFO_TARGET_CARDS)
     将会返回当前连锁发生的位置和对象卡。
 ]]
 end
@@ -1787,8 +1797,9 @@ function Duel.GetCurrentPhase()
     -- 返回当前的阶段
 end
 
-function Duel.SkipPhase(player, phase, reset_flag, reset_count)
+function Duel.SkipPhase(player, phase, reset_flag, reset_count, value)
     -- 跳过玩家player的phase阶段，并在特定的阶段后reset。reset参数和效果相同。
+    -- value只对phase=PHASE_BATTLE才有用，value=1跳过战斗阶段的结束步骤，用于“变成回合结束阶段”等（招财猫王，闪光弹）
 end
 
 function Duel.IsDamageCalculated()
@@ -1818,7 +1829,7 @@ function Duel.Readjust()
 end
 
 function Duel.AdjustInstantly(c)
-    -- ##似乎是处理场上的卡[或卡片c相关的卡]效果相互无效
+    -- 似乎是处理场上的卡[或卡片c相关的卡]效果相互无效
 end
 
 function Duel.GetFieldGroup(player, s, o)
@@ -2059,7 +2070,7 @@ function Duel.SelectOption(player, ...)
 end
 
 function Duel.SelectSequence()
-    -- #(预留）
+    -- (预留）
 end
 
 function Duel.SelectPosition(player, c, pos)
@@ -2069,12 +2080,12 @@ end
 function Duel.SelectDisableField(player, count, s, o, filter)
     -- 让玩家player选择指定位置满足标记条件filter的count个可用的空格并返回选择位置的标记
     -- 常用于选择区域不能使用或移动怪兽格子
-    -- ##位置标记的定义如下
-    -- ##flag = 0;
-    -- ##seq为在玩家p，位置l中选择的格子序号
-    -- ##for(int32 i = 0; i < count; ++i) {
-    -- ##	flag |= 1 << (seq[i] + (p[i] == player ? 0 : 16) + (l[i] == LOCATION_MZONE ? 0 : 8));
-    -- ##}
+    -- 位置标记的定义如下
+    -- flag = 0;
+    -- seq为在玩家p，位置l中选择的格子序号
+    -- for(int32 i = 0; i < count; ++i) {
+    -- flag |= 1 << (seq[i] + (p[i] == player ? 0 : 16) + (l[i] == LOCATION_MZONE ? 0 : 8));
+    -- }
 end
 
 function Duel.AnnounceRace(player, count, available)

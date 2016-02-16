@@ -69,7 +69,8 @@ function c84130812.summonCondition(e, c)
     if c == nil then
         return true
     end
-    return Duel.GetTributeCount(c) >= c84130812.getTributeCount(c) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+    local tributeCount = c84130812.getTributeCount(c)
+    return Duel.GetTributeCount(c) >= c84130812.getTributeCount(c) and Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE, c:GetControler(), LOCATION_REASON_TOFIELD) > - tributeCount
 end
 
 function c84130812.summonOperation(e, tp, eg, ep, ev, re, r, rp, c)
