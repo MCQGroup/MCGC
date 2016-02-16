@@ -165,25 +165,25 @@ function c84130850.graveOperation(e, tp, eg, ep, ev, re, r, rp)
         local g3 = Duel.SelectMatchingCard(tp, Card.IsType, tp, LOCATION_EXTRA, 0, 1, 1, nil, TYPE_FUSION)
         local c = g3:GetFirst()
         local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
-        if Duel.SpecialSummonStep(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, pos) then
-            local e1 = Effect.CreateEffect(c)
+        if Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, true, true, pos) > 0 then
+            local e1 = Effect.CreateEffect(e:GetHandler())
             e1:SetType(EFFECT_TYPE_SINGLE)
             e1:SetCode(EFFECT_CANNOT_ATTACK)
             e1:SetReset(RESET_EVENT + RESET_DISABLE + RESET_TURN_SET + RESET_TOGRAVE + RESET_REMOVE + RESET_TEMP_REMOVE + RESET_TOHAND + RESET_TODECK + RESET_LEAVE)
             c:RegisterEffect(e1)
 
-            local e2 = e1:Clone()
-            e2:SetType(EFFECT_TYPE_CONTINUOUS)
+            local e2 = Effect.CreateEffect(e:GetHandler())
+            e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
             e2:SetCode(EVENT_PHASE + PHASE_END)
+            e2:SetRange(LOCATION_MZONE)
+            e2:SetCountLimit(1)
             e2:SetOperation(c84130850.backExtraOperation)
             c:RegisterEffect(e2)
         end
     end
-
-    function c84130850.backExtraOperation(e, tp, eg, ep, ev, re, r, rp)
-        -- 卧槽应该怎么把卡放进额外卡组？
-        Duel.SendtoDeck(e:GetHandler(), nil, nil, REASON_EFFECT)
-    end
 end
 
+function c84130850.backExtraOperation(e, tp, eg, ep, ev, re, r, rp)
+    Duel.SendtoDeck(e:GetHandler(), nil, 2, REASON_EFFECT)
+end
 -- endregion
