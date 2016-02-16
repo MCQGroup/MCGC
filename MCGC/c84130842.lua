@@ -55,7 +55,8 @@ function c84130842.indestructableValue(e, re, tp)
 end
 
 function c84130842.atkUpCondition(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetBattleTarget():GetPreviousLocation() == LOCATION_EXTRA
+    local btc = e:GetHandler():GetBattleTarget()
+    return btc and btc:GetPreviousLocation() == LOCATION_EXTRA
 end
 
 function c84130842.atkUpOperation(e, tp, eg, ep, ev, re, r, rp)
