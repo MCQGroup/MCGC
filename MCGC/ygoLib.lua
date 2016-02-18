@@ -83,7 +83,20 @@ function Debug.SetPlayerInfo(playerid, lp, startcount, drawcount)
         int lp
         int startcount
         int drawcount
---]]
+    --]]
+end
+
+function Debug.PreSummon(c, sum_type, sum_location)
+    -- 设置卡片c的召唤信息：以sum_type方法(通常召唤、特殊召唤等)[从sum_location]出场
+    -- 【必须】
+    --[[
+        Card c
+        int sum_type
+    --]]
+    -- 【可选】
+    --[[
+        int sum_location = 0
+    ]]
 end
 
 function Debug.ShowHint(msg)
@@ -988,9 +1001,11 @@ end
 function Card.ReverseInDeck(c)
     -- 设置c在卡组中正面表示
 end
-function Card.SetUniqueOnField(c, s, o, unique_code)
-    -- 设置c以unique_code只能在场上只能存在1张
+
+function Card.SetUniqueOnField(c, s, o, unique_code, unique_location)
+    -- 设置c以unique_code只能在场上[或怪兽区域或魔陷区域，由unique_location决定]只能存在1张
     -- s不为0会检查自己场上的唯一性，o不为0则检查对方场上的唯一性
+    -- unique_location默认为 LOCATION_ONFIELD
 end
 
 function Card.CheckUniqueOnField(c, check_player)
