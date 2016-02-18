@@ -25,28 +25,33 @@ function c84130851.operation(e, tp, eg, ep, ev, re, r, rp)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_CONTINUOUS)
     e1:SetLabel(count)
-    e1:SetCondition(EVENT_PHASE + PHASE_STANDBY)
+    e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e1:SetCondition(c84130851.delayCondition)
     e1:SetOperation(c84130851.delayOperation)
-    c:RegisterEffect(e1)
+    Duel.RegisterEffect(e1, tp)
 end
 
 function c84130851.delayCondition(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == tp
 end
 
+function c84130851.spsummonFilter(c, e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
+    return c84130851.filter(c) and c:IsType(TYPE_MONSTER) and c:IsCanBeSpecialSummoned(e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
+end
+
 function c84130851.delayOperation(e, tp, eg, ep, ev, re, r, rp)
     local count = e:GetLabel()
-    local g = Duel.SelectMatchingCard(tp, c84130851.filter, tp, LOCATION_GRAVE, 0, 0, count, nil)
+    local g = Duel.SelectMatchingCard(tp, c84130851.spsummonFilter, tp, LOCATION_GRAVE, 0, 0, count, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
     local c = g:GetFirst()
-    while Duel.SpecialSummonStep(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos) do
+    while c do
         local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
-        local e1 = Effect.CreateEffect(c)
-        e1:SetType(EFFECT_TYPE_SINGLE)
-        e1:SetCode(EFFECT_DISABLE)
-        e1:SetReset(RESET_EVENT + RESET_TURN_SET + RESET_TOGRAVE + RESET_REMOVE + RESET_TEMP_REMOVE + RESET_TOHAND + RESET_TODECK + RESET_LEAVE)
-        c:RegisterEffect(e1)
-
+        if Duel.SpecialSummonStep(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos) then
+            local e1 = Effect.CreateEffect(e:GetHandler())
+            e1:SetType(EFFECT_TYPE_SINGLE)
+            e1:SetCode(EFFECT_DISABLE)
+            e1:SetReset(RESET_EVENT + RESET_TURN_SET + RESET_TOGRAVE + RESET_REMOVE + RESET_TEMP_REMOVE + RESET_TOHAND + RESET_TODECK + RESET_LEAVE)
+            c:RegisterEffect(e1)
+        end
         c = g:GetNext()
     end
     Duel.SpecialSummonComplete()
