@@ -12,14 +12,32 @@ function c84130814.initial_effect(c)
     c:RegisterEffect(e1)
 
     -- 防止破坏
+    -- 参考[79777187]护罩泡泡
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EFFECT_DESTROY_REPLACE)
+    e2:SetProperty(EFFECT_FLAG_FUNC_VALUE)
     e2:SetRange(LOCATION_SZONE)
-    e2:SetTargetRange(LOCATION_MZONE, 0)
-    e2:SetTarget(aux.TargetBoolFunction(c84130814.filter))
-    e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    e2:SetCountLimit(1)
-    e2:SetValue(1)
+    e2:SetTarget( function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then
+            return eg:IsExists(c84130814.protectFilter, 1, nil, tp)
+        end
+        local g = eg:Filter(c84130814.protectFilter, nil, tp)
+        local c = g:GetFirst()
+        while c do
+            c:RegisterFlagEffect(84130814, RESET_EVENT + 0x1fc0000 + RESET_PHASE + PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(84130814, 1))
+            c = g:GetNext()
+        end
+        local tg = e:GetLabelObject()
+        if tg then
+            tg:DeleteGroup()
+        end
+        e:SetLabelObject(g)
+        return true
+    end )
+    e2:SetValue( function(e, c)
+        return e:GetLabelObject():IsContains(c)
+    end )
     c:RegisterEffect(e2)
 
     -- 维持代价
@@ -35,17 +53,24 @@ function c84130814.initial_effect(c)
 end
 
 function c84130814.filter(c)
-    return c:IsSetCard(0x2222) and c:IsType(TYPE_MONSTER)
+    return c:IsSetCard(0x2222)
 end
 
+function c84130814.monsterFilter(c)
+    return c84130814.filter(c) and c:IsType(TYPE_MONSTER)
+end
+
+function c84130814.protectFilter(c, tp)
+    return c84130814.monsterFilter(c) and c:IsFaceup() and c:IsControler(tp) and c:IsLocation(LOCATION_ONFIELD) and c:IsReason(REASON_BATTLE + REASON_EFFECT) and c:GetFlagEffect(84130814) == 0
+end
 function c84130814.toDeckTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chkc then
         return true
     end
     if chk == 0 then
-        return Duel.IsPlayerCanDraw(tp) and Duel.IsExistingTarget(c84130814.filter, tp, LOCATION_GRAVE, 0, 1, nil) and Duel.IsExistingTarget(c84130814.filter, tp, LOCATION_REMOVED, 0, 1, nil) and Duel.IsExistingTarget(c84130814.filter, tp, LOCATION_HAND, 0, 1, e:GetHandler())
+        return Duel.IsPlayerCanDraw(tp) and Duel.IsExistingTarget(c84130814.monsterFilter, tp, LOCATION_GRAVE, 0, 1, nil) and Duel.IsExistingTarget(c84130814.monsterFilter, tp, LOCATION_REMOVED, 0, 1, nil) and Duel.IsExistingTarget(c84130814.monsterFilter, tp, LOCATION_HAND, 0, 1, e:GetHandler())
     end
-    local g = Duel.GetMatchingGroup(c84130814.filter, tp, LOCATION_HAND + LOCATION_REMOVED + LOCATION_GRAVE, 0, nil)
+    local g = Duel.GetMatchingGroup(c84130814.monsterFilter, tp, LOCATION_HAND + LOCATION_REMOVED + LOCATION_GRAVE, 0, nil)
     Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_TODECK, g, g:GetCount(), nil, 0)
 end
