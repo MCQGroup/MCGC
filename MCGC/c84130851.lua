@@ -18,11 +18,9 @@ end
 
 function c84130851.operation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(c84130851.desdroyFilter, tp, LOCATION_ONFIELD, 0, nil)
-    local count = g:GetCount()
-    Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
+    local count = Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
 
-    local c = e:GetHandler()
-    local e1 = Effect.CreateEffect(c)
+    local e1 = Effect.CreateEffect(e:GetHandler())
     e1:SetType(EFFECT_TYPE_CONTINUOUS)
     e1:SetLabel(count)
     e1:SetCode(EVENT_PHASE + PHASE_STANDBY)

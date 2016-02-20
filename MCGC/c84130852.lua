@@ -17,21 +17,14 @@ end
 
 function c84130852.operation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(c84130852.destroyFilter, tp, LOCATION_SZONE, 0, e:GetHandler())
-    local count = g:GetCount()
-    Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
+    local count = Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
 
-    local c = e:GetHandler()
-    local e1 = Effect.CreateEffect(c)
+    local e1 = Effect.CreateEffect(e:GetHandler())
     e1:SetType(EFFECT_TYPE_CONTINUOUS)
     e1:SetLabel(count)
     e1:SetCode(EVENT_PHASE + PHASE_STANDBY)
-    e1:SetCondition(c84130852.delayCondition)
     e1:SetOperation(c84130852.delayOperation)
     Duel.RegisterEffect(e1, tp)
-end
-
-function c84130852.delayCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp
 end
 
 function c84130852.delayOperation(e, tp, eg, ep, ev, re, r, rp)
