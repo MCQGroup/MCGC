@@ -72,7 +72,7 @@ function common_value1(e, re, val, r, rp, rc)
 end
 
 function common_value2(e, c)
-    -- 已知用于EFFECT_UPDATE_ATTACK, EFFECT_UPDATE_DEFENSE, EFFECT_SPSUMMON_PROC, EFFECT_CANNOT_SELECT_BATTLE_TARGET
+    -- 已知用于EFFECT_UPDATE_ATTACK, EFFECT_UPDATE_DEFENSE, EFFECT_SPSUMMON_PROC, EFFECT_CANNOT_SELECT_BATTLE_TARGET, EFFECT_DESTROY_REPLACE
 end
 
 function common_value3(e, se, sp, st)
@@ -159,4 +159,9 @@ end
 
 function influence_target4(e, tp, eg, ep, ev, re, r, rp, chk, chkc, smat, mg)
     -- 已知用于EFFECT_SPSUMMON_PROC
+end
+
+function influence_target5(e, tp, eg, ep, ev, re, r, rp, chk)
+    -- 已知用于EFFECT_DESTROY_REPLACE
+    -- 无论是否 chk==0 都需要 return
 end
