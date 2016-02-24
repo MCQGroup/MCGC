@@ -29,7 +29,9 @@ function c84130858.operation(e, tp, eg, ep, ev, re, r, rp)
     local c = g:GetFirst()
     if c:IsSetCard(0x2222) then
         if c:IsType(TYPE_MONSTER) then
-            -- 额外召唤           
+            -- 额外召唤
+            local e1 = Effect.CreateEffect(e:GetHandler())
+            Duel.RegisterEffect(e1, tp)
         elseif c:IsType(TYPE_SPELL) then
             -- 回复
             Duel.Recover(tp, Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) * 300, REASON_EFFECT)
