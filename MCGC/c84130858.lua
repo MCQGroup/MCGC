@@ -30,8 +30,18 @@ function c84130858.operation(e, tp, eg, ep, ev, re, r, rp)
     if c:IsSetCard(0x2222) then
         if c:IsType(TYPE_MONSTER) then
             -- 额外召唤
+            -- 参考[13455953]极星灵 矮人
             local e1 = Effect.CreateEffect(e:GetHandler())
+            e1:SetType(EFFECT_TYPE_FIELD)
+            e1:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+            e1:SetTarget(aux.TargetBoolFunction(Card.IsSetCard, 0x2222))
+            e1:SetReset(RESET_PHASE + PHASE_END)
+            e1:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
             Duel.RegisterEffect(e1, tp)
+
+            local e2 = e1:Clone()
+            e2:SetCode(EFFECT_EXTRA_SET_COUNT)
+            Duel.RegisterEffect(e2, tp)
         elseif c:IsType(TYPE_SPELL) then
             -- 回复
             Duel.Recover(tp, Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) * 300, REASON_EFFECT)
