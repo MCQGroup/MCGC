@@ -47,6 +47,7 @@ function c84130858.operation(e, tp, eg, ep, ev, re, r, rp)
             Duel.Recover(tp, Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) * 300, REASON_EFFECT)
         elseif c:IsType(TYPE_TRAP) then
             -- 封印
+            -- cannot_activate / cannot_sset
         end
     else
         Duel.Destroy(c, REASON_EFFECT, LOCATION_GRAVE)
