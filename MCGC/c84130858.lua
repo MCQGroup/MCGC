@@ -48,6 +48,12 @@ function c84130858.operation(e, tp, eg, ep, ev, re, r, rp)
         elseif c:IsType(TYPE_TRAP) then
             -- 封印
             -- cannot_activate / cannot_sset
+            local e1 = Effect.CreateEffect(e:GetHandler())
+            e1:SetType(EFFECT_TYPE_FIELD)
+            e1:SetCode(EFFECT_CANNOT_ACTIVATE)
+            e1:SetTarget()
+            e1:SetReset(RESET_PHASE + PHASE_END)
+            Duel.RegisterEffect(e1, 1 - tp)
         end
     else
         Duel.Destroy(c, REASON_EFFECT, LOCATION_GRAVE)
