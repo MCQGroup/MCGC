@@ -54,6 +54,12 @@ function c84130858.operation(e, tp, eg, ep, ev, re, r, rp)
             e1:SetTarget()
             e1:SetReset(RESET_PHASE + PHASE_END)
             Duel.RegisterEffect(e1, 1 - tp)
+
+            local e2 = Effect.CreateEffect(e:GetHandler())
+            e2:SetType(EFFECT_TYPE_FIELD)
+            e2:SetCode(EFFECT_CANNOT_SSET)
+            e2:SetReset(RESET_PHASE + PHASE_END)
+            Duel.RegisterEffect(e2, tp)
         end
     else
         Duel.Destroy(c, REASON_EFFECT, LOCATION_GRAVE)
