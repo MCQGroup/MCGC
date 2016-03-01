@@ -60,6 +60,10 @@ function c84130858.operation(e, tp, eg, ep, ev, re, r, rp)
             e2:SetCode(EFFECT_CANNOT_SSET)
             e2:SetReset(RESET_PHASE + PHASE_END)
             Duel.RegisterEffect(e2, tp)
+
+            local e3 = e2:Clone()
+            e3:SetCode(EFFECT_CANNOT_MSET)
+            Duel.RegisterEffect(e3, tp)
         end
     else
         Duel.Destroy(c, REASON_EFFECT, LOCATION_GRAVE)
