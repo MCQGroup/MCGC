@@ -55,17 +55,21 @@ function c84130858.operation(e, tp, eg, ep, ev, re, r, rp)
             e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
             e1:SetTargetRange(0, 1)
             e1:SetValue( function(e, re, tp)
-                return re:IsHasType(EFFECT_TYPE_ACTIVATE)
+                return re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:GetHandler():IsType(TYPE_TRAP)
             end )
             e1:SetReset(RESET_PHASE + PHASE_END)
             Duel.RegisterEffect(e1, tp)
 
+            -- 参考[102380]溶岩魔神
             local e2 = Effect.CreateEffect(e:GetHandler())
             e2:SetType(EFFECT_TYPE_FIELD)
             e2:SetCode(EFFECT_CANNOT_SSET)
+            e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+            e2:SetTargetRange(1, 0)
             e2:SetReset(RESET_PHASE + PHASE_END)
             Duel.RegisterEffect(e2, tp)
 
+            -- 参考[3900605]吸收壶
             local e3 = e2:Clone()
             e3:SetCode(EFFECT_CANNOT_MSET)
             Duel.RegisterEffect(e3, tp)
