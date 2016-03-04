@@ -19,7 +19,7 @@ function c84130858.initial_effect(c)
 end
 
 function c84130858.condition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) > 0
+    return Duel.GetTurnPlayer() == tp and Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) > 0
 end
 
 function c84130858.operation(e, tp, eg, ep, ev, re, r, rp)
