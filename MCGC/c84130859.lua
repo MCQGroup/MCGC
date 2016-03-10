@@ -5,7 +5,7 @@
 -- DZ的表情本体
 function c84130859.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_SEARCH)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetOperation()
@@ -13,9 +13,18 @@ function c84130859.initial_effect(c)
 
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
     e2:SetRange(LOCATION_SZONE)
     e2:SetCondition()
     c:RegisterEffect(e2)
 end
 
+function c84130859.DZFilter(c)
+    return c:IsCode() or c:IsCode() or c:IsCode()
+end
+
+function c84130859.operation(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_MESSAGE, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectMatchingCard(tp, c84130859.DZFilter, tp, LOCATION_DECK, 0, 1, 1, nil)
+end
 --endregion
