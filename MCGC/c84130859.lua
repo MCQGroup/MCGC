@@ -8,7 +8,7 @@ function c84130859.initial_effect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_SEARCH)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetOperation()
+    e1:SetOperation(c84130859.operation)
     c:RegisterEffect(e1)
 
     local e2 = Effect.CreateEffect(c)
