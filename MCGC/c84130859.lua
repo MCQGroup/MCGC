@@ -11,11 +11,16 @@ function c84130859.initial_effect(c)
     e1:SetOperation(c84130859.operation)
     c:RegisterEffect(e1)
 
+    -- 参考[23782705]机甲狙击兵
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
     e2:SetRange(LOCATION_SZONE)
-    e2:SetCondition()
+    e2:SetTargetRange(LOCATION_MZONE, LOCATION_MZONE)
+    e2:SetTarget( function(e, c)
+        return c84130859.DZFilter(c)
+    end )
+    e2:SetValue(aux.imval1)
     c:RegisterEffect(e2)
 end
 
