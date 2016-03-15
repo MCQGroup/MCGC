@@ -4,6 +4,13 @@
 
 -- 熊孩子的狂欢节！
 function c84130861.initial_effect(c)
+    -- 发动
+    local e1 = Effect.CreateEffect(c)
+    c:RegisterEffect(e1)
+
+    -- 破坏
+    local e2 = Effect.CreateEffect(c)
+    c:RegisterEffect(e2)
 end
 
 --endregion
