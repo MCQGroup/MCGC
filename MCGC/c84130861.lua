@@ -14,6 +14,7 @@ function c84130861.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e2:SetCode(EVENT_DESTROYED)
+    e2:SetRange(LOCATION_SZONE)
     e2:SetCondition(c84130861.triggerCondition)
     e2:SetOperation(c84130861.triggerOperation)
     c:RegisterEffect(e2)
@@ -63,10 +64,41 @@ function c84130861.activateCost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function c84130861.activateOperation(e, tp, eg, ep, ev, re, r, rp)
-    local g = e:GetLabelObject():Filter(function(c)
+    local g = e:GetLabelObject():Filter( function(c)
         return c:GetControler() == tp
     end , nil)
     Duel.SSet(tp, g, tp)
 end
 
+function c84130861.qijiFilter(c)
+    return c:IsCode(84130829)
+end
+
+function c84130861.qijiCondition(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(c84130861.qijiFilter, tp, LOCATION_MZONE, 0, 1, nil)
+end
+
+function c84130861.destroyFilter(c, e)
+    return c:IsType(TYPE_CONTINUOUS) and c:IsCanBeEffectTarget(e) and c:IsDestructable()
+end
+
+function c84130861.qijiTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard( function(c)
+            return c84130861.destroyFilter(c, e)
+        end , tp, 0, LOCATION_SZONE, 1, nil)
+    end
+    local g = Duel.SelectMatchingCard(tp, function(c)
+        return c84130861.destroyFilter(c, e)
+    end , tp, 0, LOCATION_SZONE, 1, 1, nil)
+    Duel.SetTargetCard(g)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, g:GetCount(), nil, nil)
+end
+
+function c84130861.qijiOperation(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
+    if g then
+        Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
+    end
+end
 -- endregion
