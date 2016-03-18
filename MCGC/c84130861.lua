@@ -39,36 +39,49 @@ function c84130861.triggerCondition(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c84130861.triggerOperation(e, tp, eg, ep, ev, re, r, rp)
-    local e1 = Effect.CreateEffect(e:GetHandler())
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e1:SetCode(EVENT_PHASE + PHASE_END)
-    e1:SetLabelObject(eg)
-    e1:SetCondition(c84130861.activateCondition)
-    e1:SetCost(c84130861.activateCost)
-    e1:SetOperation(c84130861.activateOperation)
---    e1:SetReset(RESET_SELF_TURN + RESET_OPPO_TURN)
-    e:GetHandler():RegisterEffect(e1)
-    Debug.Message("register")
+    local c = e:GetHandler()
+    local e1 = e:GetLabelObject()
+    if e1 then
+        local original_g = e1:GetLabelObject()
+        local g = original_g:Clone()
+        g:Merge(eg)
+        e1:SetLabelObject(g)
+
+        g:KeepAlive()
+        original_g:DeleteGroup()
+    else
+        e1 = Effect.CreateEffect(c)
+        e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+        e1:SetCode(EVENT_PHASE + PHASE_END)
+        e1:SetRange(LOCATION_SZONE)
+        local g = eg:Clone()
+        e1:SetLabelObject(g)
+        e1:SetCondition(c84130861.activateCondition)
+        e1:SetCost(c84130861.activateCost)
+        e1:SetOperation(c84130861.activateOperation)
+        e1:SetCountLimit(1)
+        e1:SetReset(RESET_PHASE + PHASE_END)
+        c:RegisterEffect(e1)
+
+        g:KeepAlive()
+        e:SetLabelObject(e1)
+    end
 end
 
 function c84130861.activateCondition(e, tp, eg, ep, ev, re, r, rp)
-    Debug.Message("condition")
-    return Duel.GetLocationCount(tp, LOCATION_SZONE, tp, LOCATION_REASON_TOFIELD) >= eg:FilterCount( function(c)
+    return Duel.GetLocationCount(tp, LOCATION_SZONE, tp, LOCATION_REASON_TOFIELD) >= e:GetLabelObject():FilterCount( function(c)
         return c:GetControler() == tp
     end , nil)
 end
 
 function c84130861.activateCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        Debug.Message("cost check")
         return Duel.CheckLPCost(tp, 1000)
     end
-    Debug.Message("cost")
     Duel.PayLPCost(tp, 1000)
 end
 
 function c84130861.activateOperation(e, tp, eg, ep, ev, re, r, rp)
-    Debug.Message("operation")
     local g = e:GetLabelObject():Filter( function(c)
         return c:GetControler() == tp
     end , nil)
