@@ -26,9 +26,9 @@ function c84130861.initial_effect(c)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_SZONE)
     e2:SetCountLimit(1)
-    e2:SetCondition()
-    e2:SetTarget()
-    e2:SetOperation()
+    e2:SetCondition(c84130861.qijiCondition)
+    e2:SetTarget(c84130861.qijiTarget)
+    e2:SetOperation(c84130861.qijiOperation)
     c:RegisterEffect(e2)
 end
 
@@ -40,17 +40,19 @@ end
 
 function c84130861.triggerOperation(e, tp, eg, ep, ev, re, r, rp)
     local e1 = Effect.CreateEffect(e:GetHandler())
-    e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_PHASE + PHASE_END)
     e1:SetLabelObject(eg)
-    e1:SetCondition(c84130861.acivateCondition)
+    e1:SetCondition(c84130861.activateCondition)
     e1:SetCost(c84130861.activateCost)
     e1:SetOperation(c84130861.activateOperation)
-    e1:SetReset(RESET_PHASE + PHASE_END)
+--    e1:SetReset(RESET_SELF_TURN + RESET_OPPO_TURN)
     e:GetHandler():RegisterEffect(e1)
+    Debug.Message("register")
 end
 
 function c84130861.activateCondition(e, tp, eg, ep, ev, re, r, rp)
+    Debug.Message("condition")
     return Duel.GetLocationCount(tp, LOCATION_SZONE, tp, LOCATION_REASON_TOFIELD) >= eg:FilterCount( function(c)
         return c:GetControler() == tp
     end , nil)
@@ -58,12 +60,15 @@ end
 
 function c84130861.activateCost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
+        Debug.Message("cost check")
         return Duel.CheckLPCost(tp, 1000)
     end
+    Debug.Message("cost")
     Duel.PayLPCost(tp, 1000)
 end
 
 function c84130861.activateOperation(e, tp, eg, ep, ev, re, r, rp)
+    Debug.Message("operation")
     local g = e:GetLabelObject():Filter( function(c)
         return c:GetControler() == tp
     end , nil)
