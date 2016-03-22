@@ -1557,8 +1557,8 @@ function Auxiliary.IsMaterialListCode(c, code)
     end
     return false
 end
-function Auxiliary.IsMaterialListSetCard(c, setcode)
-    return c.material_setcode and c.material_setcode == setcode
+function Auxiliary.IsMaterialListSetCard(c, code)
+    return c.material_setcode and c.material_setcode == code
 end
 -- card effect disable filter(target)
 function Auxiliary.disfilter1(c)
