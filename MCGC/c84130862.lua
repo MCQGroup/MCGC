@@ -46,11 +46,30 @@ function c84130862.activate(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function c84130862.graveCondition(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer == tp -- 送去墓地的回合？
+end
+
+function c84130862.graveCost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
+    Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_COST)
+end
+
 function c84130862.graveTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingMatchingCard( function(c)
             return c:IsType(TYPE_MONSTER) and c:IsCanBeEffectTarget(e)
         end , tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, nil)
     end
+    local g = Duel.SelectMatchingCard(tp, function(c)
+        return c:IsType(TYPE_MONSTER) and c:IsCanBeEffectTarget(e)
+    end , tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1, nil)
+    Duel.SetTargetCard(g)
+    Duel.SetOperationInfo(0, CATEGORY_ATKCHANGE, g, g:GetCount(), nil, nil)
+end
+
+function c84130862.graveOperation(e, tp, eg, ep, ev, re, r, rp)
 end
 -- endregion
