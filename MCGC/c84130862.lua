@@ -71,5 +71,13 @@ function c84130862.graveTarget(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function c84130862.graveOperation(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
+    local c = g:GetFirst()
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_UPDATE_ATTACK)
+    e1:SetValue(500)
+    e1:SetReset(RESET_EVENT + RESET_TOGRAVE + RESET_LEAVE + RESET_REMOVE) -- 和什么什么
+    c:RegisterEffect(e1)
 end
 -- endregion
