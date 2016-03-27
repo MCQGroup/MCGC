@@ -38,8 +38,7 @@ function c84130862.activate(e, tp, eg, ep, ev, re, r, rp)
         local e2 = Effect.CreateEffect(c)
         e2:SetType(EFFECT_TYPE_SINGLE)
         e2:SetCode(EFFECT_DISABLE)
-        e2:SetReset(RESET_EVENT + RESET_LEAVE + RESET_TODECK + RESET_TOGRAVE + RESET_TOHAND)
-        -- 和什么什么
+        e2:SetReset(RESET_EVENT + RESET_LEAVE + RESET_TODECK + RESET_TOGRAVE + RESET_TOHAND + RESET_TURN_SET + RESET_REMOVE)
         c:RegisterEffect(e2)
 
         c = g:GetNext()
@@ -47,7 +46,8 @@ function c84130862.activate(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c84130862.graveCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer == tp -- 送去墓地的回合？
+    return Duel.GetTurnPlayer == tp
+    -- 送去墓地的回合？
 end
 
 function c84130862.graveCost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -77,7 +77,7 @@ function c84130862.graveOperation(e, tp, eg, ep, ev, re, r, rp)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_UPDATE_ATTACK)
     e1:SetValue(500)
-    e1:SetReset(RESET_EVENT + RESET_TOGRAVE + RESET_LEAVE + RESET_REMOVE) -- 和什么什么
+    e1:SetReset(RESET_EVENT + RESET_LEAVE + RESET_TODECK + RESET_TOGRAVE + RESET_TOHAND + RESET_TURN_SET + RESET_REMOVE)
     c:RegisterEffect(e1)
 end
 -- endregion
