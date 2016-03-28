@@ -46,8 +46,7 @@ function c84130862.activate(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function c84130862.graveCondition(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer == tp
-    -- 送去墓地的回合？
+    return Duel.GetTurnPlayer == tp and Card.GetTurnID() ~= Duel.GetTurnCount()
 end
 
 function c84130862.graveCost(e, tp, eg, ep, ev, re, r, rp, chk)
