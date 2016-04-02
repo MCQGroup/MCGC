@@ -15,12 +15,15 @@ function c84130863.spFilter(c, e, sumtype, sumplayer, nocheck, nolimit, sumpos, 
     return c:IsSetCard(0x2222) and c:IsCanBeEffectTarget(e) and c:IsCanBeSpecialSummoned(e, sumtype, sumplayer, nocheck, nolimit, sumpos, target_player)
 end
 
-function c84130863.target(e, tp, eg, ep, ev, re, r, rp)
+function c84130863.target(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingMatchingCard( function(c)
             return c84130863.spFilter(c, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
         end , tp, LOCATION_GRAVE, 0, 1, nil)
     end
+end
+
+function c84130863.operation(e, tp, eg, ep, ev, re, r, rp)
 end
 
 -- endregion
