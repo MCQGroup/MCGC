@@ -140,6 +140,11 @@ Card.material = 0 -- 融合素材的数组，内容为卡片ID
 -- 方法
 function Card.GetCode(c)
     -- 返回c的当前代号（可能因为效果改变）
+    -- 【返回】
+    --[[
+        int
+        int
+    --]]
 end
 
 function Card.GetOriginalCode(c)
@@ -395,8 +400,8 @@ function Card.GetRealFieldID(c)
     -- 返回c转移到当前位置的真实的时间标识
 end
 
-function Card.IsCode(c, code)
-    -- 检查c的代号是否是code。
+function Card.IsCode(c, code1, code2)
+    -- 检查c的代号是否是code1[或者为code2]。
 end
 
 function Card.IsType(c, type)
@@ -893,8 +898,9 @@ function Card.IsControlerCanBeChanged(c)
     -- 注：此函数会在上一个函数的基础上追加检测场上的空格位
 end
 
-function Card.AddCounter(c, countertype, count)
+function Card.AddCounter(c, countertype, count, singly)
     -- 为c放置count个countertype类型的指示物
+    -- singly为true表示逐个添加至上限为止
 end
 
 function Card.RemoveCounter(c, player, countertype, count, reason)
@@ -918,8 +924,8 @@ function Card.IsCanTurnSet(c)
     -- 检查c是否可以转成里侧表示。
 end
 
-function Card.IsCanAddCounter(c, countertype, count)
-    -- 检查c是否可以放置count个countertype类型的指示物
+function Card.IsCanAddCounter(c, countertype, count, singly)
+    -- 检查c是否可以[逐个(singly=true)]放置count个countertype类型的指示物
 end
 
 function Card.IsCanRemoveCounter(c, player, countertype, count, reason)
@@ -1980,6 +1986,9 @@ end
 
 function Duel.ReleaseRitualMaterial(g)
     -- 解放仪式用的素材g。如果是墓地的仪式魔人等卡则除外。
+end
+function Duel.SetSelectedCard(cards)
+    -- 将cards设置为Group.SelectWithSumEqual或Group.SelectWithSumGreater已选择的卡片，
 end
 
 function Duel.SetTargetCard(g)
