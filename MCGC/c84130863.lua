@@ -21,6 +21,11 @@ function c84130863.target(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
             return c84130863.spFilter(c, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
         end , tp, LOCATION_GRAVE, 0, 1, nil)
     end
+    local g = Duel.SelectMatchingCard( function(c)
+        return c84130863.spFilter(tp, c, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp)
+    end , tp, LOCATION_GRAVE, 0, 1, nil)
+    Duel.SetTargetCard(g)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, nil, nil);
 end
 
 function c84130863.operation(e, tp, eg, ep, ev, re, r, rp)
