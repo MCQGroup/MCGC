@@ -4,8 +4,8 @@
 
 function c84130863.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_ACTIVATE);
-    e1:SetCode(EVENT_FREE_CHAIN);
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetTarget(c84130863.target)
     e1:SetOperation(c84130863.operation)
     c:RegisterEffect(e1)
@@ -36,7 +36,7 @@ function c84130863.operation(e, tp, eg, ep, ev, re, r, rp)
     if (Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)) then
         local e1 = Effect.CreateEffect(e:GetHandler())
         e1:SetType(EFFECT_TYPE_SINGLE)
-        e1:SetCode(EFFECT_DISABLE)
+        e1:SetCode(EFFECT_CANNOT_BE_XYZ_MATERIAL)
         e1:SetReset(RESET_EVENT + RESET_LEAVE + RESET_TOGRAVE + RESET_TOHAND + RESET_REMOVE + RESET_TODECK)
         c:RegisterEffect(e1)
     end
@@ -46,7 +46,13 @@ function c84130863.operation(e, tp, eg, ep, ev, re, r, rp)
     end , tp, LOCATION_HAND + LOCATION_DECK, 0, 0, 1, nil)
     local c2 = other_g:GetFirst()
     local pos2 = Duel.SelectPosition(tp, c2, POS_FACEUP)
-    Duel.SpecialSummon(c2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos2);
+    if Duel.SpecialSummon(c2, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos2) then
+        local e2 = Effect.CreateEffect(e:GetHandler())
+        e2:SetType(EFFECT_TYPE_SINGLE)
+        e2:SetCode(EFFECT_CANNOT_BE_XYZ_MATERIAL)
+        e2:SetReset(RESET_EVENT + RESET_LEAVE + RESET_TOGRAVE + RESET_TOHAND + RESET_REMOVE + RESET_TODECK)
+        c2:RegisterEffect(e2)
+    end
 end
 
 -- endregion
