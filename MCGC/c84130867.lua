@@ -6,9 +6,10 @@
 function c84130867.initial_effect(c)
     -- 攻击响应
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetType(EFFECT_TYPE_ACTIVATE + EFFECT_TYPE_FIELD)
     e1:SetCode(EVENT_ATTACK_ANNOUNCE)
-    e1:SetOperation()
+    e1:SetCondition(c84130867.attackTriggerCondition)
+    e1:SetOperation(c84130867.attackTriggerOperation)
     c:RegisterEffect(e1)
 
     -- 无效破坏
@@ -19,5 +20,13 @@ function c84130867.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
+function c84130867.filter(c)
+    return c:IsSetCard(0x2222)
+end
 
+function c84130867.attackTriggerCondition(e, tp, eg, ep, ev, re, r, rp)
+end
+
+function c84130867.attackTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
+end
 -- endregion
