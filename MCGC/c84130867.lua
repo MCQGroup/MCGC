@@ -13,11 +13,12 @@ function c84130867.initial_effect(c)
     c:RegisterEffect(e1)
 
     -- 无效破坏
+    -- 参考[24696097]流星龙
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_ACTIVATE)
     e2:SetCode(EVENT_CHAINING)
-    e2:SetCondition()
-    e2:SetOperation()
+    e2:SetCondition(c84130867.negateCondition)
+    e2:SetOperation(c84130867.negateOperation)
     c:RegisterEffect(e2)
 end
 
@@ -47,6 +48,24 @@ function c84130867.attackTriggerOperation(e, tp, eg, ep, ev, re, r, rp)
 
             c = g:GetNext()
         end
+    end
+end
+
+function c84130867.negateCondition(e, tp, eg, ep, ev, re, r, rp)
+    local test, tg, tc = Duel.GetOperationInfo(ev, CATEGORY_DESTROY)
+    return Duel.IsChainNegatable(ev) and test and tg and tc + tg:FilterCount(Card.IsOnField, nil) - tg:GetCount() > 0
+end
+
+function c84130867.negateOperation(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.SelectMatchingCard(tp, function(c)
+        return c84130867.filter(c) and c:IsAbleToGrave()
+    end , tp, LOCATION_ONFIELD, 0, 1, 1, nil)
+    if g and g:GetCount() > 0 then
+        Duel.SendtoGrave(g, REASON_EFFECT)
+    end
+    Duel.NegateEffect(ev)
+    if re:GetHandler():IsRelateToEffect(re) then
+        Duel.Destroy(eg, REASON_EFFECT, LOCATION_GRAVE)
     end
 end
 -- endregion
