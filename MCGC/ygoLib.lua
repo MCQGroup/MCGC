@@ -965,13 +965,14 @@ function Card.IsCanBeBattleTarget(c1, c2)
     -- 检查c1是否可以成为c2的攻击目标
 end
 
-function Card.AddTrapMonsterAttribute(c, extra_type, attribute, race, level, atk, def)
-    -- 为c添加陷阱怪物属性，extra_type为额外的卡片类型
-    -- 注：陷阱怪物属性指的是同时作为怪物和陷阱，并且额外使一个魔法陷阱的格子不能使用。
+function Card.AddTrapMonsterAttribute(c, attribute, race, level, atk, def)
+    -- 为魔陷卡c添加怪兽数值
+    -- 在数据库中有记录的数值视为原本数值，此处设置为0
 end
 
-function Card.TrapMonsterBlock(c)
-    -- 使陷阱怪兽c占用一个魔法陷阱格子
+function Card.TrapMonsterComplete(c, extra_type)
+    -- 使陷阱怪兽c占用一个魔法陷阱格子，并添加extra_type怪兽类型
+    -- 注：陷阱怪兽属性指的是同时作为怪兽和陷阱，并且额外使一个魔法陷阱的格子不能使用
 end
 
 function Card.CancelToGrave(c, cancel)
