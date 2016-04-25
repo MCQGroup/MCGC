@@ -84,7 +84,7 @@ end
 function c84130866.thunderOperation(e, tp, eg, ep, ev, re, r, rp)
     Duel.PayLPCost(tp, Duel.GetLP(tp) / 2)
     local g = Duel.GetMatchingGroup( function(c)
-        return c:IsImmuneToEffect(e) and c:IsDestructable()
+        return(not c:IsImmuneToEffect(e)) and c:IsDestructable()
     end , tp, 0, LOCATION_MZONE, nil)
     if g then
         Duel.Destroy(g, REASON_EFFECT, LOCATION_GRAVE)
