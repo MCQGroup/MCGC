@@ -2,7 +2,7 @@
 
 function c84130816.initial_effect(c)
     -- 灵摆召唤
-    aux.AddPendulumProcedure(c)
+    aux.EnablePendulumAttribute(c)
 
     -- 发动
     local e1 = Effect.CreateEffect(c)

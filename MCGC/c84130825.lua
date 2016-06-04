@@ -2,7 +2,7 @@
 
 function c84130825.initial_effect(c)
     -- 灵摆规则
-    aux.AddPendulumProcedure(c)
+    aux.EnablePendulumAttribute(c)
 
     -- 手卡发动
     local e1 = Effect.CreateEffect(c)
