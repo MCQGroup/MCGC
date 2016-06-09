@@ -6,6 +6,7 @@ function c84130863.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetCondition(c84130863.condition)
     e1:SetTarget(c84130863.target)
     e1:SetOperation(c84130863.operation)
     c:RegisterEffect(e1)
@@ -30,6 +31,10 @@ function c84130863.otherFilter(oc, c)
     return(oc:GetLevel() == c:GetLevel() or oc:GetAttack() == c:GetAttack()) and not oc:IsCode(c:GetCode())
 end
 
+function c84130863.condition(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetLocationCount(tp, LOCATION_MZONE, tp, LOCATION_REASON_TOFIELD) > 0
+end
+
 function c84130863.target(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingMatchingCard( function(c)
@@ -48,7 +53,7 @@ function c84130863.operation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS);
     local c = g:GetFirst()
     local pos = Duel.SelectPosition(tp, c, POS_FACEUP)
-    if (Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos)) then
+    if Duel.SpecialSummon(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, pos) then
         local e1 = Effect.CreateEffect(e:GetHandler())
         e1:SetType(EFFECT_TYPE_SINGLE)
         e1:SetCode(EFFECT_CANNOT_BE_XYZ_MATERIAL)
@@ -59,7 +64,7 @@ function c84130863.operation(e, tp, eg, ep, ev, re, r, rp)
     end
     if Duel.IsExistingMatchingCard( function(oc)
             return c84130863.spFilter(oc, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp) and c84130863.otherFilter(oc, c)
-        end , tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil) then
+        end , tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE, tp, LOCATION_REASON_TOFIELD) > 0 then
         Duel.Hint(HINT_MESSAGE, tp, HINTMSG_SPSUMMON)
         local other_g = Duel.SelectMatchingCard(tp, function(oc)
             return c84130863.spFilter(oc, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEUP, tp) and c84130863.otherFilter(oc, c)
