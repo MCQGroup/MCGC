@@ -15,6 +15,7 @@ function c84130865.initial_effect(c)
     e2:SetCountLimit(1)
     e2:SetCost(c84130865.cost)
     e2:SetOperation(c84130865.operation)
+    e2:SetHintTiming(0, TIMING_END_PHASE)
     c:RegisterEffect(e2)
 end
 
