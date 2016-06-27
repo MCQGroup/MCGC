@@ -266,15 +266,15 @@ function Card.GetTextAttack(c)
     -- 返回c的卡片记载的攻击力
 end
 
-function Card.GetDefence(c)
+function Card.GetDefense(c)
     -- 返回c的当前守备力，返回值是负数表示是"?"
 end
 
-function Card.GetBaseDefence(c)
+function Card.GetBaseDefense(c)
     -- 返回c的原本守备力
 end
 
-function Card.GetTextDefence(c)
+function Card.GetTextDefense(c)
     -- 返回c的卡片记载的守备力
 end
 
@@ -306,7 +306,7 @@ function Card.GetPreviousAttackOnField(c)
     -- 返回c位置变化之前的攻击力
 end
 
-function Card.GetPreviousDefenceOnField(c)
+function Card.GetPreviousDefenseOnField(c)
     -- 返回c位置变化之前的守备力
 end
 
@@ -818,7 +818,7 @@ function Card.IsFacedown(c)
     -- 检查c是否是里侧表示
 end
 
-function Card.IsDefencePos(c)
+function Card.IsDefensePos(c)
     -- 检查c是否是守备表示
 end
 
@@ -872,11 +872,11 @@ function Card.IsAttackAbove(c, atk)
     -- 检查c是否是攻击力atk以上
 end
 
-function Card.IsDefenceBelow(c, def)
+function Card.IsDefenseBelow(c, def)
     -- 检查c是否是守备力def以下（至少为0）
 end
 
-function Card.IsDefenceAbove(c, def)
+function Card.IsDefenseAbove(c, def)
     -- 检查c是否是守备力def以上
 end
 
@@ -1033,7 +1033,7 @@ function Card.AssumeProperty(c, assume_type, assume_value)
     -- ASSUME_ATTRIBUTE    属性
     -- ASSUME_RACE         种族
     -- ASSUME_ATTACK       攻击力
-    -- ASSUME_DEFENCE      守备力
+    -- ASSUME_DEFENSE      守备力
 end
 
 function Card.SetSPSummonOnce(c, spsummon_code)
@@ -1503,7 +1503,7 @@ function Duel.SSet(player, c, target_player)
     -- 若targets为Group，则返回成功操作的数量
 end
 
-function Duel.CreateToken(player, code, cardsetCode, attack, defence, level, race, attribute)
+function Duel.CreateToken(player, code, cardsetCode, attack, defense, level, race, attribute)
     -- 以传入的参数数值新建一个Token并返回
 end
 
