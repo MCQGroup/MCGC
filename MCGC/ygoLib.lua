@@ -953,6 +953,10 @@ function Card.CheckFusionMaterial(c, g, gc, chkf)
     -- 根据c的种类为EFFECT_FUSION_MATERIAL的效果的Condition函数检查
 end
 
+function Card.CheckFusionSubstitute(c, fc)
+    -- 检查c能否代替融合怪兽fc的记述卡名的素材
+end
+
 function Card.IsImmuneToEffect(c, e)
     -- 检查c是否免疫效果e（即不受效果e的影响）
 end
