@@ -296,6 +296,9 @@ EFFECT_FLAG_COF                 = 0x20000000    -- N/A
 EFFECT_FLAG_CVAL_CHECK          = 0x40000000    -- 以卡为COST的诱发效果需要使用
 EFFECT_FLAG_IMMEDIATELY_APPLY   = 0x80000000    -- 卡在发动时效果就立即适用(卡通王国)
 
+EFFECT_FLAG2_NAGA			=0x0001 --特殊情况时发动不会被无效（神卡纳迦的特殊处理）
+EFFECT_FLAG2_COF			=0x0002 --通常魔法卡在MP1以外发动（邪恶的仪式的特殊处理）
+
 -- ========== Codes ==========    -- 对永续性效果表示效果类型 EFFECT开头，对诱发型效果表示触发效果的事件/时点 EVENT开头
 EFFECT_IMMUNE_EFFECT                = 1         -- 效果免疫
 EFFECT_DISABLE                      = 2         -- 效果无效(技能抽取)
@@ -441,8 +444,8 @@ EFFECT_MUST_ATTACK                  = 191       -- 必须攻击
 EFFECT_FIRST_ATTACK                 = 192       -- 必须第一个攻击
 EFFECT_ATTACK_ALL                   = 193       -- 可以攻击所有怪兽
 EFFECT_EXTRA_ATTACK                 = 194       -- 增加攻击次数
-EFFECT_MUST_BE_ATTACKED             = 195       -- 必须攻击(那只怪兽)
-EFFECT_AUTO_BE_ATTACKED             = 196       -- 只能攻击(那只怪兽)
+EFFECT_MUST_BE_ATTACKED             = 195       -- 必须攻击此卡
+EFFECT_AUTO_BE_ATTACKED             = 196       -- 只能攻击此卡
 EFFECT_ATTACK_DISABLED              = 197       -- 攻击无效(Duel.NegateAttack())
 EFFECT_NO_BATTLE_DAMAGE             = 200       -- 不会给对方造成战斗伤害
 EFFECT_AVOID_BATTLE_DAMAGE          = 201       -- 不会对自己造成战斗伤害
@@ -508,6 +511,11 @@ EFFECT_DISCARD_COST_CHANGE          = 338       -- 反制陷阱舍弃手牌的�
 EFFECT_HAND_SYNCHRO                 = 339       -- 用手牌的怪兽当作同步素材
 EFFECT_ADD_FUSION_CODE              = 340       -- 作为融合素材时可以当作某一卡名(融合识别)
 EFFECT_ADD_FUSION_SETCODE           = 341       -- 作为融合素材时可以当作某一字段(魔玩具改造)
+EFFECT_RISE_TO_FULL_HEIGHT		    = 342	    -- 仁王立
+EFFECT_ONLY_ATTACK_MONSTER		    = 343	    -- 只能攻击X
+EFFECT_MUST_ATTACK_MONSTER		    = 344	    -- 若攻击则必须攻击X
+EFFECT_PATRICIAN_OF_DARKNESS	    = 345	    -- 由对手选择攻击对象(黑暗贵族)
+EFFECT_EXTRA_ATTACK_MONSTER		    = 346	    -- 对怪兽攻击X次
 
 -- 下面是诱发效果的诱发事件、时点 (如果是TYPE_SINGLE则自己发生以下事件后触发，如果TYPE_FIELD则场上任何卡发生以下事件都触发)
 EVENT_STARTUP               = 1000      -- 游戏开始时
@@ -555,7 +563,7 @@ EVENT_BE_BATTLE_TARGET      = 1131      -- 被选为攻击对象时
 EVENT_BATTLE_START          = 1132      -- 伤害步骤开始时(反转前)
 EVENT_BATTLE_CONFIRM        = 1133      -- 伤害计算前(反转后)
 EVENT_PRE_DAMAGE_CALCULATE  = 1134      -- 伤害计算时(羽斩)
-EVENT_DAMAGE_CALCULATING    = 1135      -- 伤害计算(只能使用EFFECT_TYPE_CONTINUOUS)
+EVENT_DAMAGE_CALCULATING    = 1135      -- N/A
 EVENT_PRE_BATTLE_DAMAGE     = 1136      -- 即将产生战斗伤害(只能使用EFFECT_TYPE_CONTINUOUS)
 EVENT_BATTLE_END            = 1137      -- N/A
 EVENT_BATTLED               = 1138      -- 伤害计算后(异女、同反转效果时点)
