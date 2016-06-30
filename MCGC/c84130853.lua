@@ -33,7 +33,7 @@ end
 
 function c84130853.delayOperation(e, tp, eg, ep, ev, re, r, rp)
     local count = e:GetLabel()
-    local g = Duel.SelectMatchingCard(tp, c84130853.delayFilter, tp, LOCATION_DECK, 0, 0, count, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEDOWN_DEFENCE, tp)
+    local g = Duel.SelectMatchingCard(tp, c84130853.delayFilter, tp, LOCATION_DECK, 0, 0, count, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEDOWN_DEFENSE, tp)
 
     local isSpecialSummoned = false
     local c = g:GetFirst()
@@ -43,7 +43,7 @@ function c84130853.delayOperation(e, tp, eg, ep, ev, re, r, rp)
 
             c:RegisterFlagEffect(84130853, RESET_EVENT + RESET_TOGRAVE + RESET_REMOVE + RESET_TEMP_REMOVE + RESET_TOHAND + RESET_TODECK + RESET_LEAVE, nil, 1)
         elseif c:IsType(TYPE_MONSTER) then
-            if Duel.SpecialSummonStep(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEDOWN_DEFENCE) then
+            if Duel.SpecialSummonStep(c, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEDOWN_DEFENSE) then
                 isSpecialSummoned = true
 
                 local e1 = Effect.CreateEffect(e:GetHandler())
@@ -54,7 +54,7 @@ function c84130853.delayOperation(e, tp, eg, ep, ev, re, r, rp)
                 c:RegisterEffect(e1)
 
                 local e2 = e1:Clone()
-                e2:SetCode(EFFECT_SET_DEFENCE)
+                e2:SetCode(EFFECT_SET_DEFENSE)
                 c:RegisterEffect(e2)
             end
         end

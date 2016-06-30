@@ -95,11 +95,11 @@ end
 function c84130845.defOperation1(e, tp, eg, ep, ev, re, r, rp)
     -- 效果对象
     Duel.NegateEffect(ev)
-    Duel.ChangePosition(e:GetHandler(), POS_FACEUP_DEFENCE)
+    Duel.ChangePosition(e:GetHandler(), POS_FACEUP_DEFENSE)
 end
 
 function c84130845.defOperation2(e, tp, eg, ep, ev, re, r, rp)
     -- 攻击对象
     Duel.NegateAttack()
-    Duel.ChangePosition(e:GetHandler(), POS_FACEUP_DEFENCE)
+    Duel.ChangePosition(e:GetHandler(), POS_FACEUP_DEFENSE)
 end

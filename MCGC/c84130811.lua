@@ -62,7 +62,7 @@ function c84130811.operation(e, tp, eg, ep, ev, re, r, rp)
     local test, g = Duel.GetOperationInfo(0, CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     if test then
         local atkUp = g:GetSum(Card.GetAttack)
-        local defUp = g:GetSum(Card.GetDefence)
+        local defUp = g:GetSum(Card.GetDefense)
         local c = e:GetHandler()
         local isZhishui = Duel.IsExistingMatchingCard(c84130811.zhishui, tp, LOCATION_MZONE, 0, 1, nil)
 
@@ -79,7 +79,7 @@ function c84130811.operation(e, tp, eg, ep, ev, re, r, rp)
         c:RegisterEffect(e1)
 
         local e2 = e1:Clone()
-        e2:SetCode(EFFECT_UPDATE_DEFENCE)
+        e2:SetCode(EFFECT_UPDATE_DEFENSE)
         if isZhishui then
             e2:SetValue(defUp)
         else

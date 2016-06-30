@@ -65,6 +65,6 @@ function c84130829.attackOperation(e, tp, eg, ep, ev, re, r, rp)
 
     local e2 = e1:Clone()
     e2:SetCategory(CATEGORY_DEFCHANGE)
-    e2:SetCode(EFFECT_UPDATE_DEFENCE)
+    e2:SetCode(EFFECT_UPDATE_DEFENSE)
     c:RegisterEffect(e2)
 end

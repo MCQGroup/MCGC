@@ -129,16 +129,16 @@ end
 
 function c84130840.spsummon2Target(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(c84130840.spsummon2Filter, tp, LOCATION_GRAVE, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEDOWN_DEFENCE, tp)
+        return Duel.IsExistingMatchingCard(c84130840.spsummon2Filter, tp, LOCATION_GRAVE, 0, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEDOWN_DEFENSE, tp)
     end
-    local g = Duel.SelectMatchingCard(tp, c84130840.spsummon2Filter, tp, LOCATION_GRAVE, 0, 1, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEDOWN_DEFENCE, tp)
+    local g = Duel.SelectMatchingCard(tp, c84130840.spsummon2Filter, tp, LOCATION_GRAVE, 0, 1, 1, nil, e, SUMMON_TYPE_SPECIAL, tp, false, false, POS_FACEDOWN_DEFENSE, tp)
     Duel.SetTargetCard(g)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, g:GetCount(), nil, nil)
 end
 
 function c84130840.spsummon2Operation(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-    if Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEDOWN_DEFENCE) then
+    if Duel.SpecialSummon(g, SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEDOWN_DEFENSE) then
         Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
     end
 end

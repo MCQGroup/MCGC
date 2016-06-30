@@ -75,7 +75,7 @@ function c84130847.costOperation(e, tp, eg, ep, ev, re, r, rp)
     if count < 1 then
         e:SetLabel(count + 1)
     else
-        Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_DEFENCE)
+        Duel.SpecialSummon(e:GetHandler(), SUMMON_TYPE_SPECIAL, tp, tp, false, false, POS_FACEUP_DEFENSE)
         e:Reset()
     end
 end
