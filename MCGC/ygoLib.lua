@@ -1528,6 +1528,21 @@ function Duel.SpecialSummonComplete()
     -- 此函数在确定复数个Duel.SpecialSummonStep调用完毕之后调用。用于触发事件。
 end
 
+function Duel.IsCanAddCounter(player, countertype, count, c)
+    -- 检查玩家player能否向卡片c添加count个countertype类型的指示物
+    --! require
+    --[[
+        int player
+        int countertype
+        int count
+        Card c
+    ]]
+    --! return
+    --[[
+        bool
+    ]]
+end
+
 function Duel.RemoveCounter(player, s, o, countertype, count, reason)
     -- 让玩家player移除场上存在的countertype类型的count个指示物。
     -- 表示对player来说的己方的可移除指示物的位置，o表示对player来说的对方的可移除指示物的位置
@@ -1632,14 +1647,48 @@ function Duel.Draw(player, count, reason)
     -- 如果reason含有REASON_RULE则此次抽卡不受“不能抽卡”的效果的影响。
 end
 
-function Duel.Damage(player, value, reason)
+function Duel.Damage(player, value, reason, is_step)
     -- 以reason原因给与玩家player造成value的伤害。返回实际收到的伤害值。
     -- 如果受到伤害变成回复等效果的影响时，返回值为0.
+    -- is_step为true则是伤害/恢复LP过程的分解，需要调用Duel.RDComplete()触发时点
+    --! require
+    --[[
+        int player
+        int value
+        int reason
+    ]]
+    --! optional
+    --[[
+        bool is_step = false
+    ]]
+    --! return
+    --[[
+        int
+    ]]
 end
 
-function Duel.Recover(player, value, reason)
+function Duel.Recover(player, value, reason, is_step)
     -- 以reason原因使玩家player回复value的LP。返回实际的回复值。
     -- 如果受到回复变成伤害等效果的影响时，返回值为0.
+    -- is_step为true则是伤害/恢复LP过程的分解，需要调用Duel.RDComplete()触发时点
+    --! require
+    --[[
+        int player
+        int value
+        int reason
+    ]]
+    --! optional
+    --[[
+        bool is_step = false
+    ]]
+    --! return
+    --[[
+        int
+    ]]
+end
+
+function Duel.RDComplete()
+    -- 在调用Duel.Damage/Duel.Recover时，若is_step参数为true，则需调用此函数触发时点
 end
 
 function Duel.Equip(player, c1, c2, up, is_step)
@@ -1652,8 +1701,22 @@ function Duel.EquipComplete()
     -- 在调用Duel.Equip时，若is_step参数为true，则需调用此函数触发时点
 end
 
-function Duel.GetControl(player, c, reset_phase, reset_count)
-    -- 让玩家player得到c的控制权。返回值表示是否成功。
+function Duel.GetControl(targets, player, reset_phase, reset_count)
+    -- 让玩家player得到targets的控制权，返回值表示是否成功
+    --! require
+    --[[
+        Card|Group targets
+        Player player
+    ]]
+    --! optional
+    --[[
+        RESET reset_phase = 0
+        int reset_count = 0
+    ]]
+    --! return
+    --[[
+        bool
+    ]]
 end
 
 function Duel.SwapControl(c1, c2, reset_phase, reset_count)
@@ -1710,7 +1773,15 @@ function Duel.ReplaceAttacker(c)
 end
 
 function Duel.ChangeAttackTarget(c)
-    -- 把当前的攻击目标替换成c。如果c=nil则变成直接攻击。
+    -- 将攻击对象变为c，c为nil表示直接攻击，返回值表示是否成功转移攻击对象
+    --! optional
+    --[[
+        Card c = nil
+    ]]
+    --! return
+    --[[
+        bool
+    ]]
 end
 
 function Duel.ReplaceAttackTarget(c)
@@ -2284,6 +2355,16 @@ function Duel.GetCustomActivityCount(counter_id, player, activity_type)
     -- ACTIVITY_SPSUMMON       特殊召唤
     -- ACTIVITY_FLIPSUMMON     反转召唤
     -- ACTIVITY_CHAIN          发动效果
+end
+
+function Duel.GetBattledCount(player)
+    -- 返回玩家player这回合战斗过的次数
+    --! require
+    --[[
+        Player player
+    ]]
+    --! return
+    --  int
 end
 
 function Duel.IsAbleToEnterBP()
