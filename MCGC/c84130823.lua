@@ -1,11 +1,11 @@
 -- MC群的龙神 玲音
 
 function c84130823.initial_effect(c)
-    -- synchro summon
+    -- 同调召唤
     aux.AddSynchroProcedure(c, nil, aux.NonTuner(nil), 2)
     c:EnableReviveLimit()
 
-    -- remove
+    -- 同调召唤成功触发：除外对方墓地
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(84130823, 0))
     e1:SetCategory(CATEGORY_REMOVE)
